@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contigo — Acceso · por Cacerola</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Crect width='26' height='26' rx='6' fill='%23F7600A'/%3E%3Cpath d='M4 20 L13 4 L22 20 M7 14 L19 14' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --o: #F7600A; --od: #D94F00;
+      --o-soft: rgba(247, 96, 10, 0.08);
+      --ink: #0E0E0E; --muted: #6A6A6A; --sub: #AAAAAA;
+      --border: #E8E4DF; --surf: #F7F5F2; --w: #ffffff;
+      --serif: 'Instrument Serif', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    html, body {
+      height: 100%; font-family: var(--sans); font-weight: 300;
+      background: var(--surf); color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: 100vh; padding: 1.5rem;
+    }
+
+    .card {
+      background: var(--w); border: 1px solid var(--border);
+      border-radius: 16px; padding: 2.5rem 2.25rem;
+      width: 100%; max-width: 400px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    }
+
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 2rem;
+    }
+    .lm {
+      width: 32px; height: 32px; background: var(--o);
+      border-radius: 8px; display: grid; place-items: center; flex-shrink: 0;
+    }
+    .lm svg { width: 16px; height: 16px; }
+    .brand-text { display: flex; flex-direction: column; gap: 1px; }
+    .brand-name { font-weight: 500; font-size: 15px; letter-spacing: -0.02em; }
+    .brand-sub { font-size: 11px; color: var(--muted); }
+
+    h1 {
+      font-family: var(--serif); font-style: italic;
+      font-size: 1.6rem; font-weight: 400; line-height: 1.2;
+      margin-bottom: 0.4rem; color: var(--ink);
+    }
+    .subtitle {
+      font-size: 12px; color: var(--muted); margin-bottom: 1.75rem;
+    }
+
+    .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
+    label { font-size: 11px; font-weight: 500; color: var(--muted); letter-spacing: 0.03em; text-transform: uppercase; }
+    input {
+      font-family: var(--sans); font-weight: 300; font-size: 13px;
+      padding: 10px 12px; border: 1px solid var(--border);
+      border-radius: 8px; background: var(--surf); color: var(--ink);
+      outline: none; transition: border-color 0.15s, box-shadow 0.15s;
+      width: 100%;
+    }
+    input:focus {
+      border-color: var(--o);
+      box-shadow: 0 0 0 3px var(--o-soft);
+    }
+    input::placeholder { color: var(--sub); }
+
+    .btn {
+      width: 100%; margin-top: 0.5rem;
+      padding: 11px 1rem; border: none; border-radius: 8px;
+      background: var(--o); color: #fff; font-family: var(--sans);
+      font-size: 13px; font-weight: 500; cursor: pointer;
+      transition: background 0.15s; letter-spacing: -0.01em;
+    }
+    .btn:hover { background: var(--od); }
+    .btn:active { transform: scale(0.99); }
+
+    .error {
+      font-size: 12px; color: #c0392b; margin-top: 0.75rem;
+      display: none; text-align: center;
+    }
+    .error.visible { display: block; }
+
+    .footer {
+      margin-top: 2rem; font-size: 11px; color: var(--sub); text-align: center;
+    }
+    .footer a { color: var(--o); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">
+      <div class="lm">
+        <svg viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 11 L6.5 1 L12 11 M2.8 7.5 L10.2 7.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">Contigo</span>
+        <span class="brand-sub">por Cacerola</span>
+      </div>
+    </div>
+
+    <h1>Acceso al sistema</h1>
+    <p class="subtitle">Plataforma de propuesta comercial — uso restringido</p>
+
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="field">
+        <label>Correo</label>
+        <input type="email" id="email" placeholder="tu@correo.com" autocomplete="email" required />
+      </div>
+      <div class="field">
+        <label>Contraseña</label>
+        <input type="password" id="password" placeholder="••••••" autocomplete="current-password" required />
+      </div>
+      <button class="btn" type="submit">Ingresar</button>
+      <p class="error" id="errorMsg">Credenciales incorrectas. Intenta nuevamente.</p>
+    </form>
+  </div>
+
+  <p class="footer">Acceso exclusivo · <a href="https://cacerola.cl" target="_blank">cacerola.cl</a></p>
+
+  <script>
+    if (localStorage.getItem('cc_contigo_auth') === 'true') {
+      window.location.href = 'contigo-atlas.html';
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const password = document.getElementById('password').value;
+      const err = document.getElementById('errorMsg');
+
+      if (email === 'sebas@cacerola.cl' && password === '123123') {
+        localStorage.setItem('cc_contigo_auth', 'true');
+        const dest = new URLSearchParams(window.location.search).get('next') || 'contigo-atlas.html';
+        window.location.href = dest;
+      } else {
+        err.classList.add('visible');
+        document.getElementById('password').value = '';
+        document.getElementById('password').focus();
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <script>if(localStorage.getItem('cc_contigo_auth')!=='true'){window.location.href='login.html?next=cotizador.html'}</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contigo Cotizador — Chat con el chef · por Cacerola</title>
+  <meta name="description" content="Cotización conversacional con pricing USDA en vivo. De 1 semana de respuesta a 60 segundos." />
+  <link rel="canonical" href="https://contigo.cacerola.cl/cotizador" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Crect width='26' height='26' rx='6' fill='%23F7600A'/%3E%3Cpath d='M4 20 L13 4 L22 20 M7 14 L19 14' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --o: #F7600A; --od: #D94F00;
+      --o-soft: rgba(247, 96, 10, 0.08);
+      --ink: #0E0E0E; --muted: #6A6A6A; --sub: #AAAAAA;
+      --border: #E8E4DF; --border-soft: #F0EDE8;
+      --surf: #F7F5F2; --w: #ffffff; --dark: #0C0C0C;
+
+      --v-contigo: #F7600A; --v-ocaso: #8B3A12;
+      --v-table: #C9A961; --v-venue: #3A3632;
+
+      --serif: 'Instrument Serif', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    html, body { height: 100%; margin: 0; padding: 0; }
+    body {
+      font-family: var(--sans); font-weight: 300; background: var(--w);
+      color: var(--ink); -webkit-font-smoothing: antialiased;
+      font-size: 13px; line-height: 1.5; overflow: hidden;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 1fr clamp(340px, 38vw, 520px);
+      grid-template-rows: 54px 1fr;
+      height: 100vh; width: 100vw;
+    }
+
+    /* ── Top nav (shared pattern) ─────────────────────────────────── */
+    header.topbar {
+      grid-column: 1 / -1;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.75rem;
+      background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border); z-index: 600;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+    .lm { width: 26px; height: 26px; background: var(--o); border-radius: 6px; display: grid; place-items: center; }
+    .lm svg { width: 13px; height: 13px; }
+    .ln { font-weight: 500; font-size: 14px; letter-spacing: -0.02em; }
+    .crumb { margin-left: 16px; padding-left: 16px; border-left: 1px solid var(--border); font-size: 12px; color: var(--muted); font-weight: 400; }
+    .crumb em { font-family: var(--serif); font-style: italic; color: var(--ink); font-size: 14px; margin-right: 4px; }
+    .nav-tabs { display: flex; gap: 2px; margin-left: 22px; padding-left: 18px; border-left: 1px solid var(--border); }
+    .nav-tab { font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 6px; text-decoration: none; color: var(--muted); transition: all 0.15s; }
+    .nav-tab:hover { color: var(--ink); background: var(--surf); }
+    .nav-tab.active { background: var(--ink); color: var(--w); }
+    .topbar-meta { display: flex; align-items: center; gap: 16px; font-size: 11px; color: var(--sub); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; }
+    .topbar-meta .val { color: var(--ink); margin-left: 5px; text-transform: none; letter-spacing: 0; font-weight: 500; }
+
+    /* ── Chat area ────────────────────────────────────────────────── */
+    main.chat-area {
+      display: grid;
+      grid-template-rows: 1fr auto;
+      overflow: hidden;
+      background: var(--surf);
+    }
+
+    .chat-scroll {
+      overflow-y: auto;
+      padding: 32px 0 20px;
+    }
+    .chat-scroll::-webkit-scrollbar { width: 8px; }
+    .chat-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    .chat-inner {
+      max-width: 720px; margin: 0 auto; padding: 0 32px;
+    }
+
+    .chat-hero {
+      margin-bottom: 30px;
+    }
+    .chat-hero .kicker {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 10.5px; letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--o); font-weight: 500; margin-bottom: 10px;
+    }
+    .chat-hero .kicker i {
+      width: 18px; height: 1.5px; background: var(--o);
+      display: block; font-style: normal;
+    }
+    .chat-hero h1 {
+      font-family: var(--serif); font-size: 40px; font-weight: 400;
+      color: var(--ink); line-height: 1.05; letter-spacing: -0.02em;
+    }
+    .chat-hero h1 em { font-style: italic; color: var(--o); }
+    .chat-hero .sub {
+      font-size: 14px; color: var(--muted); margin-top: 8px;
+      max-width: 520px; line-height: 1.6;
+    }
+
+    .msg-row {
+      display: flex; gap: 12px; margin-bottom: 14px;
+      align-items: flex-start;
+    }
+    .msg-row.user { flex-direction: row-reverse; }
+
+    .msg-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      flex-shrink: 0; display: grid; place-items: center;
+      font-family: var(--serif); font-style: italic;
+      font-size: 14px; color: var(--o);
+      background: var(--w); border: 1.5px solid var(--o);
+      box-shadow: 0 2px 8px rgba(247, 96, 10, 0.15);
+    }
+    .msg-avatar.user {
+      background: var(--ink); color: var(--w);
+      border-color: var(--ink); font-style: normal;
+      font-family: var(--sans); font-weight: 500; font-size: 12px;
+    }
+
+    .msg-bubble {
+      max-width: 72%;
+      padding: 14px 18px; border-radius: 14px;
+      background: var(--w); color: var(--ink);
+      font-size: 13.5px; line-height: 1.55;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      border: 1px solid var(--border-soft);
+    }
+    .msg-row.user .msg-bubble {
+      background: var(--ink); color: var(--w); border-color: var(--ink);
+    }
+    .msg-bubble em { font-family: var(--serif); font-style: italic; }
+    .msg-bubble b { font-weight: 500; }
+    .msg-bubble .small {
+      font-size: 11.5px; color: var(--muted); margin-top: 6px;
+    }
+    .msg-row.user .msg-bubble .small { color: rgba(255,255,255,0.55); }
+
+    /* Option buttons inside bot message */
+    .opt-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 8px; margin-top: 14px;
+    }
+    .opt-btn {
+      padding: 10px 12px; border: 1px solid var(--border);
+      background: var(--w); color: var(--ink);
+      border-radius: 9px; cursor: pointer;
+      font-family: var(--sans); font-size: 12.5px; font-weight: 500;
+      text-align: left; transition: all 0.15s;
+      display: flex; flex-direction: column; gap: 2px;
+      line-height: 1.25;
+    }
+    .opt-btn:hover { border-color: var(--o); color: var(--o); background: var(--o-soft); }
+    .opt-btn .opt-title {
+      font-family: var(--serif); font-size: 14px; font-weight: 400; letter-spacing: -0.005em;
+    }
+    .opt-btn .opt-sub {
+      font-size: 10.5px; color: var(--muted); font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+    .opt-btn:hover .opt-sub { color: var(--o); }
+    .opt-btn.multi { padding-left: 36px; position: relative; }
+    .opt-btn.multi::before {
+      content: ""; position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      width: 14px; height: 14px; border-radius: 3px; border: 1.5px solid var(--border);
+    }
+    .opt-btn.multi.selected { border-color: var(--o); background: var(--o-soft); color: var(--ink); }
+    .opt-btn.multi.selected::before { background: var(--o); border-color: var(--o); }
+    .opt-btn.multi.selected::after {
+      content: "✓"; position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+      color: var(--w); font-size: 10px; font-weight: 700;
+    }
+    .opt-confirm {
+      grid-column: 1 / -1;
+      padding: 10px 16px; border-radius: 9px;
+      background: var(--o); color: var(--w); border: 1px solid var(--o);
+      cursor: pointer; font-family: var(--sans); font-weight: 500; font-size: 12.5px;
+      letter-spacing: 0.02em; margin-top: 4px;
+      transition: all 0.15s;
+    }
+    .opt-confirm:hover { background: var(--od); }
+
+    /* Number input variant */
+    .opt-number {
+      display: flex; gap: 8px; margin-top: 14px; align-items: center;
+    }
+    .opt-number input {
+      flex: 1; padding: 10px 14px; border: 1px solid var(--border);
+      border-radius: 9px; font-family: var(--sans); font-size: 14px;
+      color: var(--ink); background: var(--w);
+    }
+    .opt-number input:focus { outline: none; border-color: var(--o); }
+
+    /* Typing indicator */
+    .typing {
+      display: inline-flex; gap: 3px; padding: 12px 16px;
+      background: var(--w); border-radius: 14px; border: 1px solid var(--border-soft);
+    }
+    .typing span {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--muted);
+      animation: dot 1.4s infinite ease-in-out both;
+    }
+    .typing span:nth-child(2) { animation-delay: 0.15s; }
+    .typing span:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes dot {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Chat input bar (disabled for guided flow, but shown at final step) */
+    .chat-input-bar {
+      padding: 14px 32px 18px;
+      background: var(--w);
+      border-top: 1px solid var(--border);
+      display: flex; gap: 10px; align-items: center;
+    }
+    .chat-input-bar input {
+      flex: 1; padding: 11px 16px; border: 1px solid var(--border);
+      border-radius: 10px; font-family: var(--sans); font-size: 13.5px;
+      color: var(--ink); background: var(--surf);
+    }
+    .chat-input-bar input:focus { outline: none; border-color: var(--o); background: var(--w); }
+    .chat-input-bar input:disabled { opacity: 0.5; }
+    .chat-input-bar button {
+      padding: 11px 20px; background: var(--ink); color: var(--w);
+      border: 1px solid var(--ink); border-radius: 10px;
+      cursor: pointer; font-weight: 500; font-size: 13px;
+      transition: all 0.15s;
+    }
+    .chat-input-bar button:hover:not(:disabled) { background: var(--o); border-color: var(--o); }
+    .chat-input-bar button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .chat-input-hint {
+      max-width: 720px; margin: 0 auto; padding: 0 32px 10px 32px;
+      font-size: 11px; color: var(--sub); font-style: italic;
+    }
+
+    /* Menu card (bot generated) */
+    .menu-card {
+      background: var(--w); border: 1px solid var(--border);
+      border-radius: 12px; padding: 22px 24px; margin-top: 14px;
+      position: relative; overflow: hidden;
+    }
+    .menu-card::before {
+      content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px; background: var(--o);
+    }
+    .menu-card .kicker {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--o); font-weight: 500; margin-bottom: 6px;
+    }
+    .menu-card h3 {
+      font-family: var(--serif); font-size: 24px; font-weight: 400;
+      color: var(--ink); letter-spacing: -0.015em; line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .menu-card h3 em { font-style: italic; color: var(--o); }
+    .menu-card .tag {
+      font-size: 11px; color: var(--muted); margin-bottom: 14px;
+    }
+    .menu-course {
+      padding: 10px 0; border-top: 1px solid var(--border-soft);
+      display: flex; gap: 14px;
+    }
+    .menu-course:first-of-type { border-top: none; padding-top: 0; }
+    .menu-course .c-label {
+      font-family: var(--serif); font-style: italic; color: var(--o);
+      font-size: 13px; flex-shrink: 0; width: 72px;
+    }
+    .menu-course .c-body {
+      font-size: 13.5px; color: var(--ink); line-height: 1.45;
+    }
+    .menu-course .c-body .note {
+      display: block; font-size: 11px; color: var(--muted); margin-top: 2px;
+      font-style: italic;
+    }
+    .menu-addons {
+      margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-soft);
+    }
+    .menu-addons h4 {
+      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); font-weight: 500; margin-bottom: 8px;
+    }
+    .addon-row {
+      display: flex; justify-content: space-between; padding: 6px 0;
+      font-size: 12.5px;
+    }
+    .addon-row .a-name { color: var(--ink); font-weight: 400; }
+    .addon-row .a-vertical { color: var(--muted); font-size: 10.5px; margin-left: 6px; }
+    .addon-row .a-price { font-family: var(--serif); font-size: 15px; color: var(--o); font-style: italic; }
+
+    .refine-buttons {
+      margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-soft);
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .refine-buttons .refine-btn {
+      padding: 7px 14px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--w);
+      color: var(--muted); font-size: 11.5px; font-weight: 500;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .refine-buttons .refine-btn:hover { border-color: var(--o); color: var(--o); }
+
+    /* ── Right: live quote preview ───────────────────────────────── */
+    aside.quote-panel {
+      background: var(--w);
+      border-left: 1px solid var(--border);
+      overflow-y: auto;
+      display: flex; flex-direction: column;
+    }
+
+    .qp-head {
+      padding: 20px 26px 16px; border-bottom: 1px solid var(--border);
+    }
+    .qp-head .kicker {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 10.5px; letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--o); font-weight: 500; margin-bottom: 8px;
+    }
+    .qp-head .kicker i {
+      width: 18px; height: 1.5px; background: var(--o);
+      display: block; font-style: normal;
+    }
+    .qp-head h2 {
+      font-family: var(--serif); font-size: 22px; font-weight: 400;
+      color: var(--ink); letter-spacing: -0.015em;
+    }
+    .qp-head h2 em { font-style: italic; color: var(--o); }
+    .qp-ref {
+      font-size: 11px; color: var(--sub); margin-top: 6px; font-family: ui-monospace, monospace;
+    }
+
+    .qp-body {
+      padding: 20px 26px; flex: 1;
+    }
+
+    .qp-section { margin-bottom: 22px; }
+    .qp-section h4 {
+      font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); font-weight: 500; margin-bottom: 10px;
+    }
+    .qp-grid {
+      display: grid; grid-template-columns: auto 1fr; gap: 6px 16px;
+      font-size: 12.5px;
+    }
+    .qp-grid dt {
+      color: var(--sub); font-size: 10.5px; letter-spacing: 0.06em;
+      text-transform: uppercase; font-weight: 500;
+    }
+    .qp-grid dd { color: var(--ink); margin: 0; font-weight: 400; }
+    .qp-grid dd em { font-family: var(--serif); font-style: italic; color: var(--o); }
+
+    .qp-empty {
+      color: var(--sub); font-style: italic;
+      font-family: var(--serif); font-size: 14px;
+    }
+
+    .qp-price-row {
+      display: flex; justify-content: space-between;
+      padding: 6px 0; font-size: 12.5px;
+    }
+    .qp-price-row .label { color: var(--muted); }
+    .qp-price-row .label .vert {
+      display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+      margin-right: 6px; vertical-align: middle;
+    }
+    .qp-price-row .amt { color: var(--ink); font-weight: 400; }
+    .qp-price-total {
+      border-top: 1px solid var(--border); margin-top: 8px; padding-top: 10px;
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .qp-price-total .label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .qp-price-total .amt {
+      font-family: var(--serif); font-size: 32px; color: var(--ink);
+      line-height: 1;
+    }
+    .qp-price-total .amt em { font-style: italic; color: var(--o); }
+    .qp-price-per {
+      font-size: 11px; color: var(--sub); text-align: right; margin-top: 2px;
+    }
+
+    .qp-usda {
+      background: var(--surf); border-radius: 9px;
+      padding: 12px 14px; font-size: 11px;
+      color: var(--muted); line-height: 1.55;
+    }
+    .qp-usda h5 {
+      font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--o); font-weight: 500; margin-bottom: 6px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .qp-usda h5 .dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--o);
+      animation: pulse 2s infinite;
+    }
+    .qp-usda-row {
+      display: flex; justify-content: space-between; padding: 2px 0;
+    }
+    .qp-usda-row .ing { color: var(--ink); }
+    .qp-usda-row .pr { font-family: ui-monospace, monospace; color: var(--muted); }
+    .qp-usda .src {
+      margin-top: 6px; font-size: 10px; font-style: italic;
+      color: var(--sub);
+    }
+
+    .qp-foot {
+      padding: 16px 26px 20px; border-top: 1px solid var(--border);
+      background: var(--surf);
+    }
+    .qp-ctas {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .qp-cta {
+      padding: 11px 14px; border-radius: 8px;
+      font-size: 12.5px; font-weight: 500;
+      text-decoration: none; text-align: center;
+      transition: all 0.15s; cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--w); color: var(--ink);
+    }
+    .qp-cta:hover { border-color: var(--o); color: var(--o); }
+    .qp-cta.primary {
+      background: var(--o); border-color: var(--o); color: var(--w);
+    }
+    .qp-cta.primary:hover { background: var(--od); border-color: var(--od); color: var(--w); }
+    .qp-cta.dark {
+      background: var(--ink); border-color: var(--ink); color: var(--w);
+    }
+    .qp-cta.dark:hover { background: var(--o); border-color: var(--o); }
+    .qp-cta:disabled, .qp-cta.disabled {
+      opacity: 0.4; pointer-events: none;
+    }
+
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    /* Responsive */
+    @media (max-width: 1000px) {
+      .app { grid-template-columns: 1fr; grid-template-rows: 54px 1fr auto; }
+      aside.quote-panel { border-left: none; border-top: 1px solid var(--border); max-height: 50vh; }
+      .crumb { display: none; }
+    }
+    @media (max-width: 620px) {
+      .chat-hero h1 { font-size: 30px; }
+      .chat-inner { padding: 0 20px; }
+      .chat-input-bar { padding: 12px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- ── Top bar ───────────────────────────────────────────────── -->
+    <header class="topbar">
+      <div style="display:flex; align-items:center;">
+        <a href="https://cacerola.cl" class="logo" target="_blank" rel="noopener">
+          <div class="lm">
+            <svg viewBox="0 0 13 13" fill="none">
+              <path d="M1.5 11L6.5 2L11.5 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M3.5 7.5H9.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="ln">Cacerola</span>
+        </a>
+        <span class="crumb"><em>Contigo Cotizador</em> · Chat con el chef</span>
+        <nav class="nav-tabs">
+          <a href="contigo-atlas.html" class="nav-tab">Atlas</a>
+          <a href="pulse.html" class="nav-tab">Pulse</a>
+          <a href="cotizador.html" class="nav-tab active">Cotizador</a>
+        </nav>
+      </div>
+      <div class="topbar-meta">
+        <span>Response time<span class="val" id="rt-clock">0s</span></span>
+        <span>USDA Dallas<span class="val">22 abr 2026</span></span>
+      </div>
+    </header>
+
+    <!-- ── Chat ──────────────────────────────────────────────────── -->
+    <main class="chat-area">
+      <div class="chat-scroll" id="chat-scroll">
+        <div class="chat-inner">
+          <div class="chat-hero">
+            <div class="kicker"><i></i>De 1 semana a 60 segundos</div>
+            <h1>Contame de tu evento. <em>Armo la propuesta mientras hablamos.</em></h1>
+            <div class="sub">Soy el chef virtual de Contigo. En 7 preguntas tenés menú completo, breakdown de costos con pricing USDA en vivo, y propuesta descargable.</div>
+          </div>
+          <div id="chat-messages"></div>
+        </div>
+      </div>
+      <div class="chat-input-hint" id="chat-hint" style="display:none;">Refiná con texto libre — ej: "más vegetariano", "menos carne", "premium budget"</div>
+      <div class="chat-input-bar">
+        <input type="text" id="chat-input" placeholder="Elegí una opción arriba para empezar..." disabled />
+        <button id="chat-send" disabled onclick="handleFreeText()">Enviar</button>
+      </div>
+    </main>
+
+    <!-- ── Right: live quote ─────────────────────────────────────── -->
+    <aside class="quote-panel">
+      <div class="qp-head">
+        <div class="kicker"><i></i>Propuesta · live preview</div>
+        <h2>Cotización <em>viva</em></h2>
+        <div class="qp-ref" id="qp-ref">C-2026-XX-XX-000</div>
+      </div>
+      <div class="qp-body" id="qp-body">
+        <div class="qp-section">
+          <h4>Evento</h4>
+          <div class="qp-empty">Se completa a medida que respondés.</div>
+        </div>
+      </div>
+      <div class="qp-foot">
+        <div class="qp-ctas">
+          <button class="qp-cta primary disabled" id="cta-pdf">↓ Descargar PDF</button>
+          <button class="qp-cta dark disabled" id="cta-book">Reservar degustación</button>
+          <button class="qp-cta disabled" id="cta-chef">Hablar con el chef</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+  /* ═════════════════════════════════════════════════════════════════════════
+     CONTIGO COTIZADOR — Chat guionado + pricing en vivo
+  ══════════════════════════════════════════════════════════════════════════ */
+
+  /* ── USDA AMS Dallas Terminal · snapshot 22 abr 2026 ─────────────
+     En producción: GET https://mymarketnews.ams.usda.gov/... (diario).
+     Precios mayoristas por libra. Margen catering típico: 3.2x–3.8x.
+  ──────────────────────────────────────────────────────────────── */
+  const USDA_SNAPSHOT = {
+    date: '22 abr 2026',
+    source: 'USDA AMS · Dallas Terminal Market',
+    items: [
+      { ing: 'Beef tenderloin', wholesale: 14.20, unit: '/lb' },
+      { ing: 'Grass-fed ribeye', wholesale: 18.80, unit: '/lb' },
+      { ing: 'Chicken breast', wholesale: 4.10, unit: '/lb' },
+      { ing: 'Gulf red snapper', wholesale: 12.40, unit: '/lb' },
+      { ing: 'Heirloom tomato (Boggy Creek)', wholesale: 3.40, unit: '/lb' },
+      { ing: 'Texas pecan', wholesale: 9.80, unit: '/lb' }
+    ]
+  };
+
+  /* ── Menu library ─────────────────────────────────────────────── */
+  const MENUS = {
+    'hill-country-executive': {
+      name: 'Hill Country Executive',
+      vibe: 'Farm-to-table premium · refined',
+      courses: [
+        { label: 'First', body: 'Roasted heirloom tomato + Boggy Creek Farms basil + aged sheep feta + olive oil press #2' },
+        { label: 'Main', body: 'Grass-fed beef tenderloin · charred shallot jus · potato pavé · seasonal greens', note: 'Richardson Farms · dry-aged 21 days' },
+        { label: 'Veg', body: 'Wood-roasted seasonal vegetable plate + farro · tahini (25% of guests by default)' },
+        { label: 'Dessert', body: 'Texas pecan tart · whiskey cream · candied pecan' }
+      ],
+      pricePerPerson: 92,
+      wholesaleRef: ['Beef tenderloin', 'Heirloom tomato (Boggy Creek)', 'Texas pecan'],
+      suitableFor: ['boardroom','brand','healthcare']
+    },
+    'tex-mex-reserve': {
+      name: 'Tex-Mex Reserve',
+      vibe: 'Austin heritage · elevated street',
+      courses: [
+        { label: 'First', body: 'Masa sope · Oaxaca queso fundido · pickled shallot · cilantro oil' },
+        { label: 'Main', body: 'Slow-braised suadero beef + handmade tortilla · charred salsa macha · pickled red onion', note: 'Nixta-style, chef Edgar Rico homage' },
+        { label: 'Veg', body: 'Huitlacoche + roasted squash taco + cashew crema' },
+        { label: 'Dessert', body: 'Tres leches with Texas whiskey caramel · candied ancho' }
+      ],
+      pricePerPerson: 74,
+      wholesaleRef: ['Beef tenderloin', 'Heirloom tomato (Boggy Creek)'],
+      suitableFor: ['tech','brand','festival']
+    },
+    'gulf-coast-plated': {
+      name: 'Gulf Coast Plated',
+      vibe: 'Coastal elegance · seafood-forward',
+      courses: [
+        { label: 'First', body: 'Gulf red snapper crudo · avocado oil · finger lime · chicharrón dust' },
+        { label: 'Main', body: 'Pan-seared gulf snapper · caper brown butter · roasted fennel · smoked potato', note: 'Line-caught · traceable boat-to-plate' },
+        { label: 'Veg', body: 'Charred artichoke · preserved lemon · baby greens (25%)' },
+        { label: 'Dessert', body: 'Meyer lemon posset · toasted almond shortbread' }
+      ],
+      pricePerPerson: 96,
+      wholesaleRef: ['Gulf red snapper'],
+      suitableFor: ['wedding','boardroom']
+    },
+    'hill-country-outdoor': {
+      name: 'Hill Country Outdoor (Ocaso smoker-led)',
+      vibe: 'Outdoor · smoker-anchored · BBQ elevated',
+      courses: [
+        { label: 'Station', body: '14-hour smoked brisket · post-oak + pecan · pickle bar · chimichurri criollo', note: 'Ocaso smoker trailer on-site' },
+        { label: 'Sides', body: 'Charred corn elote · cotija · ancho · jalapeño cornbread · house pinto beans' },
+        { label: 'Veg', body: 'Smoked portobello + house-fermented hot sauce (25%)' },
+        { label: 'Dessert', body: 'Smoked peach cobbler · vanilla ice cream · bourbon caramel' }
+      ],
+      pricePerPerson: 64,
+      wholesaleRef: ['Beef tenderloin'],
+      suitableFor: ['festival','brand','outdoor']
+    },
+    'healthcare-compliance': {
+      name: 'Executive Wellness',
+      vibe: 'Healthcare-compliant · clean · professional',
+      courses: [
+        { label: 'First', body: 'Roasted beet + whipped goat cheese + orange segment + pistachio' },
+        { label: 'Main', body: 'Herb-roasted chicken breast · farro pilaf · braised kale · lemon-tahini', note: 'Low-sodium, allergen-labeled, Sunshine Act reporting ready' },
+        { label: 'Veg', body: 'Grain bowl · quinoa · roasted vegetables · miso dressing (25%)' },
+        { label: 'Dessert', body: 'Fresh seasonal fruit + Texas pecan + mint' }
+      ],
+      pricePerPerson: 52,
+      wholesaleRef: ['Chicken breast', 'Texas pecan'],
+      suitableFor: ['healthcare','boardroom']
+    }
+  };
+
+  /* ── Event types, vibes, dietary presets ─────────────────────── */
+  const EVENT_TYPES = [
+    { id: 'boardroom', name: 'Board dinner', sub: 'C-suite · hasta 20 pax', defaultCount: 14 },
+    { id: 'tech', name: 'Tech HQ lunch', sub: 'Office · recurrente', defaultCount: 40 },
+    { id: 'brand', name: 'Brand activation', sub: 'SXSW · F1 · producto', defaultCount: 80 },
+    { id: 'wedding', name: 'Wedding', sub: 'Plated · full service', defaultCount: 120 },
+    { id: 'festival', name: 'Festival hospitality', sub: 'Outdoor · smoker station', defaultCount: 200 },
+    { id: 'healthcare', name: 'Healthcare conference', sub: 'Pharma · compliance', defaultCount: 60 }
+  ];
+
+  const VENUES = [
+    { id: 'one-eleven', name: 'One Eleven East', sub: 'Nuestro venue · Hutto', fee: 0, includesTable: true },
+    { id: 'client', name: 'Oficina del cliente', sub: 'In-the-wild', fee: 0, includesTable: false },
+    { id: 'third', name: 'Venue tercero', sub: 'Palmer · Driskill · Blanton...', fee: 0, includesTable: false },
+    { id: 'outdoor', name: 'Outdoor · Hill Country', sub: 'Smoker-friendly', fee: 0, includesTable: false }
+  ];
+
+  const VIBES = [
+    { id: 'farm', name: 'Farm-to-table Hill Country', sub: 'Premium refined', menuBias: 'hill-country-executive' },
+    { id: 'texmex', name: 'Tex-Mex Reserve', sub: 'Austin heritage elevated', menuBias: 'tex-mex-reserve' },
+    { id: 'coastal', name: 'Gulf Coast plated', sub: 'Seafood-forward', menuBias: 'gulf-coast-plated' },
+    { id: 'outdoor', name: 'Outdoor smoker', sub: 'Ocaso-led BBQ', menuBias: 'hill-country-outdoor' },
+    { id: 'wellness', name: 'Wellness / compliance', sub: 'Healthcare-ready', menuBias: 'healthcare-compliance' }
+  ];
+
+  const DIETARY = [
+    { id: 'vegan', name: 'Vegan' },
+    { id: 'gf', name: 'Gluten-free' },
+    { id: 'halal', name: 'Halal' },
+    { id: 'kosher', name: 'Kosher' },
+    { id: 'nuts', name: 'Nut allergy' },
+    { id: 'none', name: 'Sin restricciones' }
+  ];
+
+  /* ── State ────────────────────────────────────────────────────── */
+  let state = {
+    eventType: null, headcount: null, dateStr: null, venue: null,
+    dietary: [], vibe: null, budgetPP: null,
+    selectedMenu: null, ref: generateRef(),
+    addons: { wine: false, smoker: false, table: false },
+    step: 0
+  };
+  let startTime = Date.now();
+
+  function generateRef() {
+    const d = new Date();
+    const rand = Math.floor(Math.random() * 900 + 100);
+    return `C-${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}-${rand}`;
+  }
+
+  /* ── Update response-time clock ───────────────────────────────── */
+  setInterval(() => {
+    const s = Math.floor((Date.now() - startTime) / 1000);
+    document.getElementById('rt-clock').textContent = s < 60 ? s + 's' : Math.floor(s/60) + 'm ' + (s%60) + 's';
+  }, 1000);
+
+  /* ── Chat engine ──────────────────────────────────────────────── */
+  const messagesEl = document.getElementById('chat-messages');
+  const scrollEl = document.getElementById('chat-scroll');
+
+  function appendBotMessage(html) {
+    const div = document.createElement('div');
+    div.className = 'msg-row';
+    div.innerHTML = `
+      <div class="msg-avatar">C</div>
+      <div class="msg-bubble">${html}</div>
+    `;
+    messagesEl.appendChild(div);
+    scrollToBottom();
+  }
+
+  function appendUserMessage(text) {
+    const div = document.createElement('div');
+    div.className = 'msg-row user';
+    div.innerHTML = `
+      <div class="msg-avatar user">Tú</div>
+      <div class="msg-bubble">${text}</div>
+    `;
+    messagesEl.appendChild(div);
+    scrollToBottom();
+  }
+
+  function appendTyping() {
+    const div = document.createElement('div');
+    div.className = 'msg-row';
+    div.id = 'typing-indicator';
+    div.innerHTML = `
+      <div class="msg-avatar">C</div>
+      <div class="typing"><span></span><span></span><span></span></div>
+    `;
+    messagesEl.appendChild(div);
+    scrollToBottom();
+  }
+  function removeTyping() {
+    const t = document.getElementById('typing-indicator');
+    if (t) t.remove();
+  }
+
+  function scrollToBottom() {
+    setTimeout(() => { scrollEl.scrollTop = scrollEl.scrollHeight; }, 50);
+  }
+
+  async function typeThenSay(html, delay = 900) {
+    appendTyping();
+    await new Promise(r => setTimeout(r, delay));
+    removeTyping();
+    appendBotMessage(html);
+  }
+
+  /* ── Conversation flow ───────────────────────────────────────── */
+  async function startConversation() {
+    await typeThenSay(`<b>Hola.</b> Soy el chef virtual de <em>Contigo</em>. Para armarte la propuesta necesito entender el evento. <div class="small">Empecemos: ¿qué tipo de evento es?</div>`, 600);
+    askEventType();
+  }
+
+  function askEventType() {
+    const grid = EVENT_TYPES.map(e => `
+      <button class="opt-btn" onclick="selectEventType('${e.id}')">
+        <span class="opt-title">${e.name}</span>
+        <span class="opt-sub">${e.sub}</span>
+      </button>`).join('');
+    appendBotMessage(`<div class="opt-grid">${grid}</div>`);
+  }
+
+  window.selectEventType = async function(id) {
+    const e = EVENT_TYPES.find(x => x.id === id);
+    state.eventType = e;
+    state.headcount = e.defaultCount;
+    appendUserMessage(e.name);
+    updatePreview();
+    await typeThenSay(`Perfecto. <b>${e.name}</b> suele ser <em>${e.defaultCount} personas</em> según nuestro promedio. ¿Cuántos van a asistir al tuyo?`);
+    askHeadcount();
+  };
+
+  function askHeadcount() {
+    const html = `
+      <div class="opt-number">
+        <input type="number" id="hc-input" min="1" max="2000" value="${state.headcount}" />
+        <button class="opt-confirm" onclick="confirmHeadcount()">Confirmar</button>
+      </div>
+      <div class="small" style="margin-top:8px;">Presets:
+        <button class="refine-btn" onclick="setHc(14)" style="margin-top:4px;">14</button>
+        <button class="refine-btn" onclick="setHc(40)">40</button>
+        <button class="refine-btn" onclick="setHc(80)">80</button>
+        <button class="refine-btn" onclick="setHc(150)">150</button>
+        <button class="refine-btn" onclick="setHc(300)">300</button>
+      </div>`;
+    appendBotMessage(html);
+  }
+  window.setHc = function(n) { document.getElementById('hc-input').value = n; };
+  window.confirmHeadcount = async function() {
+    const v = parseInt(document.getElementById('hc-input').value) || 1;
+    state.headcount = v;
+    appendUserMessage(`${v} personas`);
+    updatePreview();
+    await typeThenSay(`<b>${v} personas</b> anotadas. ¿Cuándo es el evento? <div class="small">Fecha estimada o rango. Importa para proyectar estacionalidad de ingredientes.</div>`);
+    askDate();
+  };
+
+  function askDate() {
+    const today = new Date();
+    const presets = [
+      { label: 'Próximas 2 semanas', val: 'proximas 2 semanas' },
+      { label: 'Mayo 2026', val: 'mayo 2026' },
+      { label: 'Junio 2026', val: 'junio 2026' },
+      { label: 'Verano (low season)', val: 'verano 2026 — low season' },
+      { label: 'SXSW 2027', val: 'SXSW · marzo 2027' },
+      { label: 'F1 · oct 2026', val: 'F1 USGP · octubre 2026' }
+    ];
+    const html = `
+      <div class="opt-grid">
+        ${presets.map(p => `<button class="opt-btn" onclick="selectDate('${p.val}')"><span class="opt-title">${p.label}</span></button>`).join('')}
+      </div>`;
+    appendBotMessage(html);
+  }
+  window.selectDate = async function(d) {
+    state.dateStr = d;
+    appendUserMessage(d);
+    updatePreview();
+    await typeThenSay(`¿Dónde lo hacemos?`);
+    askVenue();
+  };
+
+  function askVenue() {
+    const html = `<div class="opt-grid">${VENUES.map(v => `
+      <button class="opt-btn" onclick="selectVenue('${v.id}')">
+        <span class="opt-title">${v.name}</span>
+        <span class="opt-sub">${v.sub}</span>
+      </button>`).join('')}</div>`;
+    appendBotMessage(html);
+  }
+  window.selectVenue = async function(id) {
+    const v = VENUES.find(x => x.id === id);
+    state.venue = v;
+    if (v.includesTable) state.addons.table = true;
+    appendUserMessage(v.name);
+    updatePreview();
+    let extra = '';
+    if (v.id === 'one-eleven') extra = ' <em>One Eleven East</em> viene con Table Manners incluido — ahorro de ~$8/pp.';
+    if (v.id === 'outdoor') extra = ' Outdoor abre la puerta a <em>Ocaso smoker station</em> — nuestra vertical BBQ.';
+    await typeThenSay(`Anotado.${extra} ¿Restricciones alimentarias? <div class="small">Elegí las que apliquen. Podés seleccionar varias.</div>`);
+    askDietary();
+  };
+
+  function askDietary() {
+    const html = `
+      <div class="opt-grid" id="dietary-grid">
+        ${DIETARY.map(d => `
+          <button class="opt-btn multi" data-id="${d.id}" onclick="toggleDietary('${d.id}', this)">
+            <span class="opt-title">${d.name}</span>
+          </button>`).join('')}
+        <button class="opt-confirm" onclick="confirmDietary()">Continuar →</button>
+      </div>`;
+    appendBotMessage(html);
+  }
+  window.toggleDietary = function(id, btn) {
+    if (id === 'none') {
+      document.querySelectorAll('#dietary-grid .opt-btn.multi').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      state.dietary = ['none'];
+      return;
+    }
+    btn.classList.toggle('selected');
+    const noneBtn = document.querySelector('#dietary-grid .opt-btn.multi[data-id="none"]');
+    if (noneBtn) noneBtn.classList.remove('selected');
+    const isSel = btn.classList.contains('selected');
+    if (isSel) state.dietary = state.dietary.filter(x => x !== 'none').concat(id);
+    else state.dietary = state.dietary.filter(x => x !== id);
+  };
+  window.confirmDietary = async function() {
+    const lbl = state.dietary.length ? state.dietary.map(id => DIETARY.find(d => d.id === id).name).join(', ') : 'sin restricciones';
+    appendUserMessage(lbl);
+    updatePreview();
+    await typeThenSay(`Listo. Ahora la decisión más divertida: <em>vibe</em>. ¿Qué estilo estás buscando?`);
+    askVibe();
+  };
+
+  function askVibe() {
+    const html = `<div class="opt-grid">${VIBES.map(v => `
+      <button class="opt-btn" onclick="selectVibe('${v.id}')">
+        <span class="opt-title">${v.name}</span>
+        <span class="opt-sub">${v.sub}</span>
+      </button>`).join('')}</div>`;
+    appendBotMessage(html);
+  }
+  window.selectVibe = async function(id) {
+    const v = VIBES.find(x => x.id === id);
+    state.vibe = v;
+    appendUserMessage(v.name);
+    await typeThenSay(`Excelente. Última pregunta: ¿rango de presupuesto por persona? <div class="small">Nos ayuda a calibrar — es opcional.</div>`);
+    askBudget();
+  };
+
+  function askBudget() {
+    const presets = [
+      { label: '$40–60 / pp', val: 50, sub: 'Accesible' },
+      { label: '$60–90 / pp', val: 75, sub: 'Mid-premium' },
+      { label: '$90–130 / pp', val: 110, sub: 'Premium' },
+      { label: '$130+ / pp', val: 160, sub: 'Luxury' },
+      { label: 'Sin presupuesto fijo', val: null, sub: 'Optimizá vos' }
+    ];
+    const html = `<div class="opt-grid">${presets.map(p => `
+      <button class="opt-btn" onclick="selectBudget(${p.val}, '${p.label}')">
+        <span class="opt-title">${p.label}</span>
+        <span class="opt-sub">${p.sub}</span>
+      </button>`).join('')}</div>`;
+    appendBotMessage(html);
+  }
+  window.selectBudget = async function(val, label) {
+    state.budgetPP = val;
+    appendUserMessage(label);
+    await typeThenSay(`Perfecto. Voy a consultar pricing USDA Dallas de hoy y armar el menú.`, 500);
+    await generateMenu();
+  };
+
+  async function generateMenu() {
+    appendTyping();
+    await new Promise(r => setTimeout(r, 1400));
+    removeTyping();
+
+    // Select menu — vibe bias wins, else match by event type
+    let menuKey = state.vibe?.menuBias;
+    if (!menuKey) {
+      const fit = Object.entries(MENUS).find(([k, m]) => m.suitableFor.includes(state.eventType.id));
+      menuKey = fit ? fit[0] : 'hill-country-executive';
+    }
+    state.selectedMenu = MENUS[menuKey];
+
+    const m = state.selectedMenu;
+    const coursesHtml = m.courses.map(c => `
+      <div class="menu-course">
+        <div class="c-label">${c.label}</div>
+        <div class="c-body">${c.body}${c.note ? `<span class="note">${c.note}</span>` : ''}</div>
+      </div>`).join('');
+
+    /* Suggested addons based on venue + vibe */
+    const addonsHtml = [];
+    addonsHtml.push(`<div class="addon-row"><div><span class="a-name">Wine pairing (4 copas)</span><span class="a-vertical">· Contigo</span></div><div class="a-price">+$18/pp</div></div>`);
+    if (state.venue.id === 'outdoor' || state.vibe?.id === 'outdoor') {
+      addonsHtml.push(`<div class="addon-row"><div><span class="a-name">Ocaso smoker station</span><span class="a-vertical">· Ocaso</span></div><div class="a-price">+$12/pp</div></div>`);
+    }
+    if (!state.venue.includesTable) {
+      addonsHtml.push(`<div class="addon-row"><div><span class="a-name">Table Manners · black matte service</span><span class="a-vertical">· Table Manners</span></div><div class="a-price">+$8/pp</div></div>`);
+    }
+
+    const msg = `
+      <div class="menu-card">
+        <div class="kicker"><i style="display:inline-block;width:14px;height:1.5px;background:var(--o);"></i> Menú sugerido</div>
+        <h3>${m.name.replace(m.name.split(' ').pop(), `<em>${m.name.split(' ').pop()}</em>`)}</h3>
+        <div class="tag">${m.vibe} · ~$${m.pricePerPerson}/pp base</div>
+        ${coursesHtml}
+        <div class="menu-addons">
+          <h4>Add-ons sugeridos</h4>
+          ${addonsHtml.join('')}
+        </div>
+        <div class="refine-buttons">
+          <button class="refine-btn" onclick="refineMenu('lighter')">+ ligero</button>
+          <button class="refine-btn" onclick="refineMenu('richer')">+ premium</button>
+          <button class="refine-btn" onclick="refineMenu('vegetarian')">+ vegetariano</button>
+          <button class="refine-btn" onclick="refineMenu('texmex')">+ Tex-Mex</button>
+          <button class="refine-btn" onclick="refineMenu('seafood')">+ seafood</button>
+        </div>
+      </div>`;
+    appendBotMessage(msg);
+
+    // Enable addons by default selection
+    state.addons.wine = true;
+    if (state.venue.id === 'outdoor' || state.vibe?.id === 'outdoor') state.addons.smoker = true;
+    if (!state.venue.includesTable) state.addons.table = true;
+
+    updatePreview();
+
+    await typeThenSay(`<b>Listo.</b> Tenés la cotización calculada a la derecha con el breakdown por vertical del ecosistema Contigo + referencia USDA. <div class="small">Podés pedir variaciones tocando los botones del menú, o descargar la propuesta.</div>`, 1200);
+    enableFreeText();
+    enableCTAs();
+  }
+
+  window.refineMenu = async function(kind) {
+    const m = { lighter: 'healthcare-compliance', richer: 'gulf-coast-plated', vegetarian: 'healthcare-compliance', texmex: 'tex-mex-reserve', seafood: 'gulf-coast-plated' }[kind];
+    state.selectedMenu = MENUS[m];
+    appendUserMessage(`Hacelo más ${kind}`);
+    await typeThenSay(`Cambiado. Nuevo menú:`);
+    await generateMenu();
+  };
+
+  /* ── Quote preview (live, updates on every state change) ──────── */
+  function updatePreview() {
+    const body = document.getElementById('qp-body');
+    document.getElementById('qp-ref').textContent = state.ref;
+
+    const sections = [];
+
+    // Event
+    if (state.eventType) {
+      sections.push(`
+        <div class="qp-section">
+          <h4>Evento</h4>
+          <dl class="qp-grid">
+            <dt>Tipo</dt><dd><em>${state.eventType.name}</em></dd>
+            ${state.headcount ? `<dt>Pax</dt><dd>${state.headcount}</dd>` : ''}
+            ${state.dateStr ? `<dt>Fecha</dt><dd>${state.dateStr}</dd>` : ''}
+            ${state.venue ? `<dt>Venue</dt><dd>${state.venue.name}</dd>` : ''}
+            ${state.dietary.length ? `<dt>Dietary</dt><dd>${state.dietary.map(id => DIETARY.find(d => d.id === id).name).join(', ')}</dd>` : ''}
+            ${state.vibe ? `<dt>Vibe</dt><dd><em>${state.vibe.name}</em></dd>` : ''}
+          </dl>
+        </div>`);
+    } else {
+      sections.push(`<div class="qp-section"><h4>Evento</h4><div class="qp-empty">Se completa a medida que respondés.</div></div>`);
+    }
+
+    // Pricing
+    if (state.selectedMenu && state.headcount) {
+      const pp = state.selectedMenu.pricePerPerson;
+      const hc = state.headcount;
+      const catering = pp * hc;
+      const wine = state.addons.wine ? 18 * hc : 0;
+      const smoker = state.addons.smoker ? 12 * hc : 0;
+      const table = state.addons.table && !state.venue.includesTable ? 8 * hc : 0;
+      const service = Math.round(hc * 10); // rough staffing
+      const subtotal = catering + wine + smoker + table + service;
+      const tax = Math.round(subtotal * 0.0825);
+      const total = subtotal + tax;
+
+      const rows = [
+        { label: 'Catering · Contigo', amt: catering, v: 'var(--v-contigo)' }
+      ];
+      if (wine) rows.push({ label: 'Wine pairing · Contigo', amt: wine, v: 'var(--v-contigo)' });
+      if (smoker) rows.push({ label: 'Ocaso smoker station', amt: smoker, v: 'var(--v-ocaso)' });
+      if (table) rows.push({ label: 'Table Manners service', amt: table, v: 'var(--v-table)' });
+      if (state.venue?.includesTable) rows.push({ label: 'Table Manners incluido', amt: 0, v: 'var(--v-table)', free: true });
+      if (state.venue?.id === 'one-eleven') rows.push({ label: 'One Eleven East venue (propio)', amt: 0, v: 'var(--v-venue)', free: true });
+      rows.push({ label: 'Service + staffing', amt: service, v: null });
+
+      const rowsHtml = rows.map(r => `
+        <div class="qp-price-row">
+          <span class="label">${r.v ? `<span class="vert" style="background: ${r.v};"></span>` : ''}${r.label}</span>
+          <span class="amt">${r.free ? '<em style="font-family: var(--serif); font-style: italic; color: var(--o);">incluido</em>' : '$' + r.amt.toLocaleString()}</span>
+        </div>`).join('');
+
+      sections.push(`
+        <div class="qp-section">
+          <h4>Menú</h4>
+          <div style="font-family: var(--serif); font-size: 17px; color: var(--ink); line-height: 1.2; letter-spacing: -0.01em;"><em>${state.selectedMenu.name}</em></div>
+          <div style="font-size: 11.5px; color: var(--muted); margin-top: 3px;">${state.selectedMenu.vibe}</div>
+        </div>
+        <div class="qp-section">
+          <h4>Breakdown por vertical</h4>
+          ${rowsHtml}
+          <div class="qp-price-row" style="color: var(--muted);">
+            <span class="label">Subtotal</span>
+            <span class="amt">$${subtotal.toLocaleString()}</span>
+          </div>
+          <div class="qp-price-row" style="color: var(--muted);">
+            <span class="label">Tax (8.25%)</span>
+            <span class="amt">$${tax.toLocaleString()}</span>
+          </div>
+          <div class="qp-price-total">
+            <div>
+              <div class="label">Total</div>
+              <div class="qp-price-per">$${Math.round(total/hc).toLocaleString()} por persona</div>
+            </div>
+            <div class="amt"><em>$${total.toLocaleString()}</em></div>
+          </div>
+        </div>`);
+
+      // USDA snapshot
+      const relevantItems = USDA_SNAPSHOT.items.filter(i => state.selectedMenu.wholesaleRef.includes(i.ing));
+      const usdaRows = (relevantItems.length ? relevantItems : USDA_SNAPSHOT.items.slice(0,3)).map(i => `
+        <div class="qp-usda-row">
+          <span class="ing">${i.ing}</span>
+          <span class="pr">$${i.wholesale.toFixed(2)}${i.unit}</span>
+        </div>`).join('');
+      sections.push(`
+        <div class="qp-section">
+          <div class="qp-usda">
+            <h5><span class="dot"></span>Intel de mercado · ${USDA_SNAPSHOT.date}</h5>
+            ${usdaRows}
+            <div class="src">${USDA_SNAPSHOT.source} · margen catering blended 3.2x–3.8x</div>
+          </div>
+        </div>`);
+    }
+
+    body.innerHTML = sections.join('');
+  }
+
+  /* ── Enable CTAs when quote is complete ──────────────────────── */
+  function enableCTAs() {
+    ['cta-pdf','cta-book','cta-chef'].forEach(id => {
+      document.getElementById(id).classList.remove('disabled');
+    });
+    document.getElementById('cta-pdf').onclick = downloadProposal;
+    document.getElementById('cta-book').onclick = () => alert('Calendly embed aquí. Para demo, asumimos reserva confirmada con Karen + chef-founder.');
+    document.getElementById('cta-chef').onclick = () => alert('WhatsApp / Calendly con el chef-founder. Para demo, simulado.');
+  }
+
+  function downloadProposal() {
+    /* Generate HTML printable proposal — in production, server-side PDF. */
+    const win = window.open('', '_blank');
+    const m = state.selectedMenu;
+    const pp = m.pricePerPerson;
+    const hc = state.headcount;
+    const catering = pp * hc;
+    const wine = state.addons.wine ? 18 * hc : 0;
+    const smoker = state.addons.smoker ? 12 * hc : 0;
+    const table = state.addons.table && !state.venue.includesTable ? 8 * hc : 0;
+    const service = Math.round(hc * 10);
+    const subtotal = catering + wine + smoker + table + service;
+    const tax = Math.round(subtotal * 0.0825);
+    const total = subtotal + tax;
+
+    const coursesPrint = m.courses.map(c => `<tr><td style="padding:8px 12px;font-family:'Instrument Serif',serif;font-style:italic;color:#F7600A;width:80px;vertical-align:top;">${c.label}</td><td style="padding:8px 12px;">${c.body}${c.note ? `<br><em style="color:#888;font-size:12px;">${c.note}</em>` : ''}</td></tr>`).join('');
+
+    win.document.write(`
+<!DOCTYPE html><html><head><title>${state.ref} · Contigo</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'DM Sans', sans-serif; color: #0E0E0E; max-width: 720px; margin: 40px auto; padding: 20px; line-height: 1.5; }
+h1 { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 42px; letter-spacing: -0.015em; line-height: 1.1; margin-bottom: 6px; }
+h1 em { font-style: italic; color: #F7600A; }
+.ref { font-family: ui-monospace, monospace; color: #888; font-size: 12px; margin-bottom: 30px; }
+.kicker { display: inline-block; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #F7600A; font-weight: 500; margin-bottom: 6px; border-top: 1.5px solid #F7600A; padding-top: 8px; }
+h2 { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 22px; margin-bottom: 10px; }
+h2 em { font-style: italic; color: #F7600A; }
+.grid { display: grid; grid-template-columns: auto 1fr; gap: 4px 24px; margin-bottom: 30px; font-size: 13px; }
+.grid dt { color: #888; text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; padding-top: 3px; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+.price-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; border-bottom: 1px solid #F0EDE8; }
+.total-row { display: flex; justify-content: space-between; align-items: baseline; padding-top: 12px; margin-top: 10px; border-top: 2px solid #0E0E0E; }
+.total-row .amt { font-family: 'Instrument Serif', serif; font-size: 36px; color: #F7600A; font-style: italic; }
+.footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #E8E4DF; font-size: 11px; color: #888; }
+@media print { body { margin: 20px; } }
+</style></head><body>
+<div class="kicker">Propuesta · Contigo Catering</div>
+<h1>${m.name} para <em>${state.eventType.name}</em></h1>
+<div class="ref">${state.ref} · Austin, TX</div>
+
+<h2 class="kicker">Evento</h2>
+<dl class="grid">
+<dt>Tipo</dt><dd>${state.eventType.name}</dd>
+<dt>Pax</dt><dd>${hc} personas</dd>
+<dt>Fecha</dt><dd>${state.dateStr || 'TBD'}</dd>
+<dt>Venue</dt><dd>${state.venue.name} (${state.venue.sub})</dd>
+<dt>Dietary</dt><dd>${state.dietary.length ? state.dietary.map(id => DIETARY.find(d => d.id === id).name).join(', ') : 'Sin restricciones'}</dd>
+<dt>Vibe</dt><dd>${state.vibe?.name || '—'}</dd>
+</dl>
+
+<h2 class="kicker">Menú · <em>${m.name}</em></h2>
+<table>${coursesPrint}</table>
+
+<h2 class="kicker">Breakdown</h2>
+<div class="price-row"><span>Catering base (${hc} × $${pp})</span><span>$${catering.toLocaleString()}</span></div>
+${wine ? `<div class="price-row"><span>Wine pairing</span><span>$${wine.toLocaleString()}</span></div>` : ''}
+${smoker ? `<div class="price-row"><span>Ocaso smoker station</span><span>$${smoker.toLocaleString()}</span></div>` : ''}
+${table ? `<div class="price-row"><span>Table Manners service</span><span>$${table.toLocaleString()}</span></div>` : ''}
+<div class="price-row"><span>Service + staffing</span><span>$${service.toLocaleString()}</span></div>
+<div class="price-row"><span>Subtotal</span><span>$${subtotal.toLocaleString()}</span></div>
+<div class="price-row"><span>Tax (8.25%)</span><span>$${tax.toLocaleString()}</span></div>
+<div class="total-row"><span><div style="text-transform:uppercase;letter-spacing:0.1em;font-size:10px;color:#888;">Total</div><div style="font-size:11px;color:#888;margin-top:4px;">$${Math.round(total/hc).toLocaleString()} por persona</div></span><span class="amt">$${total.toLocaleString()}</span></div>
+
+<div class="footer">
+Pricing referenciado a USDA AMS Dallas Terminal del ${USDA_SNAPSHOT.date}. Respuesta a consultas ≤ 4 horas hábiles. COI $2M · W-9 · Food safety ServSafe certified. Contigo Catering · Austin TX · hello@contigocatering.com
+<br><br>Cotización generada en ${Math.floor((Date.now()-startTime)/1000)} segundos vía <strong>Contigo Cotizador</strong> · construido por Cacerola.
+</div>
+<script>window.onload = () => window.print();<\/script>
+</body></html>`);
+    win.document.close();
+  }
+
+  /* ── Free text (refinement) ──────────────────────────────────── */
+  function enableFreeText() {
+    const input = document.getElementById('chat-input');
+    const btn = document.getElementById('chat-send');
+    input.disabled = false;
+    btn.disabled = false;
+    input.placeholder = 'Refiná: "más ligero", "sin mariscos", "más premium"...';
+    document.getElementById('chat-hint').style.display = 'block';
+    input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleFreeText(); });
+  }
+  window.handleFreeText = async function() {
+    const input = document.getElementById('chat-input');
+    const txt = input.value.trim();
+    if (!txt) return;
+    appendUserMessage(txt);
+    input.value = '';
+
+    const t = txt.toLowerCase();
+    let refineKey = null;
+    if (/ligero|light|liviano|menos|healthier|saludable|salud/.test(t)) refineKey = 'lighter';
+    else if (/premium|lujo|luxury|rico|caro|alta/.test(t)) refineKey = 'richer';
+    else if (/veg|plant|sin carne/.test(t)) refineKey = 'vegetarian';
+    else if (/mex|tex|picante/.test(t)) refineKey = 'texmex';
+    else if (/seafood|pescado|mar/.test(t)) refineKey = 'seafood';
+
+    if (refineKey) {
+      state.selectedMenu = MENUS[{ lighter: 'healthcare-compliance', richer: 'gulf-coast-plated', vegetarian: 'healthcare-compliance', texmex: 'tex-mex-reserve', seafood: 'gulf-coast-plated' }[refineKey]];
+      await typeThenSay(`Entendido. Cambio el menú a <em>${state.selectedMenu.name}</em>:`);
+      await generateMenu();
+    } else {
+      await typeThenSay(`Anotado: <em>"${txt}"</em>. Puedo ajustar el menú si me decís qué dirección preferís — probá "más ligero", "más premium", "sin carne", "Tex-Mex" o "seafood". Si querés algo más específico, hablalo con el chef-founder desde el botón de la derecha.`);
+    }
+  };
+
+  /* ── Kick off ─────────────────────────────────────────────────── */
+  startConversation();
+  </script>
+</body>
+</html>

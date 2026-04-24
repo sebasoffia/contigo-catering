@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <script>if(localStorage.getItem('cc_contigo_auth')!=='true'){window.location.href='login.html?next=pulse.html'}</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contigo Pulse — Social listening · por Cacerola</title>
+  <meta name="description" content="Escucha en vivo de solicitudes de catering en Austin: Reddit, X, LinkedIn. Cada señal se puede convertir en cuenta del Atlas." />
+  <link rel="canonical" href="https://contigo.cacerola.cl/pulse" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Crect width='26' height='26' rx='6' fill='%23F7600A'/%3E%3Cpath d='M4 20 L13 4 L22 20 M7 14 L19 14' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --o: #F7600A; --od: #D94F00;
+      --o-soft: rgba(247, 96, 10, 0.08);
+      --ink: #0E0E0E; --muted: #6A6A6A; --sub: #AAAAAA;
+      --border: #E8E4DF; --border-soft: #F0EDE8;
+      --surf: #F7F5F2; --w: #ffffff; --dark: #0C0C0C;
+      --reddit: #FF4500; --x: #0E0E0E; --linkedin: #0A66C2;
+
+      --serif: 'Instrument Serif', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    html, body { height: 100%; margin: 0; padding: 0; }
+    body {
+      font-family: var(--sans); font-weight: 300; background: var(--w);
+      color: var(--ink); -webkit-font-smoothing: antialiased;
+      font-size: 13px; line-height: 1.5; overflow: hidden;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: clamp(320px, 28vw, 420px) 1fr clamp(280px, 24vw, 360px);
+      grid-template-rows: 54px 1fr;
+      height: 100vh; width: 100vw;
+    }
+
+    /* ── Top nav ───────────────────────────────────────────────────── */
+    header.topbar {
+      grid-column: 1 / -1;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.75rem;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      z-index: 600;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+    .lm {
+      width: 26px; height: 26px; background: var(--o);
+      border-radius: 6px; display: grid; place-items: center;
+    }
+    .lm svg { width: 13px; height: 13px; }
+    .ln { font-weight: 500; font-size: 14px; letter-spacing: -0.02em; }
+    .crumb {
+      margin-left: 16px; padding-left: 16px;
+      border-left: 1px solid var(--border);
+      font-size: 12px; color: var(--muted); font-weight: 400;
+    }
+    .crumb em { font-family: var(--serif); font-style: italic; color: var(--ink); font-size: 14px; margin-right: 4px; }
+    .nav-tabs {
+      display: flex; gap: 2px; margin-left: 22px; padding-left: 18px;
+      border-left: 1px solid var(--border);
+    }
+    .nav-tab {
+      font-size: 12px; font-weight: 500; padding: 6px 12px;
+      border-radius: 6px; text-decoration: none; color: var(--muted);
+      transition: all 0.15s;
+    }
+    .nav-tab:hover { color: var(--ink); background: var(--surf); }
+    .nav-tab.active { background: var(--ink); color: var(--w); }
+    .topbar-meta {
+      display: flex; align-items: center; gap: 16px;
+      font-size: 11px; color: var(--sub);
+      text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500;
+    }
+    .status-dot {
+      display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--o); margin-right: 5px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    /* ── Left sidebar: Filters ───────────────────────────────────── */
+    aside.left {
+      background: var(--w); border-right: 1px solid var(--border);
+      overflow-y: auto;
+    }
+    .panel {
+      padding: 22px 24px; border-bottom: 1px solid var(--border);
+    }
+    .panel-kicker {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 10.5px; font-weight: 500; letter-spacing: 0.13em;
+      text-transform: uppercase; color: var(--o); margin-bottom: 10px;
+    }
+    .panel-kicker i {
+      width: 18px; height: 1.5px; background: var(--o);
+      display: block; font-style: normal;
+    }
+    .panel-title {
+      font-family: var(--serif); font-size: 22px; font-weight: 400;
+      color: var(--ink); line-height: 1.15; letter-spacing: -0.015em;
+    }
+    .panel-title em { font-style: italic; color: var(--o); }
+    .panel-sub {
+      font-size: 12.5px; color: var(--muted); line-height: 1.6;
+      font-weight: 300; margin-top: 4px;
+    }
+    .panel-sub b { font-weight: 500; color: var(--ink); }
+
+    .quote-strip {
+      padding: 18px 24px; background: var(--surf);
+      border-bottom: 1px solid var(--border);
+    }
+    .quote-strip p {
+      font-family: var(--serif); font-style: italic; font-size: 14.5px;
+      line-height: 1.4; color: var(--ink); letter-spacing: -0.005em;
+    }
+    .quote-strip .attr {
+      display: block; margin-top: 8px;
+      font-family: var(--sans); font-style: normal;
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--sub);
+    }
+
+    /* Filter inputs */
+    .filter-group { margin-top: 14px; }
+    .filter-group label {
+      display: block; font-size: 10.5px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+    }
+    .keyword-row {
+      display: flex; gap: 6px; flex-wrap: wrap;
+    }
+    .keyword-chip {
+      font-size: 11px; padding: 4px 10px; border-radius: 100px;
+      background: var(--w); border: 1px solid var(--border);
+      color: var(--muted); cursor: pointer; font-weight: 500;
+      letter-spacing: 0.02em; transition: all 0.15s;
+    }
+    .keyword-chip:hover { border-color: var(--ink); color: var(--ink); }
+    .keyword-chip.active { background: var(--o); border-color: var(--o); color: var(--w); }
+    .filter-group input[type="text"] {
+      width: 100%; padding: 9px 12px; border: 1px solid var(--border);
+      border-radius: 7px; font-family: var(--sans); font-size: 13px;
+      background: var(--w); color: var(--ink);
+    }
+    .filter-group input[type="text"]:focus { outline: none; border-color: var(--o); }
+
+    .platform-toggle {
+      display: flex; align-items: center; gap: 9px;
+      padding: 8px 0; cursor: pointer; user-select: none;
+      font-size: 12.5px; color: var(--ink); font-weight: 400;
+    }
+    .platform-toggle input { accent-color: var(--o); cursor: pointer; }
+    .platform-toggle .p-badge {
+      font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 100px; font-weight: 500;
+    }
+    .p-badge.reddit { background: rgba(255, 69, 0, 0.1); color: var(--reddit); }
+    .p-badge.x { background: var(--surf); color: var(--x); }
+    .p-badge.linkedin { background: rgba(10, 102, 194, 0.08); color: var(--linkedin); }
+    .platform-toggle .p-count {
+      font-size: 11px; color: var(--sub); margin-left: auto; font-weight: 500;
+    }
+
+    /* ── Main feed ────────────────────────────────────────────────── */
+    main.feed {
+      overflow-y: auto; background: var(--surf);
+      padding: 24px 28px;
+    }
+    .feed-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .feed-head h1 {
+      font-family: var(--serif); font-size: 32px; font-weight: 400;
+      color: var(--ink); letter-spacing: -0.02em; line-height: 1;
+    }
+    .feed-head h1 em { font-style: italic; color: var(--o); }
+    .feed-head .meta { font-size: 11.5px; color: var(--muted); }
+    .feed-head .meta em { font-family: var(--serif); font-style: italic; color: var(--ink); font-size: 13px; }
+    .btn-refresh {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 500; padding: 8px 14px;
+      border-radius: 7px; border: 1px solid var(--border);
+      background: var(--w); color: var(--ink); cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-refresh:hover { border-color: var(--o); color: var(--o); }
+    .btn-refresh:disabled { opacity: 0.5; cursor: wait; }
+    .btn-refresh svg {
+      transition: transform 0.4s ease;
+    }
+    .btn-refresh.spinning svg {
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .feed-list {
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .post-card {
+      background: var(--w); border: 1px solid var(--border);
+      border-radius: 10px; padding: 18px 22px;
+      transition: all 0.15s;
+      position: relative;
+    }
+    .post-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.04); border-color: var(--border-soft); }
+    .post-card.added { opacity: 0.6; }
+
+    .post-head {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 10px;
+    }
+    .post-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--surf); display: grid; place-items: center;
+      flex-shrink: 0; font-weight: 500; font-size: 11.5px;
+      color: var(--muted);
+    }
+    .post-avatar.reddit { background: rgba(255, 69, 0, 0.12); color: var(--reddit); }
+    .post-avatar.x { background: var(--surf); color: var(--x); }
+    .post-avatar.linkedin { background: rgba(10, 102, 194, 0.1); color: var(--linkedin); }
+    .post-user {
+      font-size: 13px; font-weight: 500; color: var(--ink);
+    }
+    .post-user .sub {
+      font-size: 11px; color: var(--muted); font-weight: 400; margin-left: 4px;
+    }
+    .post-meta-inline {
+      margin-left: auto; display: flex; align-items: center; gap: 12px;
+      font-size: 10.5px; color: var(--sub);
+      letter-spacing: 0.03em;
+    }
+    .post-heat {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 8px; border-radius: 100px; background: var(--surf);
+      font-weight: 500; color: var(--muted);
+    }
+    .post-heat.hot { background: rgba(247, 96, 10, 0.1); color: var(--o); }
+    .post-heat.blazing { background: var(--o); color: var(--w); }
+
+    .post-title {
+      font-family: var(--serif); font-size: 17px; font-weight: 400;
+      color: var(--ink); line-height: 1.3;
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+    .post-body {
+      font-size: 13px; color: var(--muted); line-height: 1.55;
+      margin-bottom: 12px;
+    }
+    .post-body mark {
+      background: rgba(247, 96, 10, 0.18); color: var(--ink);
+      padding: 0 3px; border-radius: 2px;
+    }
+    .post-body b { font-weight: 500; color: var(--ink); }
+
+    .post-foot {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 10px; border-top: 1px solid var(--border-soft);
+      gap: 12px; flex-wrap: wrap;
+    }
+    .post-engagement {
+      font-size: 11.5px; color: var(--muted);
+    }
+    .post-engagement span { margin-right: 12px; }
+    .post-engagement b { font-weight: 500; color: var(--ink); }
+    .post-actions {
+      display: flex; gap: 6px;
+    }
+    .btn-action {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11px; padding: 6px 12px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--w);
+      color: var(--muted); cursor: pointer; font-weight: 500;
+      text-decoration: none; transition: all 0.15s;
+      letter-spacing: 0.02em;
+    }
+    .btn-action:hover { border-color: var(--ink); color: var(--ink); }
+    .btn-action.primary {
+      background: var(--o); color: var(--w); border-color: var(--o);
+    }
+    .btn-action.primary:hover { background: var(--od); border-color: var(--od); }
+    .btn-action.primary.added {
+      background: var(--ink); border-color: var(--ink); color: var(--w);
+    }
+
+    .empty-state {
+      padding: 60px 20px; text-align: center;
+    }
+    .empty-state .icon {
+      font-family: var(--serif); font-size: 48px; color: var(--border);
+      font-style: italic; margin-bottom: 10px;
+    }
+    .empty-state p {
+      font-size: 13px; color: var(--muted);
+    }
+    .empty-state em {
+      font-family: var(--serif); font-style: italic; color: var(--ink);
+    }
+
+    .loading-pulse {
+      padding: 40px; text-align: center;
+      font-family: var(--serif); font-style: italic;
+      color: var(--muted); font-size: 15px;
+    }
+
+    .error-box {
+      background: var(--w); border: 1px solid var(--border);
+      border-left: 3px solid var(--o);
+      border-radius: 8px; padding: 14px 18px; margin-bottom: 14px;
+      font-size: 12.5px; color: var(--muted); line-height: 1.55;
+    }
+    .error-box b { color: var(--ink); font-weight: 500; }
+
+    /* ── Right sidebar: Queue ─────────────────────────────────────── */
+    aside.right {
+      background: var(--w); border-left: 1px solid var(--border);
+      overflow-y: auto;
+    }
+    .queue-item {
+      padding: 14px 20px; border-bottom: 1px solid var(--border-soft);
+      cursor: pointer; transition: background 0.15s;
+    }
+    .queue-item:hover { background: var(--surf); }
+    .queue-head {
+      display: flex; align-items: center; gap: 6px; margin-bottom: 4px;
+      font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--o); font-weight: 500;
+    }
+    .queue-title {
+      font-size: 13px; color: var(--ink); font-weight: 500;
+      line-height: 1.3;
+    }
+    .queue-meta {
+      font-size: 11px; color: var(--muted); margin-top: 3px;
+    }
+
+    .linkedin-add {
+      margin-top: 14px;
+    }
+    .linkedin-add input {
+      width: 100%; padding: 9px 12px; border: 1px solid var(--border);
+      border-radius: 7px; font-family: var(--sans); font-size: 12.5px;
+      margin-bottom: 8px;
+    }
+    .linkedin-add textarea {
+      width: 100%; padding: 9px 12px; border: 1px solid var(--border);
+      border-radius: 7px; font-family: var(--sans); font-size: 12.5px;
+      min-height: 60px; resize: vertical; margin-bottom: 8px; line-height: 1.5;
+    }
+    .linkedin-add input:focus, .linkedin-add textarea:focus { outline: none; border-color: var(--o); }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12.5px; font-weight: 500; padding: 9px 14px;
+      border-radius: 7px; background: var(--o); color: var(--w);
+      border: 1px solid var(--o); cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-primary:hover { background: var(--od); border-color: var(--od); }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: var(--ink); color: var(--w);
+      padding: 12px 18px; border-radius: 8px;
+      font-size: 12.5px; font-weight: 500;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+      z-index: 9000;
+      display: none; align-items: center; gap: 10px;
+      max-width: 360px;
+      transform: translateY(10px);
+      transition: all 0.25s ease;
+    }
+    .toast.show { display: inline-flex; transform: translateY(0); opacity: 1; }
+    .toast .dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--o);
+    }
+    .toast a {
+      color: var(--o); text-decoration: none; font-weight: 500;
+      margin-left: 6px; border-bottom: 1px solid var(--o);
+    }
+
+    .signature {
+      padding: 16px 24px 20px; font-size: 10.5px;
+      color: var(--sub); font-weight: 400;
+    }
+    .signature .sig-brand {
+      display: inline-flex; align-items: center; gap: 5px; color: var(--muted);
+    }
+    .signature .sig-brand .lm-mini {
+      width: 12px; height: 12px; background: var(--o); border-radius: 3px;
+      display: inline-grid; place-items: center;
+    }
+    .signature .sig-brand .lm-mini svg { width: 7px; height: 7px; }
+
+    /* Responsive */
+    @media (max-width: 1100px) {
+      .app { grid-template-columns: 260px 1fr; grid-template-rows: 54px 1fr; }
+      aside.right { display: none; }
+    }
+    @media (max-width: 720px) {
+      .app { grid-template-columns: 1fr; grid-template-rows: 54px auto 1fr; }
+      aside.left { border-right: none; border-bottom: 1px solid var(--border); max-height: 40vh; }
+      .crumb, .nav-tabs { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- ── Top bar ───────────────────────────────────────────────── -->
+    <header class="topbar">
+      <div style="display:flex; align-items:center;">
+        <a href="https://cacerola.cl" class="logo" target="_blank" rel="noopener">
+          <div class="lm">
+            <svg viewBox="0 0 13 13" fill="none">
+              <path d="M1.5 11L6.5 2L11.5 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M3.5 7.5H9.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="ln">Cacerola</span>
+        </a>
+        <span class="crumb"><em>Contigo Pulse</em> · Social listening</span>
+        <nav class="nav-tabs">
+          <a href="contigo-atlas.html" class="nav-tab">Atlas</a>
+          <a href="pulse.html" class="nav-tab active">Pulse</a>
+          <a href="cotizador.html" class="nav-tab">Cotizador</a>
+        </nav>
+      </div>
+      <div class="topbar-meta">
+        <span><span class="status-dot"></span>Reddit LIVE</span>
+        <span id="last-update">Actualizado —</span>
+      </div>
+    </header>
+
+    <!-- ── Left sidebar: filters ─────────────────────────────────── -->
+    <aside class="left">
+      <div class="quote-strip">
+        <p>"Escuchar es el nuevo marketing. Interrumpir ya no escala."</p>
+        <span class="attr">Permission > interruption · Godin</span>
+      </div>
+
+      <div class="panel">
+        <div class="panel-kicker"><i></i>Qué escuchamos</div>
+        <div class="panel-title">Señales <em>en vivo</em></div>
+        <p class="panel-sub">
+          Cada post es una solicitud de recomendación de catering en Austin. Ranking por <b>heat score</b> (intención + recencia + engagement). Click en <em>Agregar al Atlas</em> convierte la señal en cuenta tier-3 con el contexto del post.
+        </p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-kicker"><i></i>Keywords activas</div>
+        <div class="keyword-row" id="keyword-chips">
+          <!-- rendered by JS -->
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-kicker"><i></i>Plataformas</div>
+        <label class="platform-toggle">
+          <input type="checkbox" id="plat-reddit" checked />
+          <span class="p-badge reddit">Reddit</span>
+          <span>Live · public JSON</span>
+          <span class="p-count" id="count-reddit">—</span>
+        </label>
+        <label class="platform-toggle">
+          <input type="checkbox" id="plat-x" checked />
+          <span class="p-badge x">X</span>
+          <span>Embed · búsqueda externa</span>
+          <span class="p-count" id="count-x">demo</span>
+        </label>
+        <label class="platform-toggle">
+          <input type="checkbox" id="plat-linkedin" checked />
+          <span class="p-badge linkedin">LinkedIn</span>
+          <span>Cola manual</span>
+          <span class="p-count" id="count-linkedin">0</span>
+        </label>
+      </div>
+
+      <div class="panel">
+        <div class="panel-kicker"><i></i>Agregar desde LinkedIn</div>
+        <p class="panel-sub">Pegá título + excerpt de un post de LinkedIn relevante. Se agrega a la cola y al feed.</p>
+        <div class="linkedin-add">
+          <input type="text" id="li-title" placeholder="Título / autor" />
+          <textarea id="li-body" placeholder="Excerpt del post..."></textarea>
+          <input type="text" id="li-url" placeholder="URL (opcional)" />
+          <button class="btn-primary" onclick="addLinkedInPost()">+ Agregar a cola</button>
+        </div>
+      </div>
+
+      <div class="signature">
+        Construido por <span class="sig-brand"><span class="lm-mini"><svg viewBox="0 0 13 13" fill="none"><path d="M1.5 11L6.5 2L11.5 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 7.5H9.5" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></span>Cacerola</span> · para Contigo · 2026
+      </div>
+    </aside>
+
+    <!-- ── Main feed ─────────────────────────────────────────────── -->
+    <main class="feed">
+      <div class="feed-head">
+        <div>
+          <h1>Feed · <em>Austin</em></h1>
+          <div class="meta" id="feed-meta">Cargando señales…</div>
+        </div>
+        <button class="btn-refresh" id="btn-refresh" onclick="refreshFeed()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+          Actualizar
+        </button>
+      </div>
+      <div id="feed-list" class="feed-list">
+        <div class="loading-pulse">Consultando Reddit en vivo…</div>
+      </div>
+    </main>
+
+    <!-- ── Right sidebar: queue ──────────────────────────────────── -->
+    <aside class="right">
+      <div class="panel">
+        <div class="panel-kicker"><i></i>Acción requerida</div>
+        <div class="panel-title">Cola <em>caliente</em></div>
+        <p class="panel-sub">Señales con heat score ≥ 7 que aún no movimos al Atlas.</p>
+      </div>
+      <div id="queue-list">
+        <!-- rendered by JS -->
+      </div>
+    </aside>
+  </div>
+
+  <div class="toast" id="toast">
+    <span class="dot"></span>
+    <span id="toast-msg">—</span>
+  </div>
+
+  <script>
+  /* ═════════════════════════════════════════════════════════════════════════
+     CONTIGO PULSE — Social listening
+     Data sources:
+       - Reddit: public JSON search API (no auth, CORS-friendly)
+       - X: iframe embed of x.com/search (may be blocked; fallback: manual URLs)
+       - LinkedIn: manual queue (no public API)
+     Output: each post can be "added to Atlas" → writes to localStorage shared
+     with contigo-atlas.html (key: contigo-atlas-v2).
+  ══════════════════════════════════════════════════════════════════════════ */
+
+  const ATLAS_STORAGE_KEY = 'contigo-atlas-v2';
+  const PULSE_STORAGE_KEY = 'contigo-pulse-state';
+
+  const KEYWORDS = [
+    { q: 'catering austin', label: 'catering austin', active: true },
+    { q: 'corporate catering austin', label: 'corporate catering', active: true },
+    { q: 'wedding catering austin', label: 'wedding catering', active: false },
+    { q: 'office lunch austin', label: 'office lunch', active: true },
+    { q: 'f1 catering austin', label: 'f1 catering', active: true },
+    { q: 'sxsw catering austin', label: 'sxsw catering', active: false },
+    { q: 'bbq catering austin', label: 'bbq catering', active: false },
+    { q: 'event caterer austin', label: 'event caterer', active: false }
+  ];
+
+  const SUBREDDITS = ['austin', 'austinfood', 'Catering'];
+
+  /* ── State ────────────────────────────────────────────────────── */
+  let pulseState = loadPulseState();
+  let posts = [];
+  let lastFetch = null;
+
+  function loadPulseState() {
+    try {
+      const raw = localStorage.getItem(PULSE_STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return {
+      linkedinPosts: [],
+      addedPostIds: [],
+      platformsEnabled: { reddit: true, x: true, linkedin: true }
+    };
+  }
+  function savePulseState() {
+    localStorage.setItem(PULSE_STORAGE_KEY, JSON.stringify(pulseState));
+  }
+
+  /* ── Demo data (X mock + keyword seeds that serve as fallback) ── */
+  const X_MOCK_POSTS = [
+    {
+      id: 'x-mock-1',
+      platform: 'x',
+      user: '@sxsw_speaker',
+      title: 'Need a caterer for 120 ppl private dinner during SXSW',
+      body: 'Hosting a <b>dinner</b> for ~120 during <mark>SXSW Austin</mark> March 2027. Need something that is NOT BBQ 🤠 — thinking Tex-Mex premium or farm-to-table. Recs?',
+      url: 'https://x.com/search?q=catering+austin',
+      created: daysAgo(1),
+      engagement: { likes: 34, replies: 12 },
+      note: 'Demo — X API requiere paid access desde 2023',
+      heatBoost: 5
+    },
+    {
+      id: 'x-mock-2',
+      platform: 'x',
+      user: '@heroic_eas',
+      title: 'Best corporate catering in Austin under $40/pp?',
+      body: 'Office Manager here. Ordering lunch for <mark>40 ppl weekly</mark> at our HQ. Current vendor keeps getting the dietary orders wrong. <b>Recs?</b>',
+      url: 'https://x.com/search?q=corporate+catering+austin',
+      created: daysAgo(3),
+      engagement: { likes: 18, replies: 7 },
+      note: 'Demo — X API requiere paid access desde 2023',
+      heatBoost: 4
+    },
+    {
+      id: 'x-mock-3',
+      platform: 'x',
+      user: '@atx_weddings',
+      title: 'Wedding caterer Austin recs — 150 ppl Blanton Museum',
+      body: 'Getting married at <mark>Blanton Museum</mark> Fall 2026. Looking for a <b>farm-to-table caterer</b> that can handle dietary restrictions well. Royal Fig was our pick but… RIP.',
+      url: 'https://x.com/search?q=wedding+catering+austin',
+      created: daysAgo(5),
+      engagement: { likes: 52, replies: 24 },
+      note: 'Demo — X API requiere paid access desde 2023',
+      heatBoost: 6
+    }
+  ];
+
+  function daysAgo(d) { return Date.now() - d * 24 * 60 * 60 * 1000; }
+
+  /* ── Heat score ───────────────────────────────────────────────── */
+  const INTENT_TERMS = ['recommendation','recommend','need a','looking for','anyone know','suggest','rec','vendor','best','caterer','catering'];
+  const CORP_TERMS = ['corporate','company','office','team','hq','headquarters','startup','tech'];
+  const VENUE_TERMS = ['driskill','blanton','palmer','moody','lbj','bullock','hutto','one eleven','cota','zilker','downtown','domain','parmer','round rock'];
+
+  function heatScore(post) {
+    const txt = (post.title + ' ' + post.body).toLowerCase();
+    let s = 2; // base
+    INTENT_TERMS.forEach(t => { if (txt.includes(t)) s += 0.8; });
+    CORP_TERMS.forEach(t => { if (txt.includes(t)) s += 0.7; });
+    VENUE_TERMS.forEach(t => { if (txt.includes(t)) s += 0.6; });
+    if (post.heatBoost) s += post.heatBoost;
+    // Recency
+    const daysSince = (Date.now() - post.created) / (24*60*60*1000);
+    if (daysSince < 2) s += 2;
+    else if (daysSince < 7) s += 1;
+    // Engagement
+    const eng = (post.engagement?.likes || 0) + (post.engagement?.replies || 0) * 2 + (post.engagement?.upvotes || 0) + (post.engagement?.comments || 0) * 2;
+    if (eng > 50) s += 2;
+    else if (eng > 10) s += 1;
+    return Math.min(10, Math.round(s * 10) / 10);
+  }
+
+  function heatClass(score) {
+    if (score >= 8) return 'blazing';
+    if (score >= 6) return 'hot';
+    return '';
+  }
+
+  function heatBars(score) {
+    const filled = Math.round(score / 2);
+    return '▰'.repeat(filled) + '▱'.repeat(5 - filled);
+  }
+
+  /* ── Reddit live fetch ───────────────────────────────────────── */
+  async function fetchReddit() {
+    const activeKeywords = KEYWORDS.filter(k => k.active).map(k => k.q);
+    if (!activeKeywords.length) return [];
+
+    const results = [];
+    const q = activeKeywords.join(' OR ');
+
+    try {
+      // Use reddit search with austin subreddits
+      const url = `https://www.reddit.com/search.json?q=${encodeURIComponent(q + ' austin')}&sort=new&t=month&limit=25`;
+      const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+      if (!res.ok) throw new Error('Reddit returned ' + res.status);
+      const data = await res.json();
+      const children = data?.data?.children || [];
+
+      children.forEach(c => {
+        const p = c.data;
+        if (!p) return;
+        // Filter for Austin relevance
+        const txt = (p.title + ' ' + (p.selftext || '') + ' ' + p.subreddit).toLowerCase();
+        if (!txt.includes('austin') && !['austin','austinfood'].includes(p.subreddit?.toLowerCase())) return;
+
+        results.push({
+          id: 'reddit-' + p.id,
+          platform: 'reddit',
+          user: 'u/' + p.author,
+          title: p.title,
+          body: truncateBody(p.selftext || '(Sin cuerpo — click en "Ver post" para contexto)', 280),
+          url: 'https://www.reddit.com' + p.permalink,
+          created: p.created_utc * 1000,
+          subreddit: 'r/' + p.subreddit,
+          engagement: { upvotes: p.score, comments: p.num_comments }
+        });
+      });
+    } catch (err) {
+      console.warn('Reddit fetch failed:', err);
+      return { error: err.message };
+    }
+    return results;
+  }
+
+  function truncateBody(s, n) {
+    if (!s) return '';
+    s = s.replace(/\s+/g, ' ').trim();
+    if (s.length <= n) return s;
+    return s.slice(0, n).trim() + '…';
+  }
+
+  /* ── Feed render ──────────────────────────────────────────────── */
+  function renderFeed() {
+    const listEl = document.getElementById('feed-list');
+
+    const platEnabled = {
+      reddit: document.getElementById('plat-reddit').checked,
+      x: document.getElementById('plat-x').checked,
+      linkedin: document.getElementById('plat-linkedin').checked
+    };
+
+    let filtered = posts.filter(p => platEnabled[p.platform]);
+
+    // Sort by heat score desc
+    filtered = filtered.map(p => ({...p, _heat: heatScore(p)}))
+      .sort((a,b) => b._heat - a._heat);
+
+    // Counts
+    document.getElementById('count-reddit').textContent = posts.filter(p => p.platform === 'reddit').length;
+    document.getElementById('count-x').textContent = posts.filter(p => p.platform === 'x').length + ' demo';
+    document.getElementById('count-linkedin').textContent = posts.filter(p => p.platform === 'linkedin').length;
+
+    document.getElementById('feed-meta').innerHTML = `
+      <em>${filtered.length}</em> señales · última actualización ${lastFetch ? timeAgo(lastFetch) : '—'}
+    `;
+
+    if (!filtered.length) {
+      listEl.innerHTML = `
+        <div class="empty-state">
+          <div class="icon">—</div>
+          <p>Sin señales con las keywords activas en este momento.<br/>Probá activar más keywords o refrescar en un rato.</p>
+        </div>`;
+      renderQueue();
+      return;
+    }
+
+    listEl.innerHTML = filtered.map(p => {
+      const added = pulseState.addedPostIds.includes(p.id);
+      const heatCls = heatClass(p._heat);
+      const platBadge = p.platform === 'reddit' ? 'R' : p.platform === 'x' ? '𝕏' : 'Li';
+      const platName = p.platform === 'reddit' ? 'Reddit' : p.platform === 'x' ? 'X' : 'LinkedIn';
+      return `
+        <div class="post-card ${added ? 'added' : ''}">
+          <div class="post-head">
+            <div class="post-avatar ${p.platform}">${platBadge}</div>
+            <div>
+              <div class="post-user">${p.user} <span class="sub">on ${platName}${p.subreddit ? ' · ' + p.subreddit : ''}</span></div>
+            </div>
+            <div class="post-meta-inline">
+              <span>${timeAgo(p.created)}</span>
+              <span class="post-heat ${heatCls}">${heatBars(p._heat)} ${p._heat}</span>
+            </div>
+          </div>
+          <div class="post-title">${escapeHtml(p.title)}</div>
+          <div class="post-body">${p.body}</div>
+          ${p.note ? `<div style="font-size:10.5px; color: var(--sub); margin-bottom: 10px; font-style: italic;">${p.note}</div>` : ''}
+          <div class="post-foot">
+            <div class="post-engagement">
+              ${p.engagement?.upvotes !== undefined ? `<span><b>${p.engagement.upvotes}</b> votes</span>` : ''}
+              ${p.engagement?.comments !== undefined ? `<span><b>${p.engagement.comments}</b> comments</span>` : ''}
+              ${p.engagement?.likes !== undefined ? `<span><b>${p.engagement.likes}</b> likes</span>` : ''}
+              ${p.engagement?.replies !== undefined ? `<span><b>${p.engagement.replies}</b> replies</span>` : ''}
+            </div>
+            <div class="post-actions">
+              <a class="btn-action" href="${p.url}" target="_blank" rel="noopener">Ver post ↗</a>
+              <button class="btn-action primary ${added ? 'added' : ''}" onclick="addToAtlas('${p.id}')" ${added ? 'disabled' : ''}>
+                ${added ? '✓ En el Atlas' : '→ Agregar al Atlas'}
+              </button>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+
+    renderQueue();
+  }
+
+  function renderQueue() {
+    const el = document.getElementById('queue-list');
+    const hot = posts
+      .map(p => ({...p, _heat: heatScore(p)}))
+      .filter(p => p._heat >= 7 && !pulseState.addedPostIds.includes(p.id))
+      .sort((a,b) => b._heat - a._heat)
+      .slice(0, 8);
+
+    if (!hot.length) {
+      el.innerHTML = `<div class="empty-state" style="padding:30px 20px;"><div class="icon" style="font-size:30px;">∅</div><p style="font-size:12px;">Ninguna señal <em>blazing</em> ahora. Refrescá o sumá keywords.</p></div>`;
+      return;
+    }
+    el.innerHTML = hot.map(p => `
+      <div class="queue-item" onclick="addToAtlas('${p.id}')">
+        <div class="queue-head">🔥 ${p._heat} · ${p.platform.toUpperCase()}</div>
+        <div class="queue-title">${escapeHtml(truncate(p.title, 60))}</div>
+        <div class="queue-meta">${p.user} · ${timeAgo(p.created)}</div>
+      </div>`).join('');
+  }
+
+  function truncate(s, n) { return s.length > n ? s.slice(0, n) + '…' : s; }
+  function escapeHtml(s) { return (s || '').replace(/[<>&"']/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function timeAgo(ts) {
+    const s = (Date.now() - ts) / 1000;
+    if (s < 60) return 'ahora';
+    if (s < 3600) return Math.round(s/60) + 'm';
+    if (s < 86400) return Math.round(s/3600) + 'h';
+    if (s < 604800) return Math.round(s/86400) + 'd';
+    return Math.round(s/604800) + 'sem';
+  }
+
+  /* ── Add to Atlas (writes to shared localStorage) ─────────────── */
+  window.addToAtlas = function(postId) {
+    const post = posts.find(p => p.id === postId);
+    if (!post) return;
+    if (pulseState.addedPostIds.includes(postId)) return;
+
+    // Load atlas state
+    let atlasState;
+    try {
+      const raw = localStorage.getItem(ATLAS_STORAGE_KEY);
+      atlasState = raw ? JSON.parse(raw) : null;
+    } catch (e) { atlasState = null; }
+    if (!atlasState) {
+      showToast('Atlas aún no inicializado. Abrí el Atlas primero.', 'index.html');
+      return;
+    }
+
+    // Extract a company name heuristically: from title, first capitalized phrase; else user handle
+    const inferredName = extractCompanyName(post) || ('Prospect · ' + post.user);
+
+    // Place in Austin roughly random if no better guess
+    const fallbackCoords = [
+      30.2672 + (Math.random() - 0.5) * 0.06,
+      -97.7431 + (Math.random() - 0.5) * 0.06
+    ];
+
+    const newAccount = {
+      id: 'pulse-' + postId + '-' + Date.now().toString(36),
+      name: inferredName,
+      sector: inferSector(post),
+      tier: 3,
+      status: 'invited', // pulse leads start as "invited" — they've already self-selected
+      corridor: '',
+      employees: '',
+      estimatedRevenue: estimateRevenue(post),
+      coords: fallbackCoords,
+      verticals: inferVerticals(post),
+      notes: `Via ${post.platform.toUpperCase()} · ${post.user}\n"${post.title}"\n\n${post.body.replace(/<[^>]+>/g, '')}\n\nFuente: ${post.url}`
+    };
+
+    atlasState.accounts.push(newAccount);
+    atlasState.meta.lastUpdated = new Date().toLocaleDateString('es-CL');
+    localStorage.setItem(ATLAS_STORAGE_KEY, JSON.stringify(atlasState));
+
+    pulseState.addedPostIds.push(postId);
+    savePulseState();
+
+    showToast(`"${inferredName}" agregada al Atlas`, 'index.html');
+    renderFeed();
+  };
+
+  function extractCompanyName(post) {
+    const t = post.title;
+    // Look for @ handles (X) or company mentions
+    const corporateMatch = t.match(/\b(Tesla|Apple|Dell|Google|Meta|Oracle|Indeed|Bumble|Spotify|Atlassian|Amazon|IBM|Samsung|AMD|Ascension|St\. David|UT Austin|Mercedes|NXP|Applied Materials|Cloudflare)\b/i);
+    if (corporateMatch) return corporateMatch[1];
+    // From user handle: "@sxsw_speaker" → "SXSW speaker"
+    if (post.user.startsWith('@')) {
+      return post.user.slice(1).replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    }
+    return null;
+  }
+
+  function inferSector(post) {
+    const txt = (post.title + ' ' + post.body).toLowerCase();
+    if (/corporate|office|company|startup|tech|hq/.test(txt)) return 'tech';
+    if (/wedding|bride|bridal/.test(txt)) return 'social';
+    if (/sxsw|acl|f1|festival/.test(txt)) return 'mega-event';
+    if (/hospital|clinic|pharma|health/.test(txt)) return 'healthcare';
+    if (/university|school|graduation|uni/.test(txt)) return 'education';
+    return 'other';
+  }
+
+  function estimateRevenue(post) {
+    const txt = (post.title + ' ' + post.body).toLowerCase();
+    // Try to find headcount
+    const hcMatch = txt.match(/(\d+)\s*(?:ppl|people|persons|pax|guests|headcount)/);
+    const headcount = hcMatch ? parseInt(hcMatch[1]) : 50;
+    // Event type modifier
+    let multiplier = 1;
+    if (/wedding|gala/.test(txt)) multiplier = 2.5;
+    else if (/corporate|board|executive/.test(txt)) multiplier = 1.8;
+    else if (/sxsw|acl|f1|festival/.test(txt)) multiplier = 3;
+    // Per-person × events/year guess
+    const eventsPerYear = /weekly|recurring|ongoing/.test(txt) ? 40 : 1;
+    return Math.round(headcount * 80 * multiplier * eventsPerYear);
+  }
+
+  function inferVerticals(post) {
+    const txt = (post.title + ' ' + post.body).toLowerCase();
+    const v = { 'contigo-hq': 0.7 };
+    if (/bbq|smoker|outdoor|festival|sxsw|acl/.test(txt)) {
+      v['contigo-hq'] = 0.5; v['ocaso-base'] = 0.3; v['table-manners'] = 0.2;
+    } else if (/wedding|gala|formal|plated/.test(txt)) {
+      v['contigo-hq'] = 0.6; v['table-manners'] = 0.3; v['one-eleven-east'] = 0.1;
+    } else {
+      v['contigo-hq'] = 0.8; v['table-manners'] = 0.2;
+    }
+    return v;
+  }
+
+  /* ── Toast ────────────────────────────────────────────────────── */
+  function showToast(msg, linkUrl) {
+    const t = document.getElementById('toast');
+    const m = document.getElementById('toast-msg');
+    m.innerHTML = msg + (linkUrl ? ` · <a href="${linkUrl}">Abrir Atlas</a>` : '');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 5000);
+  }
+
+  /* ── LinkedIn manual add ──────────────────────────────────────── */
+  window.addLinkedInPost = function() {
+    const title = document.getElementById('li-title').value.trim();
+    const body = document.getElementById('li-body').value.trim();
+    const url = document.getElementById('li-url').value.trim();
+    if (!title || !body) { alert('Completá título y cuerpo.'); return; }
+    const post = {
+      id: 'linkedin-' + Date.now().toString(36),
+      platform: 'linkedin',
+      user: title.split(' · ')[1] || title.split(' — ')[1] || '—',
+      title: title.split(' · ')[0].split(' — ')[0],
+      body: body,
+      url: url || '#',
+      created: Date.now(),
+      engagement: {}
+    };
+    pulseState.linkedinPosts.push(post);
+    savePulseState();
+    posts.push(post);
+    document.getElementById('li-title').value = '';
+    document.getElementById('li-body').value = '';
+    document.getElementById('li-url').value = '';
+    renderFeed();
+    showToast('Post agregado al feed');
+  };
+
+  /* ── Keyword chips ────────────────────────────────────────────── */
+  function renderKeywordChips() {
+    const el = document.getElementById('keyword-chips');
+    el.innerHTML = KEYWORDS.map((k, i) => `
+      <span class="keyword-chip ${k.active ? 'active' : ''}" data-idx="${i}" onclick="toggleKeyword(${i})">${k.label}</span>
+    `).join('');
+  }
+  window.toggleKeyword = function(idx) {
+    KEYWORDS[idx].active = !KEYWORDS[idx].active;
+    renderKeywordChips();
+    refreshFeed();
+  };
+
+  /* ── Refresh ──────────────────────────────────────────────────── */
+  async function refreshFeed() {
+    const btn = document.getElementById('btn-refresh');
+    btn.disabled = true;
+    btn.classList.add('spinning');
+    document.getElementById('feed-list').innerHTML = '<div class="loading-pulse">Consultando Reddit en vivo…</div>';
+
+    const reddit = await fetchReddit();
+    let newPosts = [];
+    let error = null;
+
+    if (reddit && reddit.error) {
+      error = reddit.error;
+    } else if (Array.isArray(reddit)) {
+      newPosts = reddit;
+    }
+
+    // Merge: reddit fresh + X mock always shown + LinkedIn from localStorage
+    posts = [
+      ...newPosts,
+      ...X_MOCK_POSTS,
+      ...(pulseState.linkedinPosts || [])
+    ];
+
+    lastFetch = Date.now();
+    document.getElementById('last-update').textContent = 'Actualizado ' + timeAgo(lastFetch);
+
+    if (error) {
+      const banner = `<div class="error-box"><b>Reddit no respondió</b> (${escapeHtml(error)}). Algunas redes bloquean el request — probá desde otra red o hosteá en el dominio. Mientras tanto, ves X demo + LinkedIn manuales.</div>`;
+      document.getElementById('feed-list').innerHTML = banner;
+      setTimeout(() => {
+        const currentHtml = document.getElementById('feed-list').innerHTML;
+        renderFeed();
+        document.getElementById('feed-list').insertAdjacentHTML('afterbegin', banner);
+      }, 50);
+    } else {
+      renderFeed();
+    }
+
+    btn.disabled = false;
+    btn.classList.remove('spinning');
+  }
+
+  /* ── Init ─────────────────────────────────────────────────────── */
+  document.getElementById('plat-reddit').addEventListener('change', renderFeed);
+  document.getElementById('plat-x').addEventListener('change', renderFeed);
+  document.getElementById('plat-linkedin').addEventListener('change', renderFeed);
+
+  renderKeywordChips();
+  refreshFeed();
+
+  // Auto-refresh every 5 min
+  setInterval(() => { refreshFeed(); }, 5 * 60 * 1000);
+  </script>
+</body>
+</html>

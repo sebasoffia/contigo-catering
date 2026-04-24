@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <script>if(localStorage.getItem('cc_contigo_auth')!=='true'){window.location.href='login.html?next=contigo-atlas.html'}</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contigo Atlas — Austin · por Cacerola</title>
+  <meta name="description" content="Mapa operacional del ecosistema Contigo en Austin. NSM: degustaciones cerradas y convertidas. Construido por Cacerola." />
+  <link rel="canonical" href="https://contigo.cacerola.cl/" />
+  <meta property="og:title" content="Contigo Atlas — Austin" />
+  <meta property="og:description" content="Mapa operacional del ecosistema Contigo en Austin." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://contigo.cacerola.cl/" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Crect width='26' height='26' rx='6' fill='%23F7600A'/%3E%3Cpath d='M4 20 L13 4 L22 20 M7 14 L19 14' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --o: #F7600A;
+      --od: #D94F00;
+      --o-soft: rgba(247, 96, 10, 0.08);
+      --o-medium: rgba(247, 96, 10, 0.18);
+      --ink: #0E0E0E;
+      --muted: #6A6A6A;
+      --sub: #AAAAAA;
+      --border: #E8E4DF;
+      --border-soft: #F0EDE8;
+      --surf: #F7F5F2;
+      --w: #ffffff;
+      --dark: #0C0C0C;
+
+      --serif: 'Instrument Serif', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+
+      /* Brand verticals */
+      --v-contigo: #F7600A;
+      --v-ocaso: #8B3A12;
+      --v-table: #C9A961;
+      --v-venue: #3A3632;
+
+      --status-cold: #AAAAAA;
+      --status-invited: #F7600A;
+      --status-attended: #D94F00;
+      --status-converted: #0E0E0E;
+      --status-client: #0E0E0E;
+      --status-lost: #C8BFB5;
+    }
+
+    html, body { height: 100%; margin: 0; padding: 0; }
+    body {
+      font-family: var(--sans);
+      font-weight: 300;
+      background: var(--w);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      font-size: 13px;
+      line-height: 1.5;
+      overflow: hidden;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: clamp(360px, 33vw, 540px) 1fr;
+      grid-template-rows: 54px 1fr;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* ── Top nav ───────────────────────────────────────────────────── */
+    header.topbar {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.75rem;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      z-index: 600;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+    .lm {
+      width: 26px; height: 26px; background: var(--o); border-radius: 6px;
+      display: grid; place-items: center;
+    }
+    .lm svg { width: 13px; height: 13px; }
+    .ln { font-weight: 500; font-size: 14px; letter-spacing: -0.02em; }
+    .crumb {
+      margin-left: 16px; padding-left: 16px;
+      border-left: 1px solid var(--border);
+      font-size: 12px; color: var(--muted); font-weight: 400;
+    }
+    .crumb em {
+      font-family: var(--serif); font-style: italic; color: var(--ink);
+      font-size: 14px; margin-right: 4px;
+    }
+    .nav-tabs {
+      display: flex; gap: 2px; margin-left: 22px; padding-left: 18px;
+      border-left: 1px solid var(--border);
+    }
+    .nav-tab {
+      font-size: 12px; font-weight: 500; padding: 6px 12px;
+      border-radius: 6px; text-decoration: none; color: var(--muted);
+      transition: all 0.15s;
+    }
+    .nav-tab:hover { color: var(--ink); background: var(--surf); }
+    .nav-tab.active { background: var(--ink); color: var(--w); }
+    .topbar-actions {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .btn-nav {
+      font-size: 11.5px; font-weight: 500;
+      padding: 7px 14px; border-radius: 6px;
+      text-decoration: none; cursor: pointer;
+      border: 1px solid var(--border); background: var(--w);
+      color: var(--ink); display: inline-flex; align-items: center; gap: 6px;
+      transition: all 0.15s;
+    }
+    .btn-nav:hover { border-color: var(--o); color: var(--o); }
+    .btn-nav.primary {
+      background: var(--ink); color: var(--w); border-color: var(--ink);
+    }
+    .btn-nav.primary:hover { background: var(--o); border-color: var(--o); color: var(--w); }
+
+    /* ── Sidebar ──────────────────────────────────────────────────── */
+    aside.sidebar {
+      background: var(--w);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    .sidebar::-webkit-scrollbar { width: 6px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    .panel {
+      padding: 22px 26px;
+      border-bottom: 1px solid var(--border);
+    }
+    .panel-kicker {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 10.5px; font-weight: 500;
+      letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--o); margin-bottom: 10px;
+    }
+    .panel-kicker i {
+      width: 18px; height: 1.5px; background: var(--o);
+      display: block; font-style: normal;
+    }
+    .panel-title {
+      font-family: var(--serif); font-size: 22px; font-weight: 400;
+      color: var(--ink); line-height: 1.15; margin-bottom: 4px;
+      letter-spacing: -0.015em;
+    }
+    .panel-title em { font-style: italic; color: var(--o); }
+    .panel-sub {
+      font-size: 12.5px; color: var(--muted); line-height: 1.6;
+      font-weight: 300;
+    }
+    .panel-sub b { font-weight: 500; color: var(--ink); }
+
+    .quote-strip {
+      padding: 20px 26px; background: var(--surf);
+      border-bottom: 1px solid var(--border);
+    }
+    .quote-strip p {
+      font-family: var(--serif); font-style: italic; font-size: 16px;
+      line-height: 1.4; color: var(--ink); letter-spacing: -0.005em;
+    }
+    .quote-strip .attr {
+      display: block; margin-top: 8px;
+      font-family: var(--sans); font-style: normal;
+      font-size: 10.5px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--sub);
+    }
+
+    /* ── NSM progress (sidebar dark) ───────────────────────────────── */
+    .nsm {
+      background: var(--dark); padding: 24px 26px;
+      border-bottom: 1px solid var(--dark); color: #fff;
+    }
+    .nsm .panel-kicker { color: var(--o); }
+    .nsm .panel-kicker i { background: var(--o); }
+    .nsm-title {
+      font-family: var(--serif); font-size: 22px; font-weight: 400;
+      color: #fff; line-height: 1.1; letter-spacing: -0.015em; margin-bottom: 3px;
+    }
+    .nsm-title em { font-style: italic; color: var(--o); }
+    .nsm-cycle {
+      font-size: 11px; color: rgba(255, 255, 255, 0.38);
+      margin-bottom: 18px; letter-spacing: 0.02em;
+    }
+    .nsm-row {
+      display: flex; align-items: baseline; justify-content: space-between;
+      padding: 11px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .nsm-row:last-of-type { border-bottom: none; }
+    .nsm-label { font-size: 12px; color: rgba(255, 255, 255, 0.62); font-weight: 400; }
+    .nsm-value {
+      font-family: var(--serif); font-size: 22px; line-height: 1; color: #fff;
+    }
+    .nsm-value .goal {
+      font-family: var(--sans); font-size: 10.5px;
+      color: rgba(255, 255, 255, 0.28); margin-left: 4px; font-weight: 400;
+    }
+    .nsm-bar {
+      height: 2px; background: rgba(255, 255, 255, 0.08);
+      border-radius: 1px; overflow: hidden; margin-top: 6px;
+    }
+    .nsm-bar-fill {
+      height: 100%; background: var(--o); transition: width 0.4s ease;
+    }
+
+    /* ── Layer toggles ────────────────────────────────────────────── */
+    .layer-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 0; cursor: pointer; user-select: none;
+      font-size: 12.5px; color: var(--ink); font-weight: 400;
+      transition: color 0.15s;
+    }
+    .layer-row:hover { color: var(--o); }
+    .layer-swatch {
+      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+    }
+    .layer-count {
+      font-size: 11px; color: var(--sub); margin-left: auto; font-weight: 500;
+    }
+    .layer-row input[type="checkbox"] { accent-color: var(--o); cursor: pointer; }
+    .layer-row.off { opacity: 0.4; }
+
+    /* ── Tastings list ────────────────────────────────────────────── */
+    .tasting-item {
+      padding: 12px 0; border-bottom: 1px solid var(--border-soft);
+      position: relative;
+    }
+    .tasting-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .tasting-item:first-child { padding-top: 4px; }
+    .tasting-date {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 10px; color: var(--o); letter-spacing: 0.1em;
+      text-transform: uppercase; font-weight: 500;
+    }
+    .tasting-date i {
+      width: 12px; height: 1px; background: var(--o);
+      display: block; font-style: normal;
+    }
+    .tasting-title {
+      font-family: var(--serif); font-size: 16px; font-weight: 400;
+      color: var(--ink); margin-top: 4px; line-height: 1.25;
+    }
+    .tasting-meta {
+      font-size: 11.5px; color: var(--muted); margin-top: 3px; font-weight: 300;
+    }
+    .tasting-meta em {
+      font-family: var(--serif); font-style: italic; color: var(--ink); font-size: 12px;
+    }
+    .tasting-actions {
+      display: flex; gap: 6px; margin-top: 8px;
+    }
+    .tasting-status-btn {
+      font-size: 10px; padding: 3px 8px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--w);
+      color: var(--muted); cursor: pointer;
+      letter-spacing: 0.05em; text-transform: uppercase; font-weight: 500;
+      transition: all 0.15s;
+    }
+    .tasting-status-btn:hover { border-color: var(--o); color: var(--o); }
+    .tasting-status-btn.active { background: var(--o); color: var(--w); border-color: var(--o); }
+    .tasting-status-btn.danger { color: var(--muted); }
+    .tasting-status-btn.danger:hover { border-color: #c44; color: #c44; }
+
+    /* ── Action buttons (Add / Data) ──────────────────────────────── */
+    .action-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 12.5px; font-weight: 500; padding: 10px 14px;
+      border-radius: 7px; border: 1px solid var(--border);
+      background: var(--w); color: var(--ink); cursor: pointer;
+      transition: all 0.15s;
+    }
+    .action-btn:hover { border-color: var(--o); color: var(--o); }
+    .action-btn.primary {
+      background: var(--o); color: var(--w); border-color: var(--o);
+    }
+    .action-btn.primary:hover { background: var(--od); border-color: var(--od); color: var(--w); }
+    .action-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    /* ── Data section ─────────────────────────────────────────────── */
+    .data-ops {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px;
+    }
+    .data-ops .action-btn {
+      flex: 1; justify-content: center; font-size: 11.5px; padding: 8px 10px;
+    }
+
+    /* ── KPI Banner ───────────────────────────────────────────────── */
+    .kpi-banner {
+      position: relative;
+      background: var(--w);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px 16px;
+      display: grid;
+      grid-template-columns: 1.5fr repeat(4, 1fr) 1.3fr;
+      gap: 0;
+      min-height: 86px;
+    }
+    .kpi-cell {
+      padding: 0 18px;
+      border-right: 1px solid var(--border-soft);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .kpi-cell:first-child { padding-left: 4px; }
+    .kpi-cell:last-child { border-right: none; padding-right: 4px; }
+    .kpi-label {
+      font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); font-weight: 500;
+    }
+    .kpi-label .dot {
+      display: inline-block; width: 7px; height: 7px;
+      border-radius: 50%; margin-right: 5px; vertical-align: middle;
+    }
+    .kpi-value {
+      font-family: var(--serif); font-size: 30px; font-weight: 400;
+      color: var(--ink); line-height: 1; letter-spacing: -0.01em;
+      margin-top: 4px;
+    }
+    .kpi-value em { font-style: italic; color: var(--o); }
+    .kpi-value .small { font-size: 16px; color: var(--muted); }
+    .kpi-sub {
+      font-size: 10px; color: var(--sub); margin-top: 2px; font-weight: 400;
+    }
+    .kpi-primary {
+      background: linear-gradient(90deg, rgba(247, 96, 10, 0.04), transparent);
+      padding-left: 20px; border-right: 1px solid var(--border);
+    }
+    .kpi-primary .kpi-label { color: var(--o); }
+    .kpi-primary .kpi-value { font-size: 36px; }
+    .kpi-nsm {
+      background: var(--dark); color: #fff;
+      margin: -14px -24px -16px 0; padding: 14px 24px 16px 24px;
+      border-right: none; border-left: 1px solid var(--dark);
+    }
+    .kpi-nsm .kpi-label { color: rgba(255, 255, 255, 0.5); }
+    .kpi-nsm .kpi-value { color: #fff; }
+    .kpi-nsm .kpi-value em { color: var(--o); }
+    .kpi-nsm .kpi-sub { color: rgba(255, 255, 255, 0.3); }
+
+    /* ── Map ──────────────────────────────────────────────────────── */
+    main.map-area {
+      position: relative; background: var(--surf);
+      display: grid;
+      grid-template-rows: auto 1fr;
+      overflow: hidden;
+      min-height: 0;
+    }
+    .map-wrap {
+      position: relative;
+      overflow: hidden;
+      min-height: 0;
+      height: 100%;
+    }
+    #map {
+      width: 100%; height: 100%; background: #f7f5f2;
+    }
+    .leaflet-container { background: #f7f5f2; font-family: var(--sans); }
+    .leaflet-control-attribution {
+      background: rgba(255, 255, 255, 0.9) !important;
+      color: var(--sub) !important; font-size: 9px !important; font-weight: 400 !important;
+    }
+    .leaflet-control-attribution a { color: var(--muted) !important; }
+    .leaflet-control-zoom { border: none !important; box-shadow: 0 2px 12px rgba(0,0,0,0.08) !important; }
+    .leaflet-control-zoom a {
+      background: var(--w) !important; color: var(--ink) !important;
+      border: 1px solid var(--border) !important; font-weight: 400 !important;
+    }
+    .leaflet-control-zoom a:hover { background: var(--surf) !important; color: var(--o) !important; }
+
+    /* Pick-coords mode cursor */
+    .leaflet-container.pick-mode { cursor: crosshair !important; }
+
+    /* ── Pins ─────────────────────────────────────────────────────── */
+    .custom-pin-wrap { background: transparent; border: none; }
+    .pin {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--ink); border: 2px solid var(--w);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2), 0 0 0 1px rgba(14, 14, 14, 0.15);
+    }
+
+    .contigo-badge {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: var(--w); border: 2px solid var(--o);
+      box-shadow: 0 4px 16px rgba(247, 96, 10, 0.3), 0 0 0 5px rgba(247, 96, 10, 0.12);
+      display: grid; place-items: center; overflow: hidden; position: relative;
+    }
+    .contigo-badge::after {
+      content: "Contigo";
+      font-family: var(--serif); font-style: italic;
+      font-size: 17px; color: var(--o); line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    .contigo-badge.has-logo::after { display: none; }
+    .contigo-badge-img {
+      width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+    }
+
+    .pin-ocaso { background: var(--v-ocaso); border-color: var(--w); }
+    .pin-table { background: var(--v-table); border: 2px solid var(--w); }
+    .pin-venue-own {
+      background: var(--v-venue); border: 2px solid var(--w);
+      width: 18px; height: 18px;
+      box-shadow: 0 2px 8px rgba(58, 54, 50, 0.45), 0 0 0 3px rgba(58, 54, 50, 0.15);
+    }
+
+    .pin-planner { background: var(--w); border: 2px solid var(--ink); width: 12px; height: 12px; }
+    .pin-venue { background: var(--w); border: 2px solid var(--ink); border-radius: 2px; width: 12px; height: 12px; }
+    .pin-event {
+      background: var(--o); border: 2px solid var(--w); border-radius: 2px;
+      transform: rotate(45deg); width: 11px; height: 11px;
+    }
+    .pin-coworking { background: var(--w); border: 1.5px dashed var(--muted); width: 12px; height: 12px; border-radius: 50%; }
+
+    /* Account pin: donut with vertical segments */
+    .pin-donut {
+      width: 26px; height: 26px; display: block;
+      filter: drop-shadow(0 1px 3px rgba(0,0,0,0.2));
+    }
+    .pin-donut.lost { opacity: 0.55; }
+    .pin-donut.lost .donut-ring { stroke-dasharray: 2 2; }
+
+    /* ── Popups ────────────────────────────────────────────────────── */
+    .leaflet-popup-content-wrapper {
+      background: var(--w); color: var(--ink); border-radius: 10px;
+      box-shadow: 0 12px 40px rgba(14, 14, 14, 0.12), 0 0 0 1px var(--border);
+      padding: 0;
+    }
+    .leaflet-popup-content {
+      margin: 18px 20px; font-family: var(--sans); font-size: 13px;
+      line-height: 1.55; color: var(--ink); min-width: 280px; font-weight: 300;
+    }
+    .leaflet-popup-tip { background: var(--w); box-shadow: 0 0 0 1px var(--border); }
+    .leaflet-popup-close-button {
+      color: var(--sub) !important; font-size: 20px !important;
+      padding: 10px !important; font-weight: 300 !important;
+    }
+    .leaflet-popup-close-button:hover { color: var(--ink) !important; }
+
+    .pop-kicker {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--o); font-weight: 500; margin-bottom: 6px;
+    }
+    .pop-kicker i {
+      width: 14px; height: 1.5px; background: var(--o);
+      display: block; font-style: normal;
+    }
+    .pop-title {
+      font-family: var(--serif); font-size: 22px; font-weight: 400;
+      color: var(--ink); line-height: 1.15; margin-bottom: 10px;
+      letter-spacing: -0.015em;
+    }
+    .pop-title em { font-style: italic; color: var(--o); }
+    .pop-status {
+      display: inline-block; font-size: 10px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 100px; margin-bottom: 10px;
+      font-weight: 500; border: 1px solid var(--border);
+    }
+    .pop-status.cold { background: var(--surf); color: var(--muted); }
+    .pop-status.invited { background: var(--w); color: var(--o); border-color: var(--o); }
+    .pop-status.attended { background: var(--o); color: var(--w); border-color: var(--o); }
+    .pop-status.converted { background: var(--ink); color: var(--w); border-color: var(--ink); }
+    .pop-status.client {
+      background: var(--ink); color: var(--w); border: 1px solid var(--ink);
+      box-shadow: 0 0 0 2px rgba(247, 96, 10, 0.3);
+    }
+    .pop-status.lost {
+      background: var(--surf); color: var(--muted);
+      border-color: var(--border); text-decoration: line-through;
+    }
+    .pop-grid {
+      display: grid; grid-template-columns: auto 1fr;
+      gap: 6px 16px; font-size: 11.5px; margin-top: 10px;
+    }
+    .pop-grid dt {
+      color: var(--sub); font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; font-weight: 500; padding-top: 2px;
+    }
+    .pop-grid dd { color: var(--ink); margin: 0; font-weight: 400; }
+    .pop-notes {
+      margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);
+      font-size: 12px; color: var(--muted); line-height: 1.55; font-weight: 300;
+    }
+    .pop-notes em { font-family: var(--serif); font-style: italic; color: var(--ink); }
+
+    .pop-verticals {
+      margin-top: 10px; display: flex; flex-wrap: wrap; gap: 4px;
+    }
+    .pop-v-chip {
+      font-size: 10px; padding: 3px 8px; border-radius: 100px;
+      background: var(--surf); color: var(--ink); font-weight: 500;
+      letter-spacing: 0.02em;
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    .pop-v-chip .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+    }
+    .pop-revenue {
+      margin-top: 10px; padding-top: 10px;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: baseline; gap: 8px;
+    }
+    .pop-revenue .amt {
+      font-family: var(--serif); font-size: 22px; color: var(--ink);
+      line-height: 1;
+    }
+    .pop-revenue .amt em { font-style: italic; color: var(--o); }
+    .pop-revenue .lbl {
+      font-size: 10px; color: var(--muted); letter-spacing: 0.08em;
+      text-transform: uppercase; font-weight: 500;
+    }
+    .pop-actions {
+      margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border);
+      display: flex; gap: 6px; flex-wrap: wrap;
+    }
+    .pop-actions button, .pop-actions a {
+      font-size: 10.5px; padding: 5px 10px; border-radius: 100px;
+      background: var(--w); border: 1px solid var(--border);
+      color: var(--muted); cursor: pointer; font-weight: 500;
+      letter-spacing: 0.03em; text-transform: uppercase;
+      text-decoration: none; transition: all 0.15s;
+    }
+    .pop-actions button:hover, .pop-actions a:hover {
+      border-color: var(--o); color: var(--o);
+    }
+    .pop-actions .danger:hover { border-color: #c44; color: #c44; }
+
+    /* ── Modal ────────────────────────────────────────────────────── */
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(14, 14, 14, 0.55);
+      backdrop-filter: blur(4px); z-index: 9000;
+      display: none; align-items: flex-start; justify-content: center;
+      padding: 56px 20px 20px;
+      overflow-y: auto;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: var(--w); width: 100%; max-width: 540px;
+      border-radius: 12px; box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+      overflow: hidden;
+    }
+    .modal-head {
+      padding: 22px 26px 16px; border-bottom: 1px solid var(--border);
+    }
+    .modal-head .panel-kicker { margin-bottom: 6px; }
+    .modal-head h3 {
+      font-family: var(--serif); font-size: 26px; font-weight: 400;
+      color: var(--ink); letter-spacing: -0.015em; line-height: 1.1;
+    }
+    .modal-head h3 em { font-style: italic; color: var(--o); }
+    .modal-body {
+      padding: 18px 26px 24px; max-height: calc(100vh - 220px);
+      overflow-y: auto;
+    }
+    .modal-foot {
+      padding: 14px 26px; border-top: 1px solid var(--border);
+      background: var(--surf); display: flex; justify-content: flex-end; gap: 10px;
+    }
+
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block; font-size: 10.5px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+    }
+    .field input[type="text"],
+    .field input[type="number"],
+    .field textarea,
+    .field select {
+      width: 100%; padding: 10px 12px; border: 1px solid var(--border);
+      border-radius: 7px; font-family: var(--sans); font-size: 13px;
+      font-weight: 400; color: var(--ink); background: var(--w);
+      transition: border-color 0.15s;
+    }
+    .field input:focus, .field textarea:focus, .field select:focus {
+      outline: none; border-color: var(--o);
+    }
+    .field textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field-hint { font-size: 10.5px; color: var(--sub); margin-top: 4px; line-height: 1.4; }
+
+    .vertical-picker {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    }
+    .vertical-pick {
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 10px 12px; cursor: pointer; transition: all 0.15s;
+      display: flex; align-items: flex-start; gap: 8px;
+    }
+    .vertical-pick:hover { border-color: var(--ink); }
+    .vertical-pick.active { border-color: var(--o); background: var(--o-soft); }
+    .vertical-pick input[type="checkbox"] { margin-top: 2px; accent-color: var(--o); }
+    .vertical-pick-name {
+      font-size: 12.5px; font-weight: 500; color: var(--ink); line-height: 1.2;
+    }
+    .vertical-pick-sub {
+      font-size: 10.5px; color: var(--muted); margin-top: 2px;
+    }
+
+    .coord-pick-bar {
+      display: flex; gap: 8px; align-items: center;
+    }
+    .coord-pick-bar input { flex: 1; }
+    .coord-pick-btn {
+      white-space: nowrap;
+      font-size: 11px; padding: 8px 12px; border-radius: 7px;
+      border: 1px solid var(--border); background: var(--w);
+      color: var(--ink); cursor: pointer; font-weight: 500;
+      letter-spacing: 0.03em;
+    }
+    .coord-pick-btn.active { border-color: var(--o); color: var(--o); }
+
+    /* Pick-coords indicator banner */
+    .pick-indicator {
+      position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+      background: var(--ink); color: var(--w); padding: 10px 18px;
+      border-radius: 100px; font-size: 12px; font-weight: 500;
+      z-index: 800; display: none; align-items: center; gap: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .pick-indicator.open { display: inline-flex; }
+    .pick-indicator .dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--o);
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    /* ── Legend ───────────────────────────────────────────────────── */
+    .map-legend {
+      position: absolute; bottom: 22px; right: 18px;
+      background: var(--w); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px 18px; z-index: 400;
+      font-size: 11.5px; max-width: 230px;
+      box-shadow: 0 4px 16px rgba(14, 14, 14, 0.06);
+    }
+    .map-legend .legend-kicker {
+      font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--o); font-weight: 500; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 7px;
+    }
+    .map-legend .legend-kicker i {
+      width: 14px; height: 1.5px; background: var(--o);
+      display: block; font-style: normal;
+    }
+    .legend-row {
+      display: flex; align-items: center; gap: 9px;
+      padding: 4px 0; color: var(--ink); font-weight: 400;
+    }
+    .legend-swatch {
+      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+      border: 1.5px solid var(--w); box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
+    }
+    .legend-sep { height: 1px; background: var(--border); margin: 8px 0; }
+
+    /* Corridor labels */
+    .corridor-label {
+      background: transparent; border: none; box-shadow: none;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.13em;
+      text-transform: uppercase; color: var(--od);
+      text-shadow: 0 0 10px #fff, 0 0 6px #fff, 0 0 2px #fff;
+      white-space: nowrap;
+    }
+
+    /* Signature */
+    .signature {
+      padding: 16px 26px 20px; font-size: 10.5px;
+      color: var(--sub); font-weight: 400;
+    }
+    .signature .sig-brand {
+      display: inline-flex; align-items: center; gap: 5px; color: var(--muted);
+    }
+    .signature .sig-brand .lm-mini {
+      width: 12px; height: 12px; background: var(--o); border-radius: 3px;
+      display: inline-grid; place-items: center;
+    }
+    .signature .sig-brand .lm-mini svg { width: 7px; height: 7px; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 1fr; grid-template-rows: 54px 42vh 1fr; }
+      aside.sidebar { border-right: none; border-bottom: 1px solid var(--border); }
+      .crumb { display: none; }
+      .kpi-banner { grid-template-columns: 1fr 1fr; min-height: auto; padding: 10px 14px; }
+      .kpi-banner .kpi-cell { border-right: none; border-bottom: 1px solid var(--border-soft); padding: 8px 4px; }
+      .kpi-primary { grid-column: 1 / -1; }
+      .kpi-nsm { grid-column: 1 / -1; margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- ── Top bar ────────────────────────────────────────────────── -->
+    <header class="topbar">
+      <div style="display:flex; align-items:center;">
+        <a href="https://cacerola.cl" class="logo" target="_blank" rel="noopener">
+          <div class="lm">
+            <svg viewBox="0 0 13 13" fill="none">
+              <path d="M1.5 11L6.5 2L11.5 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M3.5 7.5H9.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="ln">Cacerola</span>
+        </a>
+        <span class="crumb"><em>Contigo Atlas</em> · Austin · v2</span>
+        <nav class="nav-tabs">
+          <a href="contigo-atlas.html" class="nav-tab active">Atlas</a>
+          <a href="pulse.html" class="nav-tab">Pulse</a>
+          <a href="cotizador.html" class="nav-tab">Cotizador</a>
+        </nav>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn-nav" id="btn-add-tasting">+ Degustación</button>
+        <button class="btn-nav primary" id="btn-add-account">+ Cuenta</button>
+      </div>
+    </header>
+
+    <!-- ── Sidebar ────────────────────────────────────────────────── -->
+    <aside class="sidebar">
+      <div class="quote-strip">
+        <p>"The smallest viable audience beats the largest possible market."</p>
+        <span class="attr">Seth Godin · aplicado a 40 oficinas, no a Austin entero</span>
+      </div>
+
+      <div class="nsm">
+        <div class="panel-kicker"><i></i>North Star Metric</div>
+        <div class="nsm-title">Tasting <em>Engine</em></div>
+        <div class="nsm-cycle" id="nsm-cycle-name">Q2 2026 · May – Jul</div>
+        <div class="nsm-row">
+          <span class="nsm-label">Programadas</span>
+          <span class="nsm-value"><span id="nsm-scheduled">0</span><span class="goal">/ 8</span></span>
+        </div>
+        <div class="nsm-bar"><div class="nsm-bar-fill" id="bar-scheduled"></div></div>
+        <div class="nsm-row">
+          <span class="nsm-label">Asientos asistidos</span>
+          <span class="nsm-value"><span id="nsm-seats">0</span><span class="goal">/ 40</span></span>
+        </div>
+        <div class="nsm-bar"><div class="nsm-bar-fill" id="bar-seats"></div></div>
+        <div class="nsm-row">
+          <span class="nsm-label">Cuentas convertidas</span>
+          <span class="nsm-value"><span id="nsm-converted">0</span><span class="goal">/ 6</span></span>
+        </div>
+        <div class="nsm-bar"><div class="nsm-bar-fill" id="bar-converted"></div></div>
+        <div class="nsm-row">
+          <span class="nsm-label">Pipeline ponderado</span>
+          <span class="nsm-value" id="nsm-pipeline">$0<span class="goal">/ $150K</span></span>
+        </div>
+        <div class="nsm-bar"><div class="nsm-bar-fill" id="bar-pipeline"></div></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-kicker"><i></i>Capas del mapa</div>
+        <div class="panel-title"><em>Qué</em> estás viendo</div>
+        <div id="layer-toggles" style="margin-top: 14px;"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-kicker"><i></i>NSM en marcha</div>
+        <div class="panel-title">Próximas <em>degustaciones</em></div>
+        <div id="tasting-list" style="margin-top: 14px;"></div>
+        <div class="action-row" style="margin-top: 14px;">
+          <button class="action-btn primary" onclick="openAddTastingModal()">+ Agregar degustación</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-kicker"><i></i>Datos</div>
+        <div class="panel-title">Export / <em>import</em></div>
+        <p class="panel-sub" style="margin-top: 6px;">
+          El Atlas guarda estado en este browser. Para compartir con Karen u operar desde otra máquina, exportá el JSON y que ella lo importe.
+        </p>
+        <div class="data-ops">
+          <button class="action-btn" onclick="exportJson()">↓ Exportar</button>
+          <label class="action-btn" style="cursor: pointer;">
+            ↑ Importar
+            <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importJson(event)" />
+          </label>
+          <button class="action-btn" onclick="resetToDefaults()">Reset</button>
+        </div>
+      </div>
+
+      <div class="signature">
+        Construido por <span class="sig-brand"><span class="lm-mini"><svg viewBox="0 0 13 13" fill="none"><path d="M1.5 11L6.5 2L11.5 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 7.5H9.5" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></span>Cacerola</span> · para Contigo · 2026
+      </div>
+    </aside>
+
+    <!-- ── Map ─────────────────────────────────────────────────────── -->
+    <main class="map-area">
+      <div class="kpi-banner" id="kpi-banner">
+        <!-- rendered by JS -->
+      </div>
+      <div class="map-wrap">
+        <div class="pick-indicator" id="pick-indicator">
+          <span class="dot"></span>
+          <span>Click en el mapa para fijar ubicación</span>
+        </div>
+        <div id="map"></div>
+        <div class="map-legend">
+        <div class="legend-kicker"><i></i>Verticales</div>
+        <div class="legend-row"><span class="legend-swatch" style="background: var(--v-contigo);"></span>Contigo · catering</div>
+        <div class="legend-row"><span class="legend-swatch" style="background: var(--v-ocaso);"></span>Ocaso · smoker + bar</div>
+        <div class="legend-row"><span class="legend-swatch" style="background: var(--v-table);"></span>Table Manners · vajilla</div>
+        <div class="legend-row"><span class="legend-swatch" style="background: var(--v-venue);"></span>One Eleven East · venue</div>
+        <div class="legend-sep"></div>
+        <div class="legend-row"><span class="legend-swatch" style="background: var(--status-cold);"></span>Cuenta · fría</div>
+        <div class="legend-row"><span class="legend-swatch" style="background: var(--w); border: 2px solid var(--o); box-shadow: none;"></span>Invitada</div>
+        <div class="legend-row"><span class="legend-swatch" style="background: var(--o);"></span>Asistió</div>
+        <div class="legend-row"><span class="legend-swatch" style="background: var(--ink); box-shadow: 0 0 0 2px var(--o);"></span>Cliente activo</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ── Modal ────────────────────────────────────────────────────── -->
+  <div class="modal-backdrop" id="modal-backdrop">
+    <div class="modal" id="modal">
+      <div class="modal-head">
+        <div class="panel-kicker"><i></i><span id="modal-kicker">Nueva cuenta</span></div>
+        <h3 id="modal-title">Agregar <em>cuenta</em></h3>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- rendered by JS -->
+      </div>
+      <div class="modal-foot">
+        <button class="action-btn" onclick="closeModal()">Cancelar</button>
+        <button class="action-btn primary" id="modal-save">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  /* ═════════════════════════════════════════════════════════════════════════
+     CONTIGO ATLAS v2 — DATA + LOGIC
+     Storage: localStorage key "contigo-atlas-v2"
+     Export/import: JSON file
+  ══════════════════════════════════════════════════════════════════════════ */
+
+  const STORAGE_KEY = 'contigo-atlas-v2';
+
+  const VERTICAL_META = {
+    'contigo-hq':        { name: 'Contigo',        short: 'Catering',    color: '#F7600A' },
+    'ocaso-base':        { name: 'Ocaso',          short: 'Smoker + Bar',color: '#8B3A12' },
+    'table-manners':     { name: 'Table Manners',  short: 'Vajilla',     color: '#C9A961' },
+    'one-eleven-east':   { name: 'One Eleven East',short: 'Venue',       color: '#3A3632' }
+  };
+
+  /* Probabilidades de cierre ponderadas por status */
+  const STATUS_WEIGHT = {
+    cold: 0, lost: 0, invited: 0.15, attended: 0.40, converted: 0.80, client: 1.0
+  };
+
+  const DEFAULT_DATA = {
+    meta: {
+      cycle: "Q2 2026",
+      cycleWindow: "May – Jul",
+      lastUpdated: new Date().toLocaleDateString('es-CL'),
+      nsmGoals: { scheduled: 8, seats: 40, converted: 6, pipeline: 150000 }
+    },
+
+    brands: [
+      { id: "contigo-hq", name: "Contigo Catering", role: "HQ · kitchen · premium", coords: [30.2580, -97.7300], type: "contigo", logoUrl: null, notes: "Marca principal. Piso $12K. Historia: Spotify, Bumble, Mercedes, F1 (2024 - perdida), weddings. 10+ años.", siteUrl: "https://contigocatering.com" },
+      { id: "ocaso-base", name: "Ocaso Catering", role: "Outdoor · smoker · bar", coords: [30.2520, -97.7200], type: "ocaso", notes: "Diferencial: smoker trailer + bar services. Reframe: NO es 'Contigo barato' → es la vertical outdoor + festivales + SXSW/ACL activations.", siteUrl: "https://ocasotexas.com" },
+      { id: "table-manners", name: "Table Manners", role: "Rental · tabletop", coords: [30.2480, -97.7350], type: "table", notes: "Cubre Central Texas + Teton Valley + Rocky Mountain. Bundled con Contigo eleva ticket 15–30%.", siteUrl: "https://tablemannerstx.com" },
+      { id: "one-eleven-east", name: "One Eleven East", role: "Venue · theater", coords: [30.5427, -97.5469], type: "venue-own", notes: "Hutto, TX. Rol estratégico: TEATRO del ecosistema, sede del Tasting Engine trimestral.", siteUrl: "https://oneeleveneast.com" }
+    ],
+
+    corridors: [
+      { id: "downtown", name: "Downtown", tam: "USD 60–90M", labelCoords: [30.2672, -97.7431],
+        polygon: [[30.2500, -97.7550],[30.2850, -97.7550],[30.2850, -97.7280],[30.2500, -97.7280]],
+        anchors: "Google · Meta · Oracle · Indeed" },
+      { id: "domain", name: "The Domain", tam: "USD 40–60M", labelCoords: [30.4022, -97.7259],
+        polygon: [[30.3900, -97.7380],[30.4150, -97.7380],[30.4150, -97.7140],[30.3900, -97.7140]],
+        anchors: "Amazon · IBM · Indeed" },
+      { id: "parmer", name: "Parmer", tam: "USD 30–50M", labelCoords: [30.4650, -97.7350],
+        polygon: [[30.4500, -97.7500],[30.4800, -97.7500],[30.4800, -97.7200],[30.4500, -97.7200]],
+        anchors: "Apple · Samsung · Dell" },
+      { id: "east-austin", name: "East Austin · Gigafactory", tam: "USD 50–80M", labelCoords: [30.2200, -97.6300],
+        polygon: [[30.1900, -97.6500],[30.2500, -97.6500],[30.2500, -97.6100],[30.1900, -97.6100]],
+        anchors: "Tesla · Oracle Lakeshore" },
+      { id: "round-rock", name: "Round Rock", tam: "USD 25–40M", labelCoords: [30.5083, -97.6789],
+        polygon: [[30.4900, -97.7000],[30.5300, -97.7000],[30.5300, -97.6500],[30.4900, -97.6500]],
+        anchors: "Dell" }
+    ],
+
+    accounts: [
+      { id: "tesla", name: "Tesla Gigafactory Texas", sector: "tech", coords: [30.2203, -97.6175], tier: 1, status: "cold", corridor: "east-austin", employees: "18k–22k",
+        estimatedRevenue: 1200000, verticals: {"contigo-hq": 0.55, "ocaso-base": 0.35, "table-manners": 0.10},
+        notes: "RFP via Facilities. Fleet dedicada. Op 24/7. Potencial USD 2–6M ARR si captura 15–25% staff." },
+      { id: "apple-parmer", name: "Apple Parmer Campus", sector: "tech", coords: [30.4478, -97.7314], tier: 1, status: "cold", corridor: "parmer", employees: "10k",
+        estimatedRevenue: 600000, verticals: {"contigo-hq": 0.75, "table-manners": 0.25},
+        notes: "Campus USD 1B. Executive dining + overflow. Chef in-house." },
+      { id: "dell", name: "Dell", sector: "tech", coords: [30.5350, -97.6839], tier: 1, status: "cold", corridor: "round-rock", employees: "13k",
+        estimatedRevenue: 400000, verticals: {"contigo-hq": 0.80, "table-manners": 0.20},
+        notes: "NET 45–60. Supplier diversity scoring." },
+      { id: "google-austin", name: "Google Austin", sector: "tech", coords: [30.2672, -97.7436], tier: 1, status: "cold", corridor: "downtown", employees: "~3k",
+        estimatedRevenue: 180000, verticals: {"contigo-hq": 0.70, "table-manners": 0.30},
+        notes: "Overflow >200 pax. Acceso por People Ops." },
+      { id: "meta-austin", name: "Meta Austin", sector: "tech", coords: [30.2699, -97.7393], tier: 1, status: "cold", corridor: "downtown", employees: "~2k",
+        estimatedRevenue: 120000, verticals: {"contigo-hq": 0.85, "table-manners": 0.15},
+        notes: "Post-reducciones. Eventos selectos." },
+      { id: "oracle-austin", name: "Oracle Lakeshore", sector: "tech", coords: [30.2461, -97.7232], tier: 1, status: "cold", corridor: "east-austin", employees: "~10k",
+        estimatedRevenue: 350000, verticals: {"contigo-hq": 0.70, "table-manners": 0.20, "one-eleven-east": 0.10},
+        notes: "HQ Oracle. Board events + executive dining." },
+      { id: "indeed", name: "Indeed Downtown", sector: "tech", coords: [30.2668, -97.7449], tier: 1, status: "cold", corridor: "downtown", employees: "~3k",
+        estimatedRevenue: 180000, verticals: {"contigo-hq": 0.80, "table-manners": 0.20},
+        notes: "307K sq ft downtown. Employee experience high priority." },
+      { id: "bumble", name: "Bumble HQ", sector: "tech", coords: [30.3076, -97.7468], tier: 1, status: "lost", corridor: "downtown", employees: "~700",
+        estimatedRevenue: 80000, verticals: {"contigo-hq": 0.65, "ocaso-base": 0.20, "table-manners": 0.15},
+        notes: "Cateró vía event planner en F1 2024. Relación dormida. Recuperar vía planner original." },
+      { id: "spotify", name: "Spotify Austin", sector: "tech", coords: [30.2680, -97.7470], tier: 1, status: "client", corridor: "downtown", employees: "~400",
+        estimatedRevenue: 60000, verticals: {"contigo-hq": 0.85, "table-manners": 0.15},
+        notes: "Cliente histórico. Mantener warm. Expandir a recurrente." },
+      { id: "atlassian", name: "Atlassian", sector: "tech", coords: [30.2680, -97.7510], tier: 1, status: "cold", corridor: "downtown", employees: "~1k",
+        estimatedRevenue: 100000, verticals: {"contigo-hq": 0.75, "table-manners": 0.25},
+        notes: "Culture-forward. People Ops activo. Match natural." },
+      { id: "amd", name: "AMD", sector: "tech", coords: [30.4020, -97.7260], tier: 2, status: "cold", corridor: "domain", employees: "~2k",
+        estimatedRevenue: 120000, verticals: {"contigo-hq": 0.85, "table-manners": 0.15} },
+      { id: "ibm", name: "IBM Austin", sector: "tech", coords: [30.4028, -97.7228], tier: 2, status: "cold", corridor: "domain", employees: "~6k",
+        estimatedRevenue: 200000, verticals: {"contigo-hq": 0.85, "table-manners": 0.15} },
+      { id: "amazon-domain", name: "Amazon Domain", sector: "tech", coords: [30.4022, -97.7259], tier: 2, status: "cold", corridor: "domain", employees: "~7k",
+        estimatedRevenue: 250000, verticals: {"contigo-hq": 0.70, "ocaso-base": 0.15, "table-manners": 0.15} },
+      { id: "samsung", name: "Samsung Austin Semiconductor", sector: "tech", coords: [30.4400, -97.6800], tier: 2, status: "cold", corridor: "parmer", employees: "~3k",
+        estimatedRevenue: 150000, verticals: {"contigo-hq": 0.85, "table-manners": 0.15} },
+      { id: "ut-austin", name: "UT Austin", sector: "education", coords: [30.2849, -97.7341], tier: 1, status: "cold", corridor: "downtown", employees: "23.9k + 55k est.",
+        estimatedRevenue: 500000, verticals: {"contigo-hq": 0.60, "ocaso-base": 0.25, "table-manners": 0.15},
+        notes: "Budget anual USD 3.8B. Tax-exempt. NET 45. Eventos masivos graduación/homecoming." },
+      { id: "ascension", name: "Ascension Seton", sector: "healthcare", coords: [30.3005, -97.7439], tier: 1, status: "cold", corridor: "downtown", employees: "14k",
+        estimatedRevenue: 600000, verticals: {"contigo-hq": 0.90, "table-manners": 0.10},
+        notes: "7 hospitales + 130 sites. HIPAA + Sunshine Act. USD 1–3M ARR potencial." },
+      { id: "stdavids", name: "St. David's HealthCare", sector: "healthcare", coords: [30.3100, -97.7410], tier: 1, status: "cold", corridor: "downtown", employees: "12k",
+        estimatedRevenue: 500000, verticals: {"contigo-hq": 0.90, "table-manners": 0.10},
+        notes: "Co-líder con Ascension. Ganar una facilita la otra." },
+      { id: "dell-medical", name: "Dell Medical School", sector: "healthcare", coords: [30.2780, -97.7330], tier: 2, status: "cold", corridor: "downtown", employees: "~1k",
+        estimatedRevenue: 60000, verticals: {"contigo-hq": 0.85, "table-manners": 0.15} },
+      { id: "mercedes", name: "Mercedes-Benz (Austin ops)", sector: "automotive", coords: [30.2700, -97.7400], tier: 2, status: "lost", corridor: "downtown",
+        estimatedRevenue: 150000, verticals: {"contigo-hq": 0.65, "ocaso-base": 0.15, "table-manners": 0.10, "one-eleven-east": 0.10},
+        notes: "Volumen bajó en 2025. Recuperar vía planner original + propuesta SXSW/F1 hospitality." },
+      { id: "f1-cota", name: "F1 USGP · COTA", sector: "mega-event", coords: [30.1328, -97.6411], tier: 1, status: "lost", corridor: "east-austin",
+        estimatedRevenue: 400000, verticals: {"contigo-hq": 0.40, "ocaso-base": 0.20, "table-manners": 0.15, "one-eleven-east": 0.25},
+        notes: "Perdida 2024. Ventana oct 2026. 70+ suites. Planning 6–9 meses antes → re-pitch: ABR–JUN 2026." }
+    ],
+
+    planners: [
+      { id: "pearl-events", name: "Pearl Events Austin", coords: [30.2700, -97.7500], status: "cold", notes: "Full-service. Weddings + corporate. Objetivo bronze tier." },
+      { id: "a-list", name: "A-List Events", coords: [30.2650, -97.7480], status: "cold", notes: "Brand activations. Potencial F1/SXSW." },
+      { id: "dpc", name: "DPC Event Services", coords: [30.2720, -97.7460], status: "cold", notes: "Corporate specialist." },
+      { id: "strawberry", name: "Strawberry Events", coords: [30.2690, -97.7450], status: "cold" },
+      { id: "ilios", name: "ilios Productions", coords: [30.2710, -97.7440], status: "cold", notes: "Production-forward. Film/TV + brand activations." },
+      { id: "mystery-bumble", name: "Planner ref · Bumble + F1 2024", coords: [30.2730, -97.7420], status: "cold", notes: "El planner que trajo Bumble y F1 2024. ALTA PRIORIDAD — relación tibia." }
+    ],
+
+    venues: [
+      { id: "palmer", name: "Palmer Events Center", coords: [30.2613, -97.7510], notes: "131K sq ft. Entrar a lista preferida = acceso directo a planners." },
+      { id: "moody", name: "Moody Center", coords: [30.2835, -97.7325], notes: "15k+ cap. 4 clubs premium. Dell Technologies Club." },
+      { id: "blanton", name: "Blanton Museum of Art", coords: [30.2806, -97.7379], notes: "Partnership exclusivo target." },
+      { id: "lbj", name: "LBJ Library", coords: [30.2853, -97.7292], notes: "Institucional. Eventos presidenciales/académicos." },
+      { id: "driskill", name: "The Driskill Hotel", coords: [30.2679, -97.7421], notes: "Legacy luxury. Weddings high-end + C-suite." },
+      { id: "bullock", name: "Bullock Texas State History Museum", coords: [30.2805, -97.7384], notes: "Institucional/corporate." },
+      { id: "austin-cc", name: "Austin Convention Center (cerrado 2029)", coords: [30.2640, -97.7395], notes: "Cierre redistribuye demanda → Palmer + Moody." }
+    ],
+
+    events: [
+      { id: "sxsw", name: "SXSW", coords: [30.2680, -97.7430], dates: "Marzo 2027", budget: "USD 25–50M mercado catering", notes: "309K asistentes. Brand houses $50K–500K c/u." },
+      { id: "acl", name: "ACL · Zilker Park", coords: [30.2669, -97.7728], dates: "Octubre 2026", budget: "450k asistentes / 2 fines de semana" },
+      { id: "f1-event", name: "F1 USGP · COTA", coords: [30.1328, -97.6411], dates: "Octubre 2026", budget: "USD 5–15M paddock", notes: "70+ suites. $40K–150K/suite. Re-pitch ABR–JUN 2026." },
+      { id: "austin-tech-week", name: "Austin Tech Week", coords: [30.2672, -97.7431], dates: "Otoño 2026", budget: "medio" }
+    ],
+
+    opportunities: [
+      { id: "royal-fig-gap", name: "Royal Fig Gap", coords: [30.2600, -97.7500], radius: 2500,
+        estimatedValue: "USD 5–10M ARR",
+        notes: "Royal Fig cerró 2024. Farm-to-table premium con pricing transparente. MML/Crave absorben sin heredar la promesa. Ventana 18–36 meses." }
+    ],
+
+    coworkings: [
+      { id: "wework-congress", name: "WeWork · Congress", coords: [30.2654, -97.7430], notes: "WeWork: 5–7 locations Austin. Community Managers deciden catering." },
+      { id: "industrious-domain", name: "Industrious · Domain", coords: [30.4040, -97.7270], notes: "Industrious: 5 locations." },
+      { id: "capital-factory", name: "Capital Factory", coords: [30.2640, -97.7440], notes: "Demo days + pitch nights diarios." }
+    ],
+
+    tastings: [
+      { id: "t-1", date: "TBD mayo 2026", title: "Off-season menu for tech HQs", format: "in-wild", venueDisplay: "TBD cliente", invited: 0, seats: 0, status: "planning", targetAccounts: [] },
+      { id: "t-2", date: "TBD junio 2026", title: "Healthcare compliance menu", format: "in-wild", venueDisplay: "Ascension / St. David's", invited: 0, seats: 0, status: "planning", targetAccounts: [] },
+      { id: "t-3", date: "TBD junio 2026", title: "Planner Summit · The Table at One Eleven East", format: "hutto-retreat", venueDisplay: "One Eleven East · Hutto", invited: 0, seats: 14, status: "planning", targetAccounts: ["pearl-events","a-list","dpc","strawberry","ilios","mystery-bumble"] }
+    ]
+  };
+
+  /* ── State management ─────────────────────────────────────────── */
+  let state = loadState();
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (e) { console.warn('Load error', e); }
+    return JSON.parse(JSON.stringify(DEFAULT_DATA));
+  }
+  function saveState() {
+    state.meta.lastUpdated = new Date().toLocaleDateString('es-CL');
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+  function resetToDefaults() {
+    if (!confirm('¿Reset a valores por defecto? Se pierden tus ediciones.')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    state = loadState();
+    renderAll();
+  }
+  function exportJson() {
+    const blob = new Blob([JSON.stringify(state, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'contigo-atlas-' + new Date().toISOString().split('T')[0] + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+  function importJson(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const parsed = JSON.parse(e.target.result);
+        state = parsed;
+        saveState();
+        renderAll();
+      } catch (err) { alert('JSON inválido.'); }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+  }
+
+  /* ── Utilities ────────────────────────────────────────────────── */
+  function fmtMoney(n) {
+    if (!n) return "$0";
+    if (n >= 1000000) return "$" + (n/1000000).toFixed(1) + "M";
+    if (n >= 1000) return "$" + Math.round(n/1000) + "K";
+    return "$" + Math.round(n);
+  }
+  function statusLabel(s) {
+    return ({
+      cold: "Fría · no tocada", invited: "Invitada",
+      attended: "Asistió a degustación", converted: "Convertida",
+      client: "Cliente activo", lost: "Perdida · recuperable",
+      planning: "En planificación", attended_t: "Ejecutada"
+    })[s] || s;
+  }
+  function slug(str) { return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+
+  /* Compute pipeline (weighted) and breakdown by vertical */
+  function computePipeline() {
+    const totals = {
+      weighted: 0, potential: 0,
+      verticals: { "contigo-hq": 0, "ocaso-base": 0, "table-manners": 0, "one-eleven-east": 0 }
+    };
+    state.accounts.forEach(a => {
+      const weight = STATUS_WEIGHT[a.status] || 0;
+      const rev = a.estimatedRevenue || 0;
+      totals.weighted += rev * weight;
+      if (a.status !== 'cold' && a.status !== 'lost') totals.potential += rev;
+      const verticals = a.verticals || {"contigo-hq": 1};
+      Object.entries(verticals).forEach(([vid, share]) => {
+        totals.verticals[vid] = (totals.verticals[vid] || 0) + (rev * share * weight);
+      });
+    });
+    return totals;
+  }
+
+  /* ═════════════════════════════════════════════════════════════════════════
+     MAP SETUP
+  ══════════════════════════════════════════════════════════════════════════ */
+
+  const AUSTIN_CENTER = [30.30, -97.70];
+  const map = L.map('map', { center: AUSTIN_CENTER, zoom: 11, zoomControl: true });
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CARTO',
+    subdomains: 'abcd', maxZoom: 19
+  }).addTo(map);
+
+  const layerGroups = {
+    corridors: L.layerGroup(),
+    brands: L.layerGroup(),
+    accounts: L.layerGroup(),
+    planners: L.layerGroup(),
+    venues: L.layerGroup(),
+    events: L.layerGroup(),
+    opportunities: L.layerGroup(),
+    coworkings: L.layerGroup()
+  };
+  const layerVisible = {};
+  Object.keys(layerGroups).forEach(k => { layerVisible[k] = true; });
+
+  /* ── Icon builders ─────────────────────────────────────────────── */
+  function basicPin(className, size = 14) {
+    return L.divIcon({
+      className: 'custom-pin-wrap',
+      html: `<div class="pin ${className}"></div>`,
+      iconSize: [size, size], iconAnchor: [size/2, size/2]
+    });
+  }
+  function contigoBadgeIcon(logoUrl) {
+    const img = logoUrl ? `<img class="contigo-badge-img" src="${logoUrl}" alt="Contigo" />` : '';
+    const cls = logoUrl ? 'contigo-badge has-logo' : 'contigo-badge';
+    return L.divIcon({
+      className: 'custom-pin-wrap',
+      html: `<div class="${cls}">${img}</div>`,
+      iconSize: [64, 64], iconAnchor: [32, 32]
+    });
+  }
+
+  /* Donut icon for accounts: shows vertical breakdown + status in center */
+  function accountDonutIcon(account) {
+    const size = 28;
+    const cx = size/2, cy = size/2;
+    const outerR = 11, innerR = 6;
+    const verticals = account.verticals || {"contigo-hq": 1};
+    const total = Object.values(verticals).reduce((a,b) => a+b, 0) || 1;
+
+    let segments = '';
+    let startAngle = -Math.PI / 2;
+    Object.entries(verticals).forEach(([vid, share]) => {
+      const frac = share / total;
+      const sweep = frac * 2 * Math.PI;
+      const endAngle = startAngle + sweep;
+      // Skip zero segments
+      if (sweep < 0.0001) return;
+      // Full circle edge case
+      if (sweep >= 2 * Math.PI - 0.001) {
+        segments += `<circle cx="${cx}" cy="${cy}" r="${outerR}" fill="${VERTICAL_META[vid].color}"/>`;
+      } else {
+        const x1 = cx + outerR * Math.cos(startAngle);
+        const y1 = cy + outerR * Math.sin(startAngle);
+        const x2 = cx + outerR * Math.cos(endAngle);
+        const y2 = cy + outerR * Math.sin(endAngle);
+        const largeArc = sweep > Math.PI ? 1 : 0;
+        segments += `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${outerR} ${outerR} 0 ${largeArc} 1 ${x2} ${y2} Z" fill="${VERTICAL_META[vid].color}"/>`;
+      }
+      startAngle = endAngle;
+    });
+
+    /* Inner circle: status color */
+    let centerFill = '#AAAAAA';
+    let centerStroke = '#fff';
+    let strokeWidth = 2;
+    let extraDecoration = '';
+    switch (account.status) {
+      case 'cold': centerFill = '#AAAAAA'; break;
+      case 'invited': centerFill = '#fff'; centerStroke = '#F7600A'; strokeWidth = 2; break;
+      case 'attended': centerFill = '#F7600A'; break;
+      case 'converted': centerFill = '#0E0E0E'; break;
+      case 'client': centerFill = '#0E0E0E'; extraDecoration = `<circle cx="${cx}" cy="${cy}" r="${innerR+2}" fill="none" stroke="#F7600A" stroke-width="1.5"/>`; break;
+      case 'lost': centerFill = '#C8BFB5'; extraDecoration = `<line x1="${cx-6}" y1="${cy-6}" x2="${cx+6}" y2="${cy+6}" stroke="#0E0E0E" stroke-width="1.5"/>`; break;
+    }
+
+    const lostClass = account.status === 'lost' ? ' lost' : '';
+    const svg = `
+      <svg class="pin-donut${lostClass}" viewBox="0 0 ${size} ${size}" width="${size}" height="${size}">
+        <circle cx="${cx}" cy="${cy}" r="${outerR+0.5}" fill="white"/>
+        ${segments}
+        <circle cx="${cx}" cy="${cy}" r="${innerR}" fill="${centerFill}" stroke="${centerStroke}" stroke-width="${strokeWidth}"/>
+        ${extraDecoration}
+      </svg>`;
+    return L.divIcon({
+      className: 'custom-pin-wrap',
+      html: svg,
+      iconSize: [size, size], iconAnchor: [size/2, size/2]
+    });
+  }
+
+  /* ── Popup HTML builders ───────────────────────────────────────── */
+  function corridorPopup(c) {
+    return `
+      <div class="pop-kicker"><i></i>Corredor corporativo</div>
+      <div class="pop-title">${c.name}</div>
+      <dl class="pop-grid"><dt>TAM est.</dt><dd>${c.tam}</dd><dt>Anchors</dt><dd>${c.anchors}</dd></dl>`;
+  }
+  function brandPopup(b) {
+    return `
+      <div class="pop-kicker"><i></i>Ecosistema Contigo</div>
+      <div class="pop-title">${b.name}</div>
+      <dl class="pop-grid">
+        <dt>Rol</dt><dd>${b.role || '—'}</dd>
+        ${b.siteUrl ? `<dt>Sitio</dt><dd><a href="${b.siteUrl}" target="_blank" rel="noopener" style="color: var(--o); text-decoration: none; border-bottom: 1px solid var(--o);">${b.siteUrl.replace(/https?:\/\//, '')}</a></dd>` : ''}
+      </dl>
+      ${b.notes ? `<div class="pop-notes">${b.notes}</div>` : ''}`;
+  }
+  function accountPopup(a) {
+    const verticals = a.verticals || {"contigo-hq": 1};
+    const verticalsHtml = Object.entries(verticals).map(([vid, share]) => {
+      const meta = VERTICAL_META[vid];
+      if (!meta || share < 0.01) return '';
+      return `<span class="pop-v-chip"><span class="dot" style="background: ${meta.color};"></span>${meta.short} · ${Math.round(share*100)}%</span>`;
+    }).join('');
+    const rev = a.estimatedRevenue || 0;
+    const weight = STATUS_WEIGHT[a.status] || 0;
+    const weightedRev = rev * weight;
+
+    const statusButtons = ['cold','invited','attended','converted','client','lost'].map(s => {
+      const active = s === a.status ? 'active' : '';
+      return `<button class="tasting-status-btn ${active}" onclick="updateAccountStatus('${a.id}', '${s}')">${s}</button>`;
+    }).join('');
+
+    return `
+      <div class="pop-kicker"><i></i>Cuenta · ${(a.sector || '').toUpperCase()} · tier ${a.tier || '—'}</div>
+      <div class="pop-title">${a.name}</div>
+      <div class="pop-status ${a.status}">${statusLabel(a.status)}</div>
+      <dl class="pop-grid">
+        ${a.employees ? `<dt>Empleados</dt><dd>${a.employees}</dd>` : ''}
+        ${a.corridor ? `<dt>Corredor</dt><dd>${a.corridor.replace('-', ' ')}</dd>` : ''}
+      </dl>
+      ${verticalsHtml ? `<div class="pop-verticals">${verticalsHtml}</div>` : ''}
+      <div class="pop-revenue">
+        <span class="amt"><em>${fmtMoney(weightedRev)}</em></span>
+        <span class="lbl">ponderado · de ${fmtMoney(rev)} potencial</span>
+      </div>
+      ${a.notes ? `<div class="pop-notes">${a.notes}</div>` : ''}
+      <div class="pop-actions">
+        ${statusButtons}
+        <button class="danger" onclick="deleteAccount('${a.id}')">Eliminar</button>
+      </div>`;
+  }
+  function plannerPopup(p) {
+    return `
+      <div class="pop-kicker"><i></i>Event planner · canal B2B</div>
+      <div class="pop-title">${p.name}</div>
+      <div class="pop-status ${p.status}">${statusLabel(p.status)}</div>
+      ${p.notes ? `<div class="pop-notes">${p.notes}</div>` : ''}`;
+  }
+  function venuePopup(v) {
+    return `<div class="pop-kicker"><i></i>Venue · preferred vendor</div><div class="pop-title">${v.name}</div>${v.notes ? `<div class="pop-notes">${v.notes}</div>` : ''}`;
+  }
+  function eventPopup(e) {
+    return `
+      <div class="pop-kicker"><i></i>Mega-evento · estacional</div>
+      <div class="pop-title">${e.name}</div>
+      <dl class="pop-grid"><dt>Fecha</dt><dd>${e.dates}</dd><dt>Budget</dt><dd>${e.budget}</dd></dl>
+      ${e.notes ? `<div class="pop-notes">${e.notes}</div>` : ''}`;
+  }
+  function opportunityPopup(o) {
+    return `
+      <div class="pop-kicker"><i></i>Oportunidad · market gap</div>
+      <div class="pop-title"><em>${o.name}</em></div>
+      <dl class="pop-grid"><dt>Valor est.</dt><dd>${o.estimatedValue}</dd></dl>
+      ${o.notes ? `<div class="pop-notes">${o.notes}</div>` : ''}`;
+  }
+  function coworkingPopup(c) {
+    return `<div class="pop-kicker"><i></i>Coworking · preferred caterer</div><div class="pop-title">${c.name}</div>${c.notes ? `<div class="pop-notes">${c.notes}</div>` : ''}`;
+  }
+
+  /* ═════════════════════════════════════════════════════════════════════════
+     RENDER
+  ══════════════════════════════════════════════════════════════════════════ */
+
+  function renderMap() {
+    Object.values(layerGroups).forEach(lg => lg.clearLayers());
+
+    state.corridors.forEach(c => {
+      const poly = L.polygon(c.polygon, {
+        color: 'rgba(247, 96, 10, 0.5)', weight: 1,
+        fillColor: '#F7600A', fillOpacity: 0.05, dashArray: '4 4'
+      }).bindPopup(corridorPopup(c));
+      layerGroups.corridors.addLayer(poly);
+      const label = L.marker(c.labelCoords, {
+        icon: L.divIcon({ className: 'corridor-label', html: c.name, iconSize: [130, 16], iconAnchor: [65, 8] }),
+        interactive: false
+      });
+      layerGroups.corridors.addLayer(label);
+    });
+
+    state.brands.forEach(b => {
+      let icon;
+      if (b.id === 'contigo-hq') icon = contigoBadgeIcon(b.logoUrl);
+      else if (b.type === 'ocaso') icon = basicPin('pin-ocaso');
+      else if (b.type === 'table') icon = basicPin('pin-table');
+      else if (b.type === 'venue-own') icon = basicPin('pin-venue-own', 18);
+      const marker = L.marker(b.coords, { icon, zIndexOffset: b.id === 'contigo-hq' ? 1000 : 500 }).bindPopup(brandPopup(b));
+      layerGroups.brands.addLayer(marker);
+    });
+
+    state.accounts.forEach(a => {
+      const marker = L.marker(a.coords, { icon: accountDonutIcon(a) }).bindPopup(accountPopup(a));
+      layerGroups.accounts.addLayer(marker);
+    });
+
+    state.planners.forEach(p => {
+      layerGroups.planners.addLayer(L.marker(p.coords, { icon: basicPin('pin-planner') }).bindPopup(plannerPopup(p)));
+    });
+    state.venues.forEach(v => {
+      layerGroups.venues.addLayer(L.marker(v.coords, { icon: basicPin('pin-venue') }).bindPopup(venuePopup(v)));
+    });
+    state.events.forEach(e => {
+      layerGroups.events.addLayer(L.marker(e.coords, { icon: basicPin('pin-event') }).bindPopup(eventPopup(e)));
+    });
+    state.opportunities.forEach(o => {
+      const circle = L.circle(o.coords, {
+        radius: o.radius, color: 'rgba(247, 96, 10, 0.55)', weight: 1.5,
+        fillColor: '#F7600A', fillOpacity: 0.08, dashArray: '5 5'
+      }).bindPopup(opportunityPopup(o));
+      layerGroups.opportunities.addLayer(circle);
+    });
+    state.coworkings.forEach(c => {
+      layerGroups.coworkings.addLayer(L.marker(c.coords, { icon: basicPin('pin-coworking') }).bindPopup(coworkingPopup(c)));
+    });
+
+    /* Apply visibility */
+    Object.keys(layerGroups).forEach(k => {
+      if (layerVisible[k]) layerGroups[k].addTo(map);
+      else map.removeLayer(layerGroups[k]);
+    });
+  }
+
+  function renderBanner() {
+    const p = computePipeline();
+    const goal = state.meta.nsmGoals.pipeline;
+    const pctGoal = Math.min(100, Math.round((p.weighted / goal) * 100));
+    const scheduled = state.tastings.filter(t => t.status !== 'cancelled').length;
+    const seats = state.tastings.filter(t => t.status === 'attended_t').reduce((s,t) => s + (t.seats||0), 0);
+    const converted = state.accounts.filter(a => ['converted','client'].includes(a.status)).length;
+    const g = state.meta.nsmGoals;
+
+    const v = (vid) => fmtMoney(p.verticals[vid] || 0);
+
+    document.getElementById('kpi-banner').innerHTML = `
+      <div class="kpi-cell kpi-primary">
+        <div class="kpi-label">Pipeline ponderado Q2</div>
+        <div>
+          <div class="kpi-value"><em>${fmtMoney(p.weighted)}</em></div>
+          <div class="kpi-sub">${pctGoal}% hacia meta · ${fmtMoney(p.potential)} potencial total</div>
+        </div>
+      </div>
+      <div class="kpi-cell">
+        <div class="kpi-label"><span class="dot" style="background: var(--v-contigo);"></span>Contigo</div>
+        <div>
+          <div class="kpi-value">${v('contigo-hq')}</div>
+          <div class="kpi-sub">Catering premium</div>
+        </div>
+      </div>
+      <div class="kpi-cell">
+        <div class="kpi-label"><span class="dot" style="background: var(--v-ocaso);"></span>Ocaso</div>
+        <div>
+          <div class="kpi-value">${v('ocaso-base')}</div>
+          <div class="kpi-sub">Smoker + bar</div>
+        </div>
+      </div>
+      <div class="kpi-cell">
+        <div class="kpi-label"><span class="dot" style="background: var(--v-table);"></span>Table Manners</div>
+        <div>
+          <div class="kpi-value">${v('table-manners')}</div>
+          <div class="kpi-sub">Vajilla premium</div>
+        </div>
+      </div>
+      <div class="kpi-cell">
+        <div class="kpi-label"><span class="dot" style="background: var(--v-venue);"></span>One Eleven East</div>
+        <div>
+          <div class="kpi-value">${v('one-eleven-east')}</div>
+          <div class="kpi-sub">Venue · Hutto</div>
+        </div>
+      </div>
+      <div class="kpi-cell kpi-nsm">
+        <div class="kpi-label">NSM · Tasting Engine</div>
+        <div>
+          <div class="kpi-value"><em>${scheduled}</em><span class="small">/${g.scheduled}</span> · ${converted}<span class="small">/${g.converted}</span></div>
+          <div class="kpi-sub">degustaciones · conversiones</div>
+        </div>
+      </div>`;
+
+    /* Update sidebar NSM */
+    document.getElementById('nsm-cycle-name').textContent = state.meta.cycle + ' · ' + state.meta.cycleWindow;
+    document.getElementById('nsm-scheduled').textContent = scheduled;
+    document.getElementById('nsm-seats').textContent = seats;
+    document.getElementById('nsm-converted').textContent = converted;
+    document.getElementById('nsm-pipeline').innerHTML = fmtMoney(p.weighted) + '<span class="goal">/ ' + fmtMoney(goal) + '</span>';
+    document.getElementById('bar-scheduled').style.width = Math.min(100, (scheduled/g.scheduled)*100) + '%';
+    document.getElementById('bar-seats').style.width = Math.min(100, (seats/g.seats)*100) + '%';
+    document.getElementById('bar-converted').style.width = Math.min(100, (converted/g.converted)*100) + '%';
+    document.getElementById('bar-pipeline').style.width = Math.min(100, (p.weighted/goal)*100) + '%';
+  }
+
+  function renderTastings() {
+    const el = document.getElementById('tasting-list');
+    if (!state.tastings.length) { el.innerHTML = '<div class="panel-sub" style="font-style:italic;">Sin degustaciones aún.</div>'; return; }
+    el.innerHTML = state.tastings.map(t => {
+      const statusBtns = ['planning','invited','attended_t','cancelled'].map(s => {
+        const lbl = s === 'planning' ? 'Programada' : s === 'invited' ? 'Invitaciones enviadas' : s === 'attended_t' ? 'Ejecutada' : 'Cancelar';
+        const cls = s === 'cancelled' ? 'danger' : (t.status === s ? 'active' : '');
+        return `<button class="tasting-status-btn ${cls}" onclick="updateTastingStatus('${t.id}', '${s}')">${lbl}</button>`;
+      }).join('');
+      return `
+        <div class="tasting-item">
+          <div class="tasting-date"><i></i>${t.date} · ${t.format === 'hutto-retreat' ? 'Hutto retreat' : 'In-the-wild'}</div>
+          <div class="tasting-title">${t.title}</div>
+          <div class="tasting-meta">${t.venueDisplay || 'TBD'} · ${t.seats || '—'} asientos · <em>${statusLabel(t.status)}</em></div>
+          <div class="tasting-actions">${statusBtns}<button class="tasting-status-btn danger" onclick="deleteTasting('${t.id}')">Eliminar</button></div>
+        </div>`;
+    }).join('');
+  }
+
+  function renderLayerToggles() {
+    const cfg = [
+      { id: 'corridors', label: 'Corredores corporativos', swatch: 'rgba(247, 96, 10, 0.5)' },
+      { id: 'brands', label: 'Ecosistema Contigo', swatch: 'var(--o)' },
+      { id: 'accounts', label: 'Cuentas tier-1', swatch: 'var(--status-cold)' },
+      { id: 'planners', label: 'Event planners', swatch: 'var(--w)', border: 'solid' },
+      { id: 'venues', label: 'Venues · preferred vendor', swatch: 'var(--w)', border: 'solid' },
+      { id: 'events', label: 'Mega-eventos', swatch: 'var(--o)' },
+      { id: 'opportunities', label: 'Oportunidades · gaps', swatch: 'rgba(247, 96, 10, 0.3)' },
+      { id: 'coworkings', label: 'Coworkings', swatch: 'var(--w)', border: 'dashed' }
+    ];
+    const counts = {
+      corridors: state.corridors.length, brands: state.brands.length,
+      accounts: state.accounts.length, planners: state.planners.length,
+      venues: state.venues.length, events: state.events.length,
+      opportunities: state.opportunities.length, coworkings: state.coworkings.length
+    };
+    const el = document.getElementById('layer-toggles');
+    el.innerHTML = cfg.map(c => {
+      const swatchStyle = c.border === 'dashed'
+        ? `background: ${c.swatch}; border: 1.5px dashed var(--muted);`
+        : c.border
+          ? `background: ${c.swatch}; border: 1.5px solid var(--ink);`
+          : `background: ${c.swatch};`;
+      const checked = layerVisible[c.id] ? 'checked' : '';
+      return `
+        <label class="layer-row${layerVisible[c.id] ? '' : ' off'}">
+          <input type="checkbox" ${checked} data-layer="${c.id}" />
+          <span class="layer-swatch" style="${swatchStyle}"></span>
+          <span>${c.label}</span>
+          <span class="layer-count">${counts[c.id]}</span>
+        </label>`;
+    }).join('');
+    el.querySelectorAll('input[type="checkbox"]').forEach(input => {
+      input.addEventListener('change', (e) => {
+        const layerId = e.target.dataset.layer;
+        layerVisible[layerId] = e.target.checked;
+        if (e.target.checked) layerGroups[layerId].addTo(map);
+        else map.removeLayer(layerGroups[layerId]);
+        e.target.closest('.layer-row').classList.toggle('off', !e.target.checked);
+      });
+    });
+  }
+
+  function renderAll() {
+    renderMap();
+    renderBanner();
+    renderTastings();
+    renderLayerToggles();
+  }
+
+  /* ═════════════════════════════════════════════════════════════════════════
+     ACTIONS (state mutators)
+  ══════════════════════════════════════════════════════════════════════════ */
+
+  window.updateAccountStatus = function(id, status) {
+    const a = state.accounts.find(x => x.id === id);
+    if (!a) return;
+    a.status = status;
+    saveState();
+    renderAll();
+    map.closePopup();
+  };
+  window.deleteAccount = function(id) {
+    if (!confirm('¿Eliminar esta cuenta?')) return;
+    state.accounts = state.accounts.filter(x => x.id !== id);
+    saveState();
+    renderAll();
+    map.closePopup();
+  };
+  window.updateTastingStatus = function(id, status) {
+    const t = state.tastings.find(x => x.id === id);
+    if (!t) return;
+    if (status === 'cancelled') {
+      if (!confirm('¿Cancelar esta degustación?')) return;
+    }
+    t.status = status;
+    saveState();
+    renderAll();
+  };
+  window.deleteTasting = function(id) {
+    if (!confirm('¿Eliminar esta degustación?')) return;
+    state.tastings = state.tastings.filter(x => x.id !== id);
+    saveState();
+    renderAll();
+  };
+
+  /* ═════════════════════════════════════════════════════════════════════════
+     MODAL: add account / add tasting
+  ══════════════════════════════════════════════════════════════════════════ */
+
+  let pickCoordsMode = false;
+  let pickCoordsCallback = null;
+
+  function enterPickCoords(callback) {
+    pickCoordsMode = true;
+    pickCoordsCallback = callback;
+    document.getElementById('pick-indicator').classList.add('open');
+    document.querySelector('.leaflet-container').classList.add('pick-mode');
+    closeModal(true); // close modal but keep state for re-open
+  }
+  function exitPickCoords() {
+    pickCoordsMode = false;
+    pickCoordsCallback = null;
+    document.getElementById('pick-indicator').classList.remove('open');
+    document.querySelector('.leaflet-container').classList.remove('pick-mode');
+  }
+
+  map.on('click', (e) => {
+    if (!pickCoordsMode) return;
+    const lat = e.latlng.lat, lng = e.latlng.lng;
+    const cb = pickCoordsCallback;
+    exitPickCoords();
+    if (cb) cb([lat, lng]);
+  });
+
+  let formDraft = null; // preserves entered values during coord picking
+
+  function openModal(type) {
+    document.getElementById('modal-backdrop').classList.add('open');
+    if (type === 'account') buildAccountForm();
+    if (type === 'tasting') buildTastingForm();
+  }
+  function closeModal(preserveDraft = false) {
+    document.getElementById('modal-backdrop').classList.remove('open');
+    if (!preserveDraft) formDraft = null;
+  }
+  document.getElementById('modal-backdrop').addEventListener('click', (e) => {
+    if (e.target.id === 'modal-backdrop') closeModal();
+  });
+
+  function buildAccountForm() {
+    document.getElementById('modal-kicker').textContent = 'Nueva cuenta tier';
+    document.getElementById('modal-title').innerHTML = 'Agregar <em>cuenta</em>';
+
+    const d = formDraft || {
+      name: '', sector: 'tech', tier: 1, status: 'cold', employees: '',
+      estimatedRevenue: 100000, coords: null, notes: '',
+      corridor: '', verticals: { 'contigo-hq': 1.0 }
+    };
+
+    document.getElementById('modal-body').innerHTML = `
+      <div class="field">
+        <label>Nombre de la cuenta</label>
+        <input type="text" id="f-name" value="${d.name}" placeholder="ej: Cloudflare Austin" autofocus />
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Sector</label>
+          <select id="f-sector">
+            <option value="tech">Tech</option>
+            <option value="healthcare">Healthcare</option>
+            <option value="education">Education</option>
+            <option value="automotive">Automotive</option>
+            <option value="mega-event">Mega-evento</option>
+            <option value="other">Otro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Tier</label>
+          <select id="f-tier">
+            <option value="1">Tier 1 · prioridad alta</option>
+            <option value="2">Tier 2 · prioridad media</option>
+            <option value="3">Tier 3 · watch list</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Corredor</label>
+          <select id="f-corridor">
+            <option value="">— sin asignar —</option>
+            ${state.corridors.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <select id="f-status">
+            <option value="cold">Fría</option>
+            <option value="invited">Invitada</option>
+            <option value="attended">Asistió</option>
+            <option value="converted">Convertida</option>
+            <option value="client">Cliente activo</option>
+            <option value="lost">Perdida</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Empleados</label>
+          <input type="text" id="f-employees" value="${d.employees}" placeholder="~500" />
+        </div>
+        <div class="field">
+          <label>Revenue estimado (USD/año)</label>
+          <input type="number" id="f-revenue" value="${d.estimatedRevenue}" min="0" step="10000" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Verticales que activa</label>
+        <div class="vertical-picker" id="f-verticals">
+          ${Object.entries(VERTICAL_META).map(([vid, meta]) => {
+            const pct = Math.round((d.verticals[vid] || 0) * 100);
+            return `
+              <label class="vertical-pick ${pct > 0 ? 'active' : ''}" data-vid="${vid}">
+                <input type="checkbox" ${pct > 0 ? 'checked' : ''} />
+                <div style="flex:1;">
+                  <div class="vertical-pick-name" style="display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:${meta.color};"></span>${meta.name}</div>
+                  <div class="vertical-pick-sub">${meta.short} · <input type="number" value="${pct}" min="0" max="100" step="5" style="width: 46px; padding: 2px 6px; font-size: 11px;" data-share="${vid}" />%</div>
+                </div>
+              </label>`;
+          }).join('')}
+        </div>
+        <div class="field-hint">Los porcentajes se normalizan al guardar si no suman 100.</div>
+      </div>
+      <div class="field">
+        <label>Ubicación (lat, lng)</label>
+        <div class="coord-pick-bar">
+          <input type="text" id="f-coords" value="${d.coords ? d.coords.join(', ') : ''}" placeholder="30.2672, -97.7431" />
+          <button type="button" class="coord-pick-btn" onclick="pickFromMap('account')">📍 Fijar en mapa</button>
+        </div>
+        <div class="field-hint">Click "Fijar en mapa" y después click en el mapa. O pegá lat,lng.</div>
+      </div>
+      <div class="field">
+        <label>Notas</label>
+        <textarea id="f-notes" placeholder="Contexto del CRM, relación previa, próximos pasos...">${d.notes}</textarea>
+      </div>`;
+
+    /* Restore draft values */
+    document.getElementById('f-sector').value = d.sector;
+    document.getElementById('f-tier').value = d.tier;
+    document.getElementById('f-corridor').value = d.corridor;
+    document.getElementById('f-status').value = d.status;
+
+    /* Vertical picker toggle */
+    document.querySelectorAll('#f-verticals .vertical-pick').forEach(pick => {
+      const cb = pick.querySelector('input[type="checkbox"]');
+      const shareInput = pick.querySelector('input[data-share]');
+      cb.addEventListener('change', () => {
+        pick.classList.toggle('active', cb.checked);
+        if (cb.checked && parseFloat(shareInput.value) === 0) shareInput.value = 25;
+        if (!cb.checked) shareInput.value = 0;
+      });
+      shareInput.addEventListener('input', () => {
+        const v = parseFloat(shareInput.value) || 0;
+        cb.checked = v > 0;
+        pick.classList.toggle('active', v > 0);
+      });
+    });
+
+    document.getElementById('modal-save').onclick = saveAccount;
+  }
+
+  function saveAccount() {
+    const name = document.getElementById('f-name').value.trim();
+    if (!name) { alert('Falta el nombre'); return; }
+    const coordsStr = document.getElementById('f-coords').value.trim();
+    let coords = null;
+    if (coordsStr) {
+      const parts = coordsStr.split(',').map(x => parseFloat(x.trim()));
+      if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) coords = parts;
+    }
+    if (!coords) { alert('Fijá una ubicación válida'); return; }
+
+    /* Normalize verticals */
+    const verticals = {};
+    let total = 0;
+    document.querySelectorAll('#f-verticals [data-share]').forEach(inp => {
+      const v = parseFloat(inp.value) || 0;
+      if (v > 0) { verticals[inp.dataset.share] = v; total += v; }
+    });
+    if (total === 0) { alert('Elegí al menos una vertical activa'); return; }
+    Object.keys(verticals).forEach(k => { verticals[k] = +(verticals[k] / total).toFixed(3); });
+
+    const account = {
+      id: 'a-' + slug(name) + '-' + Date.now().toString(36),
+      name,
+      sector: document.getElementById('f-sector').value,
+      tier: parseInt(document.getElementById('f-tier').value),
+      status: document.getElementById('f-status').value,
+      corridor: document.getElementById('f-corridor').value,
+      employees: document.getElementById('f-employees').value.trim(),
+      estimatedRevenue: parseFloat(document.getElementById('f-revenue').value) || 0,
+      coords,
+      verticals,
+      notes: document.getElementById('f-notes').value.trim()
+    };
+    state.accounts.push(account);
+    saveState();
+    closeModal();
+    renderAll();
+    map.setView(coords, Math.max(map.getZoom(), 13));
+  }
+
+  function buildTastingForm() {
+    document.getElementById('modal-kicker').textContent = 'Nueva degustación';
+    document.getElementById('modal-title').innerHTML = 'Agregar <em>degustación</em>';
+    const d = formDraft || { title: '', date: '', format: 'in-wild', venueDisplay: '', seats: 8, status: 'planning' };
+    document.getElementById('modal-body').innerHTML = `
+      <div class="field">
+        <label>Título / tema</label>
+        <input type="text" id="t-title" value="${d.title}" placeholder="ej: Healthcare compliance menu" autofocus />
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Fecha</label>
+          <input type="text" id="t-date" value="${d.date}" placeholder="ej: 22 mayo 2026 · o TBD junio" />
+        </div>
+        <div class="field">
+          <label>Asientos</label>
+          <input type="number" id="t-seats" value="${d.seats}" min="0" max="30" />
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Formato</label>
+          <select id="t-format">
+            <option value="in-wild">In-the-wild (oficina del cliente)</option>
+            <option value="hutto-retreat">Hutto retreat (One Eleven East)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <select id="t-status">
+            <option value="planning">Programada</option>
+            <option value="invited">Invitaciones enviadas</option>
+            <option value="attended_t">Ejecutada</option>
+            <option value="cancelled">Cancelada</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Venue / ubicación display</label>
+        <input type="text" id="t-venue" value="${d.venueDisplay}" placeholder="ej: Oficinas Ascension · Downtown" />
+      </div>`;
+    document.getElementById('t-format').value = d.format;
+    document.getElementById('t-status').value = d.status;
+    document.getElementById('modal-save').onclick = saveTasting;
+  }
+
+  function saveTasting() {
+    const title = document.getElementById('t-title').value.trim();
+    if (!title) { alert('Falta el título'); return; }
+    const tasting = {
+      id: 't-' + slug(title) + '-' + Date.now().toString(36),
+      title,
+      date: document.getElementById('t-date').value.trim() || 'TBD',
+      format: document.getElementById('t-format').value,
+      venueDisplay: document.getElementById('t-venue').value.trim(),
+      seats: parseInt(document.getElementById('t-seats').value) || 0,
+      status: document.getElementById('t-status').value,
+      invited: 0, targetAccounts: []
+    };
+    state.tastings.push(tasting);
+    saveState();
+    closeModal();
+    renderAll();
+  }
+
+  window.pickFromMap = function(formType) {
+    /* Store current form draft */
+    if (formType === 'account') {
+      formDraft = {
+        name: document.getElementById('f-name').value,
+        sector: document.getElementById('f-sector').value,
+        tier: document.getElementById('f-tier').value,
+        status: document.getElementById('f-status').value,
+        corridor: document.getElementById('f-corridor').value,
+        employees: document.getElementById('f-employees').value,
+        estimatedRevenue: parseFloat(document.getElementById('f-revenue').value) || 0,
+        coords: null, notes: document.getElementById('f-notes').value,
+        verticals: (() => {
+          const v = {};
+          document.querySelectorAll('#f-verticals [data-share]').forEach(inp => {
+            const val = parseFloat(inp.value) || 0;
+            if (val > 0) v[inp.dataset.share] = val / 100;
+          });
+          return Object.keys(v).length ? v : { 'contigo-hq': 1.0 };
+        })()
+      };
+    }
+    enterPickCoords((coords) => {
+      formDraft.coords = coords;
+      openModal(formType);
+    });
+  };
+
+  window.openAddTastingModal = function() { openModal('tasting'); };
+
+  /* ═════════════════════════════════════════════════════════════════════════
+     INITIAL RENDER + WIRING
+  ══════════════════════════════════════════════════════════════════════════ */
+
+  document.getElementById('btn-add-account').addEventListener('click', () => openModal('account'));
+  document.getElementById('btn-add-tasting').addEventListener('click', () => openModal('tasting'));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeModal(); exitPickCoords(); } });
+
+  /* Initial bounds */
+  const allLatLngs = [];
+  state.brands.forEach(b => allLatLngs.push(b.coords));
+  state.accounts.forEach(a => allLatLngs.push(a.coords));
+  state.events.forEach(e => allLatLngs.push(e.coords));
+  if (allLatLngs.length) map.fitBounds(L.latLngBounds(allLatLngs).pad(0.1));
+
+  renderAll();
+  </script>
+</body>
+</html>
