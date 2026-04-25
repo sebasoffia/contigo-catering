@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script>if(localStorage.getItem('cc_contigo_auth')!=='true'){window.location.href='index.html?next=presentacion.html'}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contigo × Austin — Propuesta CMO Fractional · por Cacerola</title>
+<meta name="description" content="Propuesta CMO Fractional para Contigo Catering. Una ventana de 18–36 meses para definir la categoría B2B en Austin." />
+<link rel="canonical" href="https://contigo.cacerola.cl/" />
+<meta property="og:title" content="Contigo × Austin — Propuesta CMO Fractional" />
+<meta property="og:description" content="Una ventana que se cierra en 36 meses." />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Crect width='26' height='26' rx='6' fill='%23F7600A'/%3E%3Cpath d='M4 20 L13 4 L22 20 M7 14 L19 14' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --o:#F7600A;--od:#D94F00;
+  --o-soft: rgba(247, 96, 10, 0.08);
+  --ink:#0E0E0E;--muted:#6A6A6A;--sub:#AAAAAA;
+  --border:#E8E4DF;--border-soft:#F0EDE8;
+  --surf:#F7F5F2;--w:#fff;
+  --dark:#0C0C0C;--darker:#070707;
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);font-weight:300;
+  background:var(--w);color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  font-size:14px;line-height:1.55;
+  overflow-x:hidden;
+}
+
+/* ── NAV ─────────────────────────────────────────────────────────── */
+nav.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:99;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2rem;height:54px;
+  background:rgba(255,255,255,.94);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.lm{width:26px;height:26px;background:var(--o);border-radius:6px;display:grid;place-items:center}
+.lm svg{width:13px;height:13px}
+.ln{font-weight:500;font-size:14px;letter-spacing:-.02em;color:var(--ink)}
+.crumb{
+  margin-left:14px;padding-left:14px;border-left:1px solid var(--border);
+  font-size:12px;color:var(--muted);font-weight:400;
+}
+.crumb em{font-family:var(--serif);font-style:italic;color:var(--ink);font-size:14px;margin-right:3px}
+.nav-tabs{display:flex;gap:2px;margin-left:18px;padding-left:14px;border-left:1px solid var(--border)}
+.nav-tab{
+  font-size:12px;font-weight:500;padding:6px 11px;border-radius:6px;
+  text-decoration:none;color:var(--muted);transition:all .15s;
+}
+.nav-tab:hover{color:var(--ink);background:var(--surf)}
+.nav-tab.active{background:var(--ink);color:var(--w)}
+.nav-cta{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--ink);color:var(--w);
+  font-size:13px;font-weight:500;padding:8px 16px;border-radius:7px;
+  text-decoration:none;transition:background .15s;
+}
+.nav-cta:hover{background:var(--o)}
+
+/* ── Generic section ─────────────────────────────────────────────── */
+section{padding:96px 2rem;max-width:1080px;margin:0 auto;position:relative}
+section.full-bleed{max-width:none;padding-left:0;padding-right:0}
+section.full-bleed > .inner{max-width:1080px;margin:0 auto;padding:0 2rem}
+section.dark{background:var(--dark);color:var(--w)}
+section.darker{background:var(--darker);color:var(--w)}
+section.surf{background:var(--surf)}
+
+.kicker{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:10.5px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--o);margin-bottom:1.5rem;
+}
+.kicker i{width:22px;height:1.5px;background:var(--o);display:block;font-style:normal}
+.dark .kicker, .darker .kicker{color:var(--o)}
+
+h1,h2,h3,h4{font-family:var(--serif);font-weight:400;letter-spacing:-.015em}
+h1{font-size:clamp(42px,6vw,78px);line-height:1.05}
+h2{font-size:clamp(34px,4.5vw,52px);line-height:1.08}
+h3{font-size:clamp(20px,2.4vw,28px);line-height:1.15}
+em{color:var(--o)}
+.dark em, .darker em{color:var(--o)}
+
+/* ── HERO ────────────────────────────────────────────────────────── */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  padding-top:120px;padding-bottom:60px;
+}
+.hero-sub{
+  font-size:17px;font-weight:300;line-height:1.7;color:var(--muted);
+  max-width:560px;margin-top:1.5rem;
+}
+.hero-sub b{font-weight:500;color:var(--ink)}
+.hero-actions{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  margin-top:2rem;
+}
+.btn-p{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--o);color:var(--w);
+  font-size:14px;font-weight:500;padding:13px 22px;border-radius:8px;
+  text-decoration:none;transition:all .15s;
+}
+.btn-p:hover{background:var(--od);transform:translateY(-1px)}
+.btn-d{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--ink);color:var(--w);
+  font-size:14px;font-weight:500;padding:13px 22px;border-radius:8px;
+  text-decoration:none;transition:all .15s;
+}
+.btn-d:hover{background:var(--o);transform:translateY(-1px)}
+.btn-txt{
+  font-size:13.5px;font-weight:400;color:var(--muted);text-decoration:none;
+  border-bottom:1px solid transparent;padding-bottom:1px;
+  transition:color .15s,border-color .15s;
+}
+.btn-txt:hover{color:var(--ink);border-color:var(--ink)}
+.dark .btn-txt, .darker .btn-txt{color:rgba(255,255,255,.5)}
+.dark .btn-txt:hover, .darker .btn-txt:hover{color:var(--w);border-color:var(--w)}
+
+.hero-note{
+  font-size:11.5px;color:var(--sub);margin-top:.6rem;
+}
+
+/* PROOF BAR */
+.proof-bar{
+  display:flex;align-items:flex-start;
+  margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border);
+  flex-wrap:wrap;gap:0;
+}
+.proof-item{padding:0 2.2rem 0 0;margin:0 2.2rem 0 0;border-right:1px solid var(--border)}
+.proof-item:last-child{border-right:none;margin-right:0;padding-right:0}
+.pn{font-family:var(--serif);font-size:36px;color:var(--ink);line-height:1;letter-spacing:-.015em}
+.pn em{font-style:italic}
+.pn .small{font-size:18px;color:var(--muted);font-style:italic}
+.pl{font-size:11px;color:var(--muted);font-weight:400;margin-top:5px;letter-spacing:.04em}
+
+/* ── DIAGNOSTIC (5 fugas) ────────────────────────────────────────── */
+.diag-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:2.5rem;
+}
+.diag-card{
+  background:#161616;border:1px solid #1f1f1f;border-radius:10px;
+  padding:1.4rem 1.6rem;transition:all .2s;
+}
+.diag-card:hover{background:#1c1c1c;border-color:#2a2a2a;transform:translateY(-1px)}
+.diag-card .num{
+  font-family:var(--serif);font-style:italic;
+  font-size:36px;color:var(--o);line-height:1;margin-bottom:.6rem;
+}
+.diag-card h3{font-size:20px;color:var(--w);margin-bottom:.5rem;line-height:1.2}
+.diag-card .body{font-size:13px;color:rgba(255,255,255,.55);line-height:1.6;font-weight:300}
+.diag-card .body b{color:var(--w);font-weight:500}
+.diag-card .impact{
+  font-size:11px;color:var(--o);margin-top:.85rem;padding-top:.7rem;
+  border-top:1px solid rgba(255,255,255,.08);
+  letter-spacing:.04em;font-weight:500;
+  text-transform:uppercase;
+}
+.diag-card.span-2{grid-column:span 2}
+
+/* ── 4 MARCAS FLYWHEEL ───────────────────────────────────────────── */
+.brand-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:2.5rem;
+}
+.brand-card{
+  background:var(--w);border:1px solid var(--border);border-radius:12px;
+  padding:1.6rem 1.8rem;position:relative;overflow:hidden;
+  transition:all .2s;
+}
+.brand-card:hover{border-color:var(--ink);transform:translateY(-2px)}
+.brand-card::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+}
+.brand-card[data-v="contigo"]::before{background:#F7600A}
+.brand-card[data-v="ocaso"]::before{background:#8B3A12}
+.brand-card[data-v="table"]::before{background:#C9A961}
+.brand-card[data-v="venue"]::before{background:#3A3632}
+.brand-tag{
+  font-size:10px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:.6rem;
+}
+.brand-card h3{font-size:24px;color:var(--ink);margin-bottom:.4rem;letter-spacing:-.015em}
+.brand-card .role-now{
+  font-size:12px;color:var(--sub);text-decoration:line-through;
+  font-style:italic;margin-bottom:.3rem;
+}
+.brand-card .role-new{
+  font-size:14px;color:var(--ink);font-weight:500;line-height:1.45;margin-bottom:.7rem;
+}
+.brand-card .body{font-size:12.5px;color:var(--muted);line-height:1.6;font-weight:300}
+.brand-card .body em{font-family:var(--serif);font-style:italic;color:var(--ink)}
+
+.flywheel-tagline{
+  margin-top:2rem;font-family:var(--serif);font-style:italic;font-size:18px;
+  color:var(--muted);text-align:center;line-height:1.5;
+}
+.flywheel-tagline em{color:var(--o);font-style:italic}
+
+/* ── GODIN ───────────────────────────────────────────────────────── */
+.godin-grid{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;margin-top:3rem;
+  background:rgba(255,255,255,.04);border-radius:10px;overflow:hidden;
+}
+.godin-cell{
+  padding:1.8rem 1.6rem;border-right:1px solid rgba(255,255,255,.06);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.godin-cell:nth-child(3n){border-right:none}
+.godin-cell:nth-last-child(-n+3){border-bottom:none}
+.godin-cell .gn{
+  font-family:var(--serif);font-style:italic;font-size:38px;color:var(--o);
+  line-height:1;margin-bottom:.4rem;letter-spacing:-.015em;
+}
+.godin-cell h3{font-size:17px;color:var(--w);margin-bottom:.5rem;line-height:1.2}
+.godin-cell h3 em{font-style:italic}
+.godin-cell .body{font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.6;font-weight:300}
+.godin-cell .body b{color:var(--w);font-weight:500}
+
+.godin-tagline{
+  margin-top:2.5rem;padding:1.5rem 0;border-top:1px solid rgba(255,255,255,.08);
+  text-align:center;
+}
+.godin-tagline p{
+  font-family:var(--serif);font-style:italic;font-size:22px;
+  color:var(--w);line-height:1.4;letter-spacing:-.005em;
+  max-width:780px;margin:0 auto;
+}
+.godin-tagline em{color:var(--o)}
+
+/* ── TASTING ENGINE ──────────────────────────────────────────────── */
+.tasting-formats{
+  display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:2.5rem;
+}
+.tasting-format{
+  background:var(--w);border:1px solid var(--border);border-radius:12px;
+  padding:1.8rem 2rem;
+}
+.tasting-format .ft-kick{
+  font-size:10px;color:var(--o);letter-spacing:.13em;text-transform:uppercase;
+  font-weight:500;margin-bottom:.5rem;
+}
+.tasting-format h3{font-size:24px;color:var(--ink);margin-bottom:.5rem;line-height:1.15}
+.tasting-format h3 em{font-style:italic}
+.tasting-format .ft-body{
+  font-size:13px;color:var(--muted);line-height:1.65;font-weight:300;
+  margin-bottom:1.2rem;
+}
+.tasting-format .ft-body b{color:var(--ink);font-weight:500}
+.tasting-format .ft-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:.8rem;
+  padding-top:1rem;border-top:1px solid var(--border-soft);
+}
+.tasting-format .ft-stat{font-size:12px;color:var(--muted)}
+.tasting-format .ft-stat .v{font-family:var(--serif);font-style:italic;font-size:24px;color:var(--ink);display:block;line-height:1.1;margin-bottom:2px}
+.tasting-format .ft-stat .v em{color:var(--o)}
+
+.nsm-quote{
+  margin-top:2rem;padding:1.4rem 1.8rem;
+  background:var(--surf);border-radius:10px;
+  font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.4;
+  color:var(--ink);
+}
+.nsm-quote em{color:var(--o)}
+.nsm-quote .attr{
+  display:block;margin-top:.5rem;font-family:var(--sans);font-style:normal;
+  font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;
+  font-weight:500;
+}
+
+/* ── PLAN MES 1 ──────────────────────────────────────────────────── */
+.weeks{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--border);border-radius:12px;overflow:hidden;
+  margin-top:2.5rem;
+}
+.week{
+  background:var(--w);padding:1.6rem 1.4rem;transition:background .2s;
+}
+.week:hover{background:var(--surf)}
+.week .wk-num{
+  font-family:var(--serif);font-style:italic;font-size:32px;color:var(--o);
+  line-height:1;opacity:.5;margin-bottom:.7rem;
+}
+.week h4{font-size:14px;color:var(--ink);margin-bottom:.7rem;letter-spacing:-.005em}
+.week ul{list-style:none;padding:0;margin:0}
+.week li{
+  font-size:12.5px;color:var(--muted);line-height:1.5;font-weight:300;
+  padding:5px 0;border-top:1px solid var(--border-soft);
+}
+.week li:first-child{border-top:none;padding-top:0}
+.week li b{color:var(--ink);font-weight:500}
+
+.budget-promise{
+  margin-top:1.5rem;background:var(--dark);color:var(--w);
+  border-radius:10px;padding:1.4rem 1.8rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;
+}
+.budget-promise .left{
+  font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.4;
+}
+.budget-promise .left em{color:var(--o)}
+.budget-promise .right{
+  font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.05em;
+}
+
+/* ── 90 DÍAS STAT GRID ───────────────────────────────────────────── */
+.outcome-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:rgba(255,255,255,.06);border-radius:12px;overflow:hidden;
+  margin-top:3rem;
+}
+.outcome-cell{
+  background:var(--dark);padding:1.8rem 1.4rem;
+}
+.outcome-cell .pn{
+  font-family:var(--serif);font-size:46px;color:var(--w);
+  line-height:1;letter-spacing:-.015em;margin-bottom:.6rem;
+}
+.outcome-cell .pn em{color:var(--o);font-style:italic}
+.outcome-cell .pn .small{font-size:22px;color:rgba(255,255,255,.4);font-style:italic}
+.outcome-cell .lbl{
+  font-size:11px;color:rgba(255,255,255,.55);font-weight:400;
+  letter-spacing:.04em;line-height:1.45;
+}
+.outcome-cell .lbl b{color:var(--w);font-weight:500}
+
+/* ── COMERCIAL ───────────────────────────────────────────────────── */
+.tier-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:2.5rem;
+}
+.tier{
+  background:var(--w);border:1px solid var(--border);border-radius:12px;
+  padding:2rem 2.2rem;
+}
+.tier.featured{border:1.5px solid var(--o);box-shadow:0 8px 28px rgba(247,96,10,.1)}
+.tier .tk{
+  font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);font-weight:500;margin-bottom:.5rem;
+}
+.tier.featured .tk{color:var(--o)}
+.tier h3{font-size:30px;line-height:1.05;margin-bottom:.3rem}
+.tier h3 em{font-style:italic}
+.tier .price{
+  font-family:var(--serif);font-style:italic;font-size:42px;color:var(--o);
+  line-height:1;margin:.8rem 0 1rem;letter-spacing:-.02em;
+}
+.tier .price .small{font-family:var(--sans);font-style:normal;font-size:14px;color:var(--muted);margin-left:5px}
+.tier ul{list-style:none;padding:0;margin:0}
+.tier li{
+  font-size:13px;color:var(--ink);padding:8px 0;
+  border-top:1px solid var(--border-soft);line-height:1.45;
+  display:flex;gap:8px;
+}
+.tier li:first-child{border-top:none;padding-top:0}
+.tier li::before{content:"—";color:var(--o);flex-shrink:0}
+.tier li b{font-weight:500}
+
+.payback-note{
+  margin-top:1.5rem;padding:1.2rem 1.5rem;
+  background:var(--surf);border-radius:9px;
+  font-size:13px;color:var(--muted);line-height:1.6;
+}
+.payback-note em{font-family:var(--serif);font-style:italic;color:var(--ink);font-size:14px}
+.payback-note b{font-weight:500;color:var(--ink)}
+
+/* ── IRREVERSIBILIDAD ────────────────────────────────────────────── */
+.irrev-list{
+  margin-top:3rem;
+  display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+  background:rgba(255,255,255,.06);border-radius:12px;overflow:hidden;
+}
+.irrev-cell{
+  background:var(--darker);padding:1.6rem 1.8rem;
+}
+.irrev-cell .num{
+  font-family:var(--serif);font-style:italic;font-size:24px;color:var(--o);
+  line-height:1;margin-bottom:.5rem;
+}
+.irrev-cell h4{font-size:16px;color:var(--w);margin-bottom:.4rem;line-height:1.25}
+.irrev-cell .body{font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.6;font-weight:300}
+.irrev-cell .body em{font-family:var(--serif);font-style:italic;color:var(--w)}
+
+/* ── CIERRE ──────────────────────────────────────────────────────── */
+.closer{
+  text-align:center;padding:120px 2rem;
+}
+.closer h2{
+  font-size:clamp(38px,6vw,68px);max-width:920px;margin:0 auto;
+  line-height:1.05;
+}
+.closer h2 em{font-style:italic}
+.closer .sub{
+  font-size:15.5px;color:rgba(255,255,255,.5);
+  margin-top:1.5rem;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.6;
+}
+.closer .sub em{font-family:var(--serif);font-style:italic;color:var(--w)}
+.closer-actions{
+  display:flex;justify-content:center;gap:14px;margin-top:2.5rem;flex-wrap:wrap;
+}
+.btn-w{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--w);color:var(--ink);
+  font-size:14px;font-weight:500;padding:13px 22px;border-radius:8px;
+  text-decoration:none;transition:all .15s;
+}
+.btn-w:hover{background:var(--o);color:var(--w);transform:translateY(-1px)}
+.btn-o-line{
+  display:inline-flex;align-items:center;gap:7px;
+  background:transparent;color:var(--w);
+  font-size:14px;font-weight:500;padding:13px 22px;border-radius:8px;
+  text-decoration:none;border:1px solid rgba(255,255,255,.3);
+  transition:all .15s;
+}
+.btn-o-line:hover{border-color:var(--o);color:var(--o)}
+
+/* ── LIVE TOOLS ──────────────────────────────────────────────────── */
+.tools-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:2.5rem;
+}
+.tool-card{
+  background:var(--w);border:1px solid var(--border);border-radius:12px;
+  padding:1.6rem 1.8rem;text-decoration:none;color:var(--ink);
+  transition:all .2s;display:block;
+}
+.tool-card:hover{border-color:var(--o);transform:translateY(-2px);box-shadow:0 8px 24px rgba(247,96,10,.08)}
+.tool-card .tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:9.5px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--o);margin-bottom:.7rem;
+}
+.tool-card .tag .dot{
+  width:6px;height:6px;border-radius:50%;background:var(--o);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.tool-card h4{font-size:22px;color:var(--ink);margin-bottom:.4rem;line-height:1.15}
+.tool-card h4 em{font-style:italic}
+.tool-card .body{font-size:12.5px;color:var(--muted);line-height:1.55;font-weight:300}
+.tool-card .arrow{
+  display:inline-block;margin-top:1rem;font-size:11px;
+  color:var(--o);font-weight:500;letter-spacing:.04em;
+  border-bottom:1px solid var(--o);padding-bottom:1px;text-transform:uppercase;
+}
+
+/* ── FOOTER ──────────────────────────────────────────────────────── */
+footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
+.foot{
+  max-width:1080px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  font-size:11.5px;
+}
+.foot a{color:rgba(255,255,255,.5);text-decoration:none;margin-left:1rem}
+.foot a:hover{color:var(--o)}
+.foot .sig-brand{
+  display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.7);
+}
+.foot .sig-brand .lm-mini{
+  width:14px;height:14px;background:var(--o);border-radius:3px;
+  display:inline-grid;place-items:center;
+}
+.foot .sig-brand .lm-mini svg{width:8px;height:8px}
+
+/* ── REVEAL ──────────────────────────────────────────────────────── */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* ── SCROLL PROGRESS ─────────────────────────────────────────────── */
+.scroll-progress{
+  position:fixed;top:54px;left:0;right:0;height:2px;
+  background:rgba(247,96,10,0);z-index:98;
+}
+.scroll-progress::before{
+  content:"";display:block;height:100%;background:var(--o);
+  width:var(--progress, 0%);transition:width .1s;
+}
+
+/* ── SECTION SEPARATOR ───────────────────────────────────────────── */
+.sec-num{
+  position:absolute;top:2rem;right:2rem;
+  font-family:var(--serif);font-style:italic;
+  font-size:14px;color:var(--sub);letter-spacing:.05em;
+}
+.dark .sec-num, .darker .sec-num{color:rgba(255,255,255,.25)}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────────── */
+@media (max-width:880px){
+  nav.topbar{padding:0 1rem}
+  .crumb,.nav-tabs{display:none}
+  section{padding:60px 1.25rem}
+  section.full-bleed > .inner{padding:0 1.25rem}
+  .proof-bar{flex-direction:column;align-items:flex-start;gap:1rem}
+  .proof-item{padding:0;margin:0;border-right:none}
+  .diag-grid,.brand-grid,.tasting-formats,.tier-grid,.outcome-grid,.weeks,.tools-grid,.irrev-list{grid-template-columns:1fr}
+  .diag-card.span-2{grid-column:auto}
+  .godin-grid{grid-template-columns:1fr}
+  .godin-cell{border-right:none !important;border-bottom:1px solid rgba(255,255,255,.06) !important}
+  .godin-cell:last-child{border-bottom:none !important}
+  .closer{padding:80px 1.25rem}
+}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scroll-progress"></div>
+
+<!-- ── NAV ──────────────────────────────────────────────────────── -->
+<nav class="topbar">
+  <div style="display:flex;align-items:center;">
+    <a href="https://cacerola.cl" class="logo" target="_blank" rel="noopener">
+      <div class="lm">
+        <svg viewBox="0 0 13 13" fill="none">
+          <path d="M1.5 11L6.5 2L11.5 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3.5 7.5H9.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="ln">Cacerola</span>
+    </a>
+    <span class="crumb"><em>Contigo</em> × Austin · Propuesta</span>
+    <div class="nav-tabs">
+      <a href="presentacion.html" class="nav-tab active">Presentación</a>
+      <a href="contigo-atlas.html" class="nav-tab">Atlas</a>
+      <a href="pulse.html" class="nav-tab">Pulse</a>
+      <a href="cotizador.html" class="nav-tab">Cotizador</a>
+    </div>
+  </div>
+  <a href="#cierre" class="nav-cta">Acordar reunión →</a>
+</nav>
+
+<!-- ── 1. HERO ──────────────────────────────────────────────────── -->
+<section class="hero" id="hero">
+  <div class="kicker"><i></i>Propuesta · CMO Fractional · 2026</div>
+  <h1>Una <em>ventana</em> que se cierra<br>en 36 meses.</h1>
+  <p class="hero-sub">
+    Austin es el único mercado tier-1 con retorno a oficina sostenido y un paisaje competitivo que <b>todavía no profesionalizó branding, tech y certificaciones</b>. Royal Fig dejó un gap premium sin dueño. Esta propuesta es para que ese dueño sea Contigo — antes de que un player nacional tome posición.
+  </p>
+  <div class="hero-actions">
+    <a href="#fugas" class="btn-p">Empezar el recorrido →</a>
+    <a href="contigo-atlas.html" class="btn-d">Abrir el atlas en vivo</a>
+    <a href="#cierre" class="btn-txt">Ir al cierre ↓</a>
+  </div>
+  <p class="hero-note">7 secciones · 4 herramientas vivas · 1 ventana</p>
+
+  <div class="proof-bar">
+    <div class="proof-item">
+      <div class="pn">79.5<em>%</em></div>
+      <div class="pl">RTO Austin · pico 92.9% Dic 2025 · Kastle</div>
+    </div>
+    <div class="proof-item">
+      <div class="pn">$220<span class="small">–330M</span></div>
+      <div class="pl">SAM corporate catering anual</div>
+    </div>
+    <div class="proof-item">
+      <div class="pn">18<em>–</em>36</div>
+      <div class="pl">Meses antes de que la ventana cierre</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 2. LAS 5 FUGAS ───────────────────────────────────────────── -->
+<section class="full-bleed dark" id="fugas">
+  <div class="inner" style="padding-top:96px;padding-bottom:96px;">
+    <div class="sec-num">02 / 09</div>
+    <div class="kicker"><i></i>Diagnóstico</div>
+    <h2>Lo que veo desde afuera.<br><em>Cinco fugas.</em></h2>
+    <p style="font-size:15px;color:rgba(255,255,255,.45);max-width:600px;margin-top:1rem;line-height:1.7;">
+      Esto no se compra con más Google Ads. Es trabajo de operación, marca y disciplina. Cualquier consultor encuentra estas fugas en una semana. El valor está en cerrarlas en treinta días.
+    </p>
+
+    <div class="diag-grid">
+      <div class="diag-card reveal">
+        <div class="num">01</div>
+        <h3>Positioning genérico</h3>
+        <div class="body">
+          El H1 del sitio dice <b>"Austin Catering for All Occasions"</b>. Esto lo puede firmar Crave, Peached, La Pera o austincatering.com sin cambiar una palabra.
+        </div>
+        <div class="impact">→ Reescribir hero en semana 1</div>
+      </div>
+      <div class="diag-card reveal">
+        <div class="num">02</div>
+        <h3>$1K mensual mal ruteado</h3>
+        <div class="body">
+          Google Ads tira 15 leads/mes de los cuales casi ninguno califica. Misma plata, segmentación correcta, son <b>5 cuentas tier-1 en pipeline</b>.
+        </div>
+        <div class="impact">→ Reallocation, no aumento</div>
+      </div>
+      <div class="diag-card reveal">
+        <div class="num">03</div>
+        <h3>Precios viven en cabezas</h3>
+        <div class="body">
+          Las vendedoras improvisan según si <b>"el limón está en temporada"</b>. Cotizar tarda hasta una semana. Es la fuga más cara — clientes calificados se van por timing.
+        </div>
+        <div class="impact">→ Matriz interna, &lt; 4h response</div>
+      </div>
+      <div class="diag-card reveal">
+        <div class="num">04</div>
+        <h3>One Eleven East en pausa</h3>
+        <div class="body">
+          Como venue público compite con 200 salones. <b>Como teatro propio del ecosistema, no compite con nadie</b> — nadie más tiene venue controlado para alojar su propio catering con su propio menaje.
+        </div>
+        <div class="impact">→ Reactivar como Tasting Engine</div>
+      </div>
+      <div class="diag-card reveal span-2">
+        <div class="num">05</div>
+        <h3>Cuatro marcas operadas como cuatro negocios</h3>
+        <div class="body">
+          Contigo, Ocaso, Table Manners, One Eleven East cada una con su sitio, su pipeline, su identidad. <b>Hoy queman la sinergia que justifica haber construido las cuatro.</b> Como ecosistema integrado, cada cuenta puede activar 2-4 verticales y elevar ticket 30–50%.
+        </div>
+        <div class="impact">→ Reframe: 1 sistema, 4 superficies</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 3. 4 MARCAS COMO FLYWHEEL ────────────────────────────────── -->
+<section id="flywheel">
+  <div class="sec-num">03 / 09</div>
+  <div class="kicker"><i></i>Reframe</div>
+  <h2>Cuatro marcas. <em>Un sistema.</em></h2>
+  <p style="font-size:15px;color:var(--muted);max-width:620px;margin-top:1rem;line-height:1.7;">
+    Cada marca cambia de rol. No es nueva nómina. Es nueva narrativa interna. La sinergia ya está construida — falta operarla.
+  </p>
+
+  <div class="brand-grid">
+    <div class="brand-card reveal" data-v="contigo">
+      <div class="brand-tag">Contigo Catering</div>
+      <h3>La cara <em>pública</em></h3>
+      <div class="role-now">Antes — premium catering "for all occasions"</div>
+      <div class="role-new">Storytelling, prensa, chef-founder visible, IG editorial.</div>
+      <div class="body">Donde vive el relato. La marca que un Fortune 500 elige <em>para significar algo</em>, no para ahorrar $2 por persona.</div>
+    </div>
+    <div class="brand-card reveal" data-v="ocaso">
+      <div class="brand-tag">Ocaso</div>
+      <h3>La vertical <em>outdoor</em></h3>
+      <div class="role-now">Antes — "Contigo barato cuando no alcanza"</div>
+      <div class="role-new">Smoker trailer + bar service para festivales y activaciones.</div>
+      <div class="body">No es el hijo pobre. Es el único del grupo con capacidad outdoor + bar — y el segmento de SXSW, ACL, F1 paddock paga por eso.</div>
+    </div>
+    <div class="brand-card reveal" data-v="table">
+      <div class="brand-tag">Table Manners</div>
+      <h3>La capa de <em>elevación</em></h3>
+      <div class="role-now">Antes — wishlist que nadie usa</div>
+      <div class="role-new">Add-on obligado en paquetes premium, eleva ticket 15–30%.</div>
+      <div class="body">Bundled con Contigo deja de ser opción y pasa a ser lenguaje de marca. La mesa habla antes que la comida.</div>
+    </div>
+    <div class="brand-card reveal" data-v="venue">
+      <div class="brand-tag">One Eleven East</div>
+      <h3>El <em>teatro</em></h3>
+      <div class="role-now">Antes — venue en pausa, "demasiada competencia"</div>
+      <div class="role-new">Sede del Tasting Engine. Donde se cierran las cuentas tier-1.</div>
+      <div class="body">No es un venue que se renta. Es <em>el escenario propio</em> donde Contigo aloja sus propias degustaciones sin costo marginal. Moat de capex que ya está pagado y no se está usando.</div>
+    </div>
+  </div>
+
+  <p class="flywheel-tagline">
+    Cada cuenta tier-1 que entra activa <em>2 a 4 verticales</em>.<br>
+    Una sola venta carga cuatro motores.
+  </p>
+</section>
+
+<!-- ── 4. GODIN ─────────────────────────────────────────────────── -->
+<section class="full-bleed darker" id="godin">
+  <div class="inner" style="padding-top:96px;padding-bottom:96px;">
+    <div class="sec-num">04 / 09</div>
+    <div class="kicker"><i></i>El movimiento</div>
+    <h2>Lo que vuelve la propuesta<br><em>incomparable.</em></h2>
+    <p style="font-size:15px;color:rgba(255,255,255,.45);max-width:640px;margin-top:1rem;line-height:1.7;">
+      Cinco principios de Seth Godin aplicados a la realidad operativa de Contigo. No son frases motivacionales — son decisiones que cambian a quién se contrata y a quién no.
+    </p>
+
+    <div class="godin-grid">
+      <div class="godin-cell">
+        <div class="gn">01</div>
+        <h3>Lo específico es el <em>nuevo lujo</em></h3>
+        <div class="body">La IA hace barato lo genérico. Cualquier agencia entrega "estrategia de catering Austin" en 20 min. <b>Lo que no se automatiza es el criterio de a qué decirle que no.</b></div>
+      </div>
+      <div class="godin-cell">
+        <div class="gn">02</div>
+        <h3>Mercado más <em>pequeño viable</em></h3>
+        <div class="body">No "ganar Austin". Ganar 40 oficinas específicas en 5 corredores. Cada cuenta tiene <b>nombre, dirección, decisor por título y horizonte de cierre</b>.</div>
+      </div>
+      <div class="godin-cell">
+        <div class="gn">03</div>
+        <h3>Permiso, <em>no interrupción</em></h3>
+        <div class="body">ezCater es interrupción rentada — paga 20% del ticket de por vida. El asset real es <b>una lista propia de Office Managers que abren un email los lunes</b>.</div>
+      </div>
+      <div class="godin-cell">
+        <div class="gn">04</div>
+        <h3>Estatus y <em>afiliación</em></h3>
+        <div class="body">El Office Manager de Bumble no contrata catering — contrata <b>una señal sobre el tipo de empresa que es Bumble</b>. Contigo tiene que ser la marca que se elige para significar algo.</div>
+      </div>
+      <div class="godin-cell">
+        <div class="gn">05</div>
+        <h3>Purple cow <em>o invisible</em></h3>
+        <div class="body">Comprometerse con UNA cosa pública y verificable que ningún otro publique. Mi candidata: <b>sourcing por nombre de granja + chef-founder visible + matriz de pricing transparente para enterprise (no público)</b>.</div>
+      </div>
+      <div class="godin-cell">
+        <div class="gn">06</div>
+        <h3>El Tasting <em>Engine</em></h3>
+        <div class="body">La síntesis: una NSM única y medible. <b># de degustaciones cerradas y convertidas</b>. Todo lo demás se subordina a esto.</div>
+      </div>
+    </div>
+
+    <div class="godin-tagline">
+      <p>"Vamos a construir el caterer que un Fortune 500 elige <em>para señalar quién es</em>,<br>no para ahorrar dos dólares por persona."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 5. TASTING ENGINE ────────────────────────────────────────── -->
+<section class="surf" id="engine">
+  <div class="sec-num">05 / 09</div>
+  <div class="kicker"><i></i>North Star Metric</div>
+  <h2>Tasting <em>Engine.</em></h2>
+  <p style="font-size:15px;color:var(--muted);max-width:600px;margin-top:1rem;line-height:1.7;">
+    Una sola métrica gobierna todo: <b>degustaciones cerradas y convertidas</b>. Dos formatos, ambos con costo marginal cero porque usan One Eleven East y la capacidad ya instalada.
+  </p>
+
+  <div class="tasting-formats">
+    <div class="tasting-format reveal">
+      <div class="ft-kick">Formato 1 · Trimestral</div>
+      <h3>The Table at <em>One Eleven East</em></h3>
+      <div class="ft-body">
+        Cena curada para 12–14 decisores en el venue propio. Chef-founder presente. Table Manners cura la mesa. <b>El prospect ve el bundle sin que se lo vendas.</b> Cada cena es un retiro temático — vale el viaje a Hutto.
+      </div>
+      <div class="ft-stats">
+        <div class="ft-stat"><span class="v"><em>4</em></span>cenas / año</div>
+        <div class="ft-stat"><span class="v">52</span>asientos / año</div>
+        <div class="ft-stat"><span class="v">$0</span>costo marginal</div>
+        <div class="ft-stat"><span class="v">90<small>min</small></span>duración</div>
+      </div>
+    </div>
+    <div class="tasting-format reveal">
+      <div class="ft-kick">Formato 2 · Semanal</div>
+      <h3>Contigo <em>in-the-wild</em></h3>
+      <div class="ft-body">
+        Degustación itinerante en la oficina del prospect. Chef + Karen + set de Table Manners + menú propuesto. <b>45 minutos en su sala de reuniones.</b> Cero fricción. Optimizado para Office Managers downtown.
+      </div>
+      <div class="ft-stats">
+        <div class="ft-stat"><span class="v">~40</span>cenas / año</div>
+        <div class="ft-stat"><span class="v"><em>240+</em></span>asientos / año</div>
+        <div class="ft-stat"><span class="v">45<small>min</small></span>duración</div>
+        <div class="ft-stat"><span class="v">⊘</span>fricción cliente</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nsm-quote">
+    "Cuando los planners de Austin saben que la mejor mesa de la ciudad se sienta cada trimestre <em>en One Eleven East</em>, ya no traen referidos a Crave."
+    <span class="attr">El moat real</span>
+  </div>
+</section>
+
+<!-- ── 6. MES 1 PRESUPUESTO NEUTRO ──────────────────────────────── -->
+<section id="mes1">
+  <div class="sec-num">06 / 09</div>
+  <div class="kicker"><i></i>Plan operativo · Mes 1</div>
+  <h2>Treinta días.<br><em>Presupuesto neutro.</em></h2>
+  <p style="font-size:15px;color:var(--muted);max-width:620px;margin-top:1rem;line-height:1.7;">
+    Cada actividad del mes 1 se financia con reallocation del presupuesto que ya está adentro. <b>El primer cheque nuevo es mi honorario.</b> Todo lo demás sale de plata mejor ruteada.
+  </p>
+
+  <div class="weeks">
+    <div class="week reveal">
+      <div class="wk-num">01</div>
+      <h4>Auditoría operacional</h4>
+      <ul>
+        <li><b>Mystery shop</b> 5 competidores + LA reference</li>
+        <li><b>Audit Google Ads</b> · pausa del 60–70%</li>
+        <li><b>Matriz de pricing interna</b> en Airtable</li>
+        <li><b>SLA &lt; 4h</b> a inquiries</li>
+      </ul>
+    </div>
+    <div class="week reveal">
+      <div class="wk-num">02</div>
+      <h4>Arquitectura de marca</h4>
+      <ul>
+        <li><b>Capability statement</b> + COI + W-9</li>
+        <li><b>Hero del sitio</b> reescrito</li>
+        <li><b>Pitch interno</b> del flywheel a la dueña</li>
+        <li><b>One Eleven East</b> · concepto editorial</li>
+      </ul>
+    </div>
+    <div class="week reveal">
+      <div class="wk-num">03</div>
+      <h4>Tasting #1 diseñado</h4>
+      <ul>
+        <li><b>Tema</b> off-season tech HQs</li>
+        <li><b>12 invitados</b> seleccionados con ventas</li>
+        <li><b>Invitaciones</b> firmadas por chef-founder</li>
+        <li>Page de pricing público para Ocaso</li>
+      </ul>
+    </div>
+    <div class="week reveal">
+      <div class="wk-num">04</div>
+      <h4>Lanzamiento</h4>
+      <ul>
+        <li><b>Tasting #1</b> ejecutada</li>
+        <li><b>"The Contigo Table"</b> primer envío</li>
+        <li><b>Dashboard NSM</b> live a la dueña</li>
+        <li>Mapeo de 5 planners ya activos</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="budget-promise">
+    <div class="left">El primer cheque nuevo de Contigo es <em>mi honorario.</em><br>Todo lo demás sale de plata ya invertida, mejor ruteada.</div>
+    <div class="right">Promesa operativa Mes 1</div>
+  </div>
+</section>
+
+<!-- ── 7. 90 DÍAS ──────────────────────────────────────────────── -->
+<section class="full-bleed dark" id="ninety">
+  <div class="inner" style="padding-top:96px;padding-bottom:96px;">
+    <div class="sec-num">07 / 09</div>
+    <div class="kicker"><i></i>Outcomes 90 días</div>
+    <h2>Lo que cambia<br><em>en números.</em></h2>
+    <p style="font-size:15px;color:rgba(255,255,255,.45);max-width:580px;margin-top:1rem;line-height:1.7;">
+      Cada métrica visible en el Atlas en vivo. Sin auto-reportes. La dueña abre el dashboard cualquier lunes y ve el estado.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-cell reveal">
+        <div class="pn"><em>6–8</em></div>
+        <div class="lbl"><b>Degustaciones</b> ejecutadas en 90 días</div>
+      </div>
+      <div class="outcome-cell reveal">
+        <div class="pn">15<span class="small">–25</span></div>
+        <div class="lbl"><b>Cuentas tier-1</b> con decisor en mesa</div>
+      </div>
+      <div class="outcome-cell reveal">
+        <div class="pn">5<span class="small">–12</span></div>
+        <div class="lbl"><b>Event planners</b> en programa de comisiones</div>
+      </div>
+      <div class="outcome-cell reveal">
+        <div class="pn">$300<em>K</em></div>
+        <div class="lbl"><b>Pipeline ponderado</b> mínimo · meta $600K</div>
+      </div>
+    </div>
+
+    <p style="margin-top:2.5rem;font-family:var(--serif);font-style:italic;font-size:18px;color:rgba(255,255,255,.6);max-width:740px;line-height:1.55;">
+      Estos números no son pronóstico — son la <em>condición de continuidad</em>. Si no se cumplen, la propuesta se rediseña al mes 4 sin penalidad para Contigo.
+    </p>
+  </div>
+</section>
+
+<!-- ── 8. COMERCIAL ─────────────────────────────────────────────── -->
+<section id="comercial">
+  <div class="sec-num">08 / 09</div>
+  <div class="kicker"><i></i>Estructura comercial</div>
+  <h2>El acuerdo. <em>Honesto.</em></h2>
+  <p style="font-size:15px;color:var(--muted);max-width:620px;margin-top:1rem;line-height:1.7;">
+    Compromiso de seis meses mínimo. Sin equity. La estructura está pensada para que el variable empiece a superar al fijo en el mes 2-3 — y a partir de ahí, el costo total se paga con el revenue que él mismo generó.
+  </p>
+
+  <div class="tier-grid">
+    <div class="tier reveal">
+      <div class="tk">Tier 1 · Compromiso del cliente</div>
+      <h3>Base <em>fija</em></h3>
+      <div class="price">$4,500<span class="small">/ mes</span></div>
+      <ul>
+        <li>Estrategia + dirección de ejecución</li>
+        <li>Mapa vivo (Atlas) operado y actualizado</li>
+        <li>Outbound personalizado a 60 cuentas/mes</li>
+        <li>Boletín "The Contigo Table" mensual</li>
+        <li>Dashboard NSM compartido</li>
+        <li><b>6 meses mínimo · 12 meses recomendado</b></li>
+      </ul>
+    </div>
+    <div class="tier featured reveal">
+      <div class="tk">Tier 2 · Alineación real</div>
+      <h3>Performance <em>variable</em></h3>
+      <div class="price">8<span class="small">% revenue incremental</span></div>
+      <ul>
+        <li><b>8% del revenue incremental</b> de canales nuevos · 12 meses</li>
+        <li><b>$3,000 por cuenta faro</b> cerrada (Tesla, Apple, Bumble re-entry, F1 recovery, Ascension, St. David's, Mercedes, UT)</li>
+        <li><b>5% del revenue concentrado</b> en SXSW + F1 + ACL</li>
+        <li>Sin equity · puede surgir natural en año 2</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="payback-note">
+    <em>Payback math:</em> con la proyección conservadora del mes 1 ($8K–11K incremental), <b>en mes 2 la variable empieza a superar al fijo</b>. En mes 4-6, el costo total efectivo del CMO está siendo pagado por el revenue que él mismo generó. ROI demostrable de 4–8x al mes 6.
+  </div>
+</section>
+
+<!-- ── 9. IRREVERSIBILIDAD ──────────────────────────────────────── -->
+<section class="full-bleed darker" id="irrev">
+  <div class="inner" style="padding-top:96px;padding-bottom:96px;">
+    <div class="sec-num">09 / 09</div>
+    <div class="kicker"><i></i>Por qué irse no es opción</div>
+    <h2>Esto no es un <em>servicio.</em><br>Es un sistema operativo.</h2>
+    <p style="font-size:15px;color:rgba(255,255,255,.45);max-width:620px;margin-top:1rem;line-height:1.7;">
+      Cuatro mecanismos hacen que el día que Contigo piense en irse, le duela demasiado. No por dependencia artificial — por la naturaleza misma del trabajo.
+    </p>
+
+    <div class="irrev-list">
+      <div class="irrev-cell reveal">
+        <div class="num">01</div>
+        <h4>El permission asset es propio en su ejecución</h4>
+        <div class="body">El boletín, el atlas, el CRM con 500 Office Managers, las relaciones con planners — todo eso vive en sistemas que <em>el CMO opera</em>. Contigo puede heredarlos, pero no operarlos sin el músculo construido.</div>
+      </div>
+      <div class="irrev-cell reveal">
+        <div class="num">02</div>
+        <h4>Las cuentas faro están atadas a la relación</h4>
+        <div class="body">Cuando vos cerrás Tesla, el Workplace Manager <em>te conoce a vos</em>. Reemplazarte significa rebootear la cuenta. Las cuentas tier-1 son personas, no contratos.</div>
+      </div>
+      <div class="irrev-cell reveal">
+        <div class="num">03</div>
+        <h4>El atlas es público y vivo</h4>
+        <div class="body">Cuando la dueña abre el atlas cada lunes para ver el estado, eso es <em>una rutina de management</em> que se construyó con el CMO. Apagarlo es una conversación incómoda con su propio equipo.</div>
+      </div>
+      <div class="irrev-cell reveal">
+        <div class="num">04</div>
+        <h4>El framing del mercado</h4>
+        <div class="body">La propuesta empieza con "hay una ventana de 18-36 meses". El día que Contigo piense en irse, el CMO ya le explicó que parar significa <em>perder la categoría</em>. No es chantaje — es la verdad estructural del mercado.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 10. CIERRE ────────────────────────────────────────────────── -->
+<section class="full-bleed dark" id="cierre">
+  <div class="closer">
+    <div class="kicker" style="justify-content:center;"><i></i>Cierre</div>
+    <h2>No es <em>si</em> entran.<br>Es <em>cómo</em> entran<br>antes de que la ventana cierre.</h2>
+    <p class="sub">
+      Si funciona, no podés volver a hacerlo sin esta operación corriendo.<br>
+      Si no funciona, perdiste 6 meses y $27K.<br>
+      Si funciona y se va antes de mes 12, le regaló la ventana al que viene atrás.
+    </p>
+    <div class="closer-actions">
+      <a href="mailto:sebas@cacerola.cl?subject=Reunión%20Contigo%20%C3%97%20Austin" class="btn-w">Acordar la primera reunión →</a>
+      <a href="contigo-atlas.html" class="btn-o-line">Explorar el Atlas en vivo</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── LIVE TOOLS ──────────────────────────────────────────────── -->
+<section class="surf" id="tools">
+  <div class="kicker"><i></i>Producto vivo · construido para esta propuesta</div>
+  <h2>Tres herramientas que ya existen.<br><em>No son mockups.</em></h2>
+  <p style="font-size:15px;color:var(--muted);max-width:640px;margin-top:1rem;line-height:1.7;">
+    Cada una funciona hoy. Click y abrís el atlas con 20 cuentas tier-1 cargadas, el pulse leyendo Reddit en vivo, el cotizador armando una propuesta en 60 segundos. <b>El demo es el deliverable.</b>
+  </p>
+
+  <div class="tools-grid">
+    <a href="contigo-atlas.html" class="tool-card">
+      <div class="tag"><span class="dot"></span>Live tool · 1 / 3</div>
+      <h4>Contigo <em>Atlas</em></h4>
+      <div class="body">Mapa operacional con 20 cuentas tier-1, KPI banner con pipeline ponderado por vertical, NSM en vivo, agregar puntos en el mapa, persistencia local. El dashboard que la dueña abre cada lunes.</div>
+      <span class="arrow">Abrir Atlas →</span>
+    </a>
+    <a href="pulse.html" class="tool-card">
+      <div class="tag"><span class="dot"></span>Live tool · 2 / 3</div>
+      <h4>Contigo <em>Pulse</em></h4>
+      <div class="body">Social listening: Reddit en vivo + X embed + cola manual de LinkedIn. Cada post se convierte en cuenta del Atlas con un click. Heat score combinado de intención + recencia + engagement.</div>
+      <span class="arrow">Abrir Pulse →</span>
+    </a>
+    <a href="cotizador.html" class="tool-card">
+      <div class="tag"><span class="dot"></span>Live tool · 3 / 3</div>
+      <h4>Contigo <em>Cotizador</em></h4>
+      <div class="body">Chat con el chef virtual. 7 preguntas → menú premium + breakdown por vertical + USDA AMS Dallas live + propuesta descargable. <b>De 1 semana de response time a 60 segundos.</b></div>
+      <span class="arrow">Abrir Cotizador →</span>
+    </a>
+  </div>
+</section>
+
+<!-- ── FOOTER ──────────────────────────────────────────────────── -->
+<footer>
+  <div class="foot">
+    <span class="sig-brand">
+      <span class="lm-mini">
+        <svg viewBox="0 0 13 13" fill="none">
+          <path d="M1.5 11L6.5 2L11.5 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3.5 7.5H9.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      Cacerola Growth Marketing SpA · Santiago, Chile
+    </span>
+    <div>
+      <a href="mailto:sebas@cacerola.cl">sebas@cacerola.cl</a>
+      <a href="contigo-atlas.html">Atlas</a>
+      <a href="pulse.html">Pulse</a>
+      <a href="cotizador.html">Cotizador</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Reveal */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.06 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* Scroll progress */
+const progress = document.getElementById('scroll-progress');
+window.addEventListener('scroll', () => {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = Math.min(100, (window.scrollY / max) * 100);
+  progress.style.setProperty('--progress', pct + '%');
+});
+
+/* Keyboard navigation between sections (deck mode) */
+const sections = ['hero','fugas','flywheel','godin','engine','mes1','ninety','comercial','irrev','cierre','tools'];
+function currentSection() {
+  const y = window.scrollY + 100;
+  let current = sections[0];
+  for (const id of sections) {
+    const el = document.getElementById(id);
+    if (el && el.offsetTop <= y) current = id;
+  }
+  return current;
+}
+document.addEventListener('keydown', (e) => {
+  if (['ArrowDown','PageDown',' '].includes(e.key)) {
+    e.preventDefault();
+    const idx = sections.indexOf(currentSection());
+    const next = sections[Math.min(sections.length - 1, idx + 1)];
+    document.getElementById(next).scrollIntoView({ behavior: 'smooth' });
+  } else if (['ArrowUp','PageUp'].includes(e.key)) {
+    e.preventDefault();
+    const idx = sections.indexOf(currentSection());
+    const prev = sections[Math.max(0, idx - 1)];
+    document.getElementById(prev).scrollIntoView({ behavior: 'smooth' });
+  }
+});
+</script>
+</body>
+</html>
