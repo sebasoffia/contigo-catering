@@ -455,6 +455,147 @@ em{color:var(--o)}
   border-bottom:1px solid var(--o);padding-bottom:1px;text-transform:uppercase;
 }
 
+/* ── BENCHMARK · executive tables ────────────────────────────────── */
+.bench-intro{
+  font-size:15px;color:var(--muted);max-width:680px;margin-top:1rem;line-height:1.7;
+}
+.bench-intro b{color:var(--ink);font-weight:500}
+
+.bench-tables{display:flex;flex-direction:column;gap:2.5rem;margin-top:2.5rem}
+.bench-table-wrap{
+  background:var(--w);border:1px solid var(--border);border-radius:12px;
+  padding:1.5rem 1.7rem 1.7rem;overflow:hidden;
+}
+.bench-table-head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:1rem;
+  margin-bottom:1.1rem;flex-wrap:wrap;
+}
+.bench-table-head h3{
+  font-size:22px;letter-spacing:-.015em;color:var(--ink);
+}
+.bench-table-head h3 em{font-style:italic;color:var(--o)}
+.bench-table-head .src{
+  font-size:10.5px;color:var(--sub);letter-spacing:.06em;text-transform:uppercase;
+  font-weight:500;
+}
+.bench-table-head .lede{
+  font-size:13px;color:var(--muted);line-height:1.55;font-weight:300;
+  width:100%;margin-top:.3rem;
+}
+
+.bench-table{width:100%;border-collapse:collapse;font-size:13px}
+.bench-table th{
+  text-align:left;padding:.65rem .9rem;
+  font-size:10.5px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--sub);background:var(--surf);
+  border-bottom:1px solid var(--border);
+}
+.bench-table th:first-child{border-radius:6px 0 0 0}
+.bench-table th:last-child{border-radius:0 6px 0 0}
+.bench-table td{
+  padding:.85rem .9rem;border-bottom:1px solid var(--border-soft);
+  color:var(--ink);font-weight:300;line-height:1.5;vertical-align:top;
+}
+.bench-table tr:last-child td{border-bottom:none}
+.bench-table td b{font-weight:500}
+.bench-table td em{font-family:var(--serif);font-style:italic;color:var(--o)}
+.bench-table td.num{
+  font-family:var(--serif);font-style:italic;font-size:17px;color:var(--ink);
+  white-space:nowrap;
+}
+.bench-table tr.total td{
+  background:var(--surf);font-weight:500;border-top:2px solid var(--o);
+}
+.bench-table tr.total td.num{font-size:19px;color:var(--o)}
+
+.bench-insight{
+  margin-top:2.5rem;padding:1.6rem 1.8rem;
+  background:#0E0E0E;color:var(--w);border-radius:12px;
+  font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.55;
+  letter-spacing:-.005em;
+}
+.bench-insight em{color:var(--o);font-style:italic}
+.bench-insight .lbl{
+  display:block;margin-top:.6rem;font-family:var(--sans);font-style:normal;
+  font-size:10.5px;color:rgba(255,255,255,.45);letter-spacing:.08em;
+  text-transform:uppercase;font-weight:500;
+}
+
+/* ── MOOD IMAGES · references ───────────────────────────────────── */
+.mood-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:6px;
+  margin-top:2.5rem;padding-top:2.2rem;
+  border-top:1px solid var(--border);
+}
+.mood-strip-head{
+  grid-column:1/-1;display:flex;align-items:baseline;justify-content:space-between;
+  margin-bottom:.5rem;flex-wrap:wrap;gap:.5rem;
+}
+.mood-strip-head .ttl{
+  font-size:10.5px;color:var(--sub);letter-spacing:.13em;text-transform:uppercase;
+  font-weight:500;
+}
+.mood-strip-head .note{
+  font-size:11.5px;color:var(--sub);font-style:italic;
+}
+.mood-cell{
+  position:relative;aspect-ratio:1/1.1;border-radius:8px;
+  background:linear-gradient(135deg,#2a2522 0%,#1a1715 100%);
+  overflow:hidden;
+}
+.mood-cell::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.7) 100%);
+  z-index:2;pointer-events:none;
+}
+.mood-cell img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .6s ease;
+}
+.mood-cell:hover img{transform:scale(1.05)}
+.mood-cell .mood-tag{
+  position:absolute;left:.8rem;bottom:.7rem;z-index:3;
+  font-size:10.5px;color:var(--w);letter-spacing:.06em;font-weight:500;
+}
+.mood-cell .mood-role{
+  display:block;font-family:var(--serif);font-style:italic;
+  font-size:14px;color:var(--w);text-transform:none;letter-spacing:-.01em;
+  margin-top:1px;
+}
+
+/* Brand-card image header (flywheel) */
+.brand-card{padding:0}
+.brand-card-img{
+  position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;
+  background:linear-gradient(135deg,var(--surf) 0%,#e8e4df 100%);
+}
+.brand-card-img img{width:100%;height:100%;object-fit:cover;display:block}
+.brand-card-body{padding:1.4rem 1.7rem 1.6rem 1.8rem}
+.brand-card-body .brand-tag{margin-bottom:.5rem}
+
+/* Tasting engine wide reference image */
+.tasting-photo-wrap{
+  margin-top:2.5rem;border-radius:12px;overflow:hidden;
+  position:relative;aspect-ratio:21/9;max-height:340px;
+  background:linear-gradient(135deg,#2a2522 0%,#1a1715 100%);
+}
+.tasting-photo-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.tasting-photo-wrap::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.55) 100%);
+  pointer-events:none;
+}
+.tasting-photo-cap{
+  position:absolute;left:1.4rem;bottom:1.1rem;color:var(--w);
+  font-family:var(--serif);font-style:italic;font-size:16px;line-height:1.3;
+  z-index:2;max-width:520px;letter-spacing:-.005em;
+}
+.tasting-photo-cap .lbl{
+  display:block;font-family:var(--sans);font-style:normal;font-size:9.5px;
+  color:rgba(255,255,255,.6);letter-spacing:.08em;text-transform:uppercase;
+  font-weight:500;margin-bottom:.3rem;
+}
+
 /* ── FOOTER ──────────────────────────────────────────────────────── */
 footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
 .foot{
@@ -715,12 +856,216 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
       <div class="pl">Meses antes de que la ventana cierre</div>
     </div>
   </div>
+
+  <div class="mood-strip">
+    <div class="mood-strip-head">
+      <span class="ttl">Moodboard · 4 marcas, 4 roles</span>
+      <span class="note">Referencias visuales · no son fotos de Contigo</span>
+    </div>
+    <div class="mood-cell">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=600&q=75" alt="Editorial dining mood" loading="lazy" onerror="this.style.display='none'">
+      <div class="mood-tag">Contigo<span class="mood-role">la cara pública</span></div>
+    </div>
+    <div class="mood-cell">
+      <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=75" alt="BBQ outdoor mood" loading="lazy" onerror="this.style.display='none'">
+      <div class="mood-tag">Ocaso<span class="mood-role">la vertical outdoor</span></div>
+    </div>
+    <div class="mood-cell">
+      <img src="https://images.unsplash.com/photo-1530062845289-9109b2c9c868?auto=format&fit=crop&w=600&q=75" alt="Tablescape mood" loading="lazy" onerror="this.style.display='none'">
+      <div class="mood-tag">Table Manners<span class="mood-role">la capa de elevación</span></div>
+    </div>
+    <div class="mood-cell">
+      <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=600&q=75" alt="Venue at dusk mood" loading="lazy" onerror="this.style.display='none'">
+      <div class="mood-tag">One Eleven East<span class="mood-role">el teatro</span></div>
+    </div>
+  </div>
 </section>
 
-<!-- ── 2. LAS 5 FUGAS ───────────────────────────────────────────── -->
+<!-- ── 2. BENCHMARK · MERCADO ───────────────────────────────────── -->
+<section class="surf" id="benchmark">
+  <div class="sec-num">02 / 10</div>
+  <div class="kicker"><i></i>Lectura del mercado · Q2 2026</div>
+  <h2>Por qué Austin. <em>Por qué ahora.</em></h2>
+  <p class="bench-intro">
+    Cinco tablas. Treinta segundos cada una. Lo que sigue es la lectura ejecutiva del mercado — el contexto sobre el que se sostiene la ventana de 18–36 meses. <b>Antes del diagnóstico operativo, esto.</b>
+  </p>
+
+  <div class="bench-tables">
+
+    <!-- Tabla 1 · Macro -->
+    <div class="bench-table-wrap">
+      <div class="bench-table-head">
+        <h3>01 · <em>Macro.</em> Lo que define la ventana</h3>
+        <span class="src">Indicadores no negociables</span>
+        <p class="lede">Cinco datos macro que explican por qué Austin no es "una ciudad más" — es el único mercado tier-1 USA con esta combinación de RTO, demografía y vacío competitivo simultáneo.</p>
+      </div>
+      <table class="bench-table">
+        <thead>
+          <tr><th>Indicador</th><th>Valor</th><th>Lectura · fuente</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>RTO Austin</b> · return-to-office</td>
+            <td class="num">79.5<em>%</em></td>
+            <td>Promedio sostenido · pico 92.9% Dic 2025. Kastle Systems · #1 USA por encima de NYC, SF, Boston.</td>
+          </tr>
+          <tr>
+            <td><b>Población metro</b></td>
+            <td class="num">2.4<em>M</em></td>
+            <td>+12% en 5 años. Solo Phoenix crece más rápido. US Census Bureau.</td>
+          </tr>
+          <tr>
+            <td><b>Empleo tech corporativo</b></td>
+            <td class="num">200<em>K</em>+</td>
+            <td>Posiciones activas. Greater Austin Chamber. Densidad sin igualar fuera de Bay Area.</td>
+          </tr>
+          <tr>
+            <td><b>Convention Center</b></td>
+            <td class="num">2029</td>
+            <td>Fecha de cierre por reconstrucción. Demanda redistribuye a Palmer + Moody · catering vendor lists se reabren.</td>
+          </tr>
+          <tr>
+            <td><b>Royal Fig retail</b></td>
+            <td class="num">2024</td>
+            <td>Cierre del brazo retail farm-to-table. <em>Gap premium sin dueño</em> · ventana abierta. MML/Crave absorben pero sin heredar la promesa.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tabla 2 · TAM por segmento -->
+    <div class="bench-table-wrap">
+      <div class="bench-table-head">
+        <h3>02 · <em>Tamaño</em> del mercado por segmento</h3>
+        <span class="src">USD anual · estimación propia</span>
+        <p class="lede">El TAM total del catering Austin metro es ~$385–580M anuales. La porción realista para Contigo (SAM) es $66–102M cuando se opera el ecosistema completo, no solo la marca premium.</p>
+      </div>
+      <table class="bench-table">
+        <thead>
+          <tr><th>Segmento</th><th>TAM anual</th><th>SAM realista</th><th>Activador del ecosistema</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Corporate catering recurrente</b><br><span style="color:var(--sub);font-size:11.5px;">drop-off + plated · cuentas tier-1 + mid</span></td>
+            <td class="num">$220<em>–330M</em></td>
+            <td class="num">$35<em>–50M</em></td>
+            <td>Contigo + Table Manners bundled</td>
+          </tr>
+          <tr>
+            <td><b>Bodas premium</b><br><span style="color:var(--sub);font-size:11.5px;">presupuesto $80K+ por evento</span></td>
+            <td class="num">$80<em>–120M</em></td>
+            <td class="num">$15<em>–25M</em></td>
+            <td>One Eleven East como teatro propio</td>
+          </tr>
+          <tr>
+            <td><b>Mega-eventos</b><br><span style="color:var(--sub);font-size:11.5px;">SXSW + F1 USGP + ACL + Tech Week</span></td>
+            <td class="num">$40<em>–65M</em></td>
+            <td class="num">$5<em>–10M</em></td>
+            <td>Ocaso outdoor + venue + activations</td>
+          </tr>
+          <tr>
+            <td><b>Healthcare</b><br><span style="color:var(--sub);font-size:11.5px;">Ascension + St. David's + Dell Med</span></td>
+            <td class="num">$30<em>–45M</em></td>
+            <td class="num">$8<em>–12M</em></td>
+            <td>Compliance + COI + scale</td>
+          </tr>
+          <tr>
+            <td><b>Education</b><br><span style="color:var(--sub);font-size:11.5px;">UT Austin + Dell Medical</span></td>
+            <td class="num">$15<em>–20M</em></td>
+            <td class="num">$3<em>–5M</em></td>
+            <td>NET 45 · tax-exempt vendor list</td>
+          </tr>
+          <tr class="total">
+            <td><b>Total addressable</b></td>
+            <td class="num">$385<em>–580M</em></td>
+            <td class="num">$66<em>–102M</em></td>
+            <td>Ecosistema 4-marcas · operado como uno</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tabla 3 · Corredores -->
+    <div class="bench-table-wrap">
+      <div class="bench-table-head">
+        <h3>03 · <em>Corredores</em> corporativos · TAM por geografía</h3>
+        <span class="src">5 zonas · 100K+ empleos tech</span>
+        <p class="lede">No "ganar Austin" — ganar 40 oficinas específicas en estos 5 corredores. Cada corredor tiene 1–3 anchors que, si entran, abren la lista preferida de su corredor entero.</p>
+      </div>
+      <table class="bench-table">
+        <thead>
+          <tr><th>Corredor</th><th>TAM anual</th><th>Anchors top</th><th>Empleos est.</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><b>East Austin · Gigafactory</b></td><td class="num">$50<em>–80M</em></td><td>Tesla · Oracle Lakeshore</td><td class="num">35K+</td></tr>
+          <tr><td><b>Downtown</b></td><td class="num">$60<em>–90M</em></td><td>Google · Meta · Oracle · Indeed · Bumble</td><td class="num">25K+</td></tr>
+          <tr><td><b>The Domain</b></td><td class="num">$40<em>–60M</em></td><td>Amazon · IBM · Indeed</td><td class="num">18K+</td></tr>
+          <tr><td><b>Parmer</b></td><td class="num">$30<em>–50M</em></td><td>Apple · Samsung · Dell</td><td class="num">18K+</td></tr>
+          <tr><td><b>Round Rock</b></td><td class="num">$25<em>–40M</em></td><td>Dell HQ</td><td class="num">13K+</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tabla 4 · Mega-eventos -->
+    <div class="bench-table-wrap">
+      <div class="bench-table-head">
+        <h3>04 · <em>Calendario</em> de mega-eventos · pipeline estacional</h3>
+        <span class="src">Re-pitch ABR–JUN 2026</span>
+        <p class="lede">Cuatro ventanas estacionales que concentran $40–65M anuales de catering en pocos meses. Tres están abiertas para Contigo. F1 fue perdida en 2024 — la ventana de re-pitch se cierra en JUN 2026.</p>
+      </div>
+      <table class="bench-table">
+        <thead>
+          <tr><th>Evento</th><th>Fecha</th><th>Asistentes</th><th>Mercado catering</th><th>Status Contigo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><b>SXSW</b></td><td>Mar 2027</td><td class="num">309K</td><td class="num">$25<em>–50M</em></td><td>Sin entrar · brand houses $50K–500K c/u</td></tr>
+          <tr><td><b>F1 USGP · COTA</b></td><td>Oct 2026</td><td class="num">400K</td><td class="num">$5<em>–15M</em></td><td><em>Perdida 2024</em> · re-pitch ABR–JUN 26 · 70+ suites</td></tr>
+          <tr><td><b>ACL Festival</b></td><td>Oct 2026</td><td class="num">450K</td><td class="num">Activations laterales</td><td>Sin entrar · Ocaso natural fit</td></tr>
+          <tr><td><b>Austin Tech Week</b></td><td>Otoño 2026</td><td class="num">Boutique</td><td>Medio · brand activations</td><td>Sin entrar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tabla 5 · Competencia -->
+    <div class="bench-table-wrap">
+      <div class="bench-table-head">
+        <h3>05 · <em>Paisaje</em> competitivo · resumen ejecutivo</h3>
+        <span class="src">Detalle completo en Atlas</span>
+        <p class="lede">Diez competidores relevantes. Ninguno opera un ecosistema integrado de 4 verticales. La diferencia es estructural — no se compra con más Google Ads.</p>
+      </div>
+      <table class="bench-table">
+        <thead>
+          <tr><th>Tier</th><th>Players</th><th>Posicionamiento típico</th><th>Diferencial Contigo posible</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Tier 1 frontal</b><br><span style="color:var(--sub);font-size:11.5px;">mismo cliente · mismo ticket · misma semana</span></td>
+            <td>Word of Mouth · Royal Fig · 24 Diamonds · Sterling · Crave · Austin Catering</td>
+            <td><em>"Premium catering for all occasions"</em> — H1 intercambiable entre todos</td>
+            <td>Ecosistema 4-marcas operado como uno · One Eleven East como teatro</td>
+          </tr>
+          <tr>
+            <td><b>Tier 2 adyacente</b><br><span style="color:var(--sub);font-size:11.5px;">ganan momentos puntuales</span></td>
+            <td>Whim Hospitality · Peached · LeRoy and Lewis · Rosemary's</td>
+            <td>Especialistas verticales (BBQ, fusión, weddings, hospitality)</td>
+            <td>Bundle Contigo + Table Manners + venue propio · ticket 30–50% mayor</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="bench-insight">
+    El mercado es grande, está creciendo, y nadie en el Tier 1 frontal tiene aún una propuesta diferenciada. <em>La ventana de 18–36 meses es exactamente eso</em> — el tiempo antes de que un player nacional tome posición o uno de los locales profesionalice antes que Contigo.
+    <span class="lbl">Lectura del mercado · cierre</span>
+  </div>
+</section>
+
+<!-- ── 3. LAS 5 FUGAS ───────────────────────────────────────────── -->
 <section class="full-bleed dark" id="fugas">
   <div class="inner" style="padding-top:96px;padding-bottom:96px;">
-    <div class="sec-num">02 / 09</div>
+    <div class="sec-num">03 / 10</div>
     <div class="kicker"><i></i>Diagnóstico</div>
     <h2>Lo que veo desde afuera.<br><em>Cinco fugas.</em></h2>
     <p style="font-size:15px;color:rgba(255,255,255,.45);max-width:600px;margin-top:1rem;line-height:1.7;">
@@ -774,7 +1119,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
 
 <!-- ── 3. 4 MARCAS COMO FLYWHEEL ────────────────────────────────── -->
 <section id="flywheel">
-  <div class="sec-num">03 / 09</div>
+  <div class="sec-num">04 / 10</div>
   <div class="kicker"><i></i>Reframe</div>
   <h2>Cuatro marcas. <em>Un sistema.</em></h2>
   <p style="font-size:15px;color:var(--muted);max-width:620px;margin-top:1rem;line-height:1.7;">
@@ -783,32 +1128,52 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
 
   <div class="brand-grid">
     <div class="brand-card reveal" data-v="contigo">
-      <div class="brand-tag">Contigo Catering</div>
-      <h3>La cara <em>pública</em></h3>
-      <div class="role-now">Antes — premium catering "for all occasions"</div>
-      <div class="role-new">Storytelling, prensa, chef-founder visible, IG editorial.</div>
-      <div class="body">Donde vive el relato. La marca que un Fortune 500 elige <em>para significar algo</em>, no para ahorrar $2 por persona.</div>
+      <div class="brand-card-img">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=75" alt="Premium dining reference" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="brand-card-body">
+        <div class="brand-tag">Contigo Catering · referencia visual</div>
+        <h3>La cara <em>pública</em></h3>
+        <div class="role-now">Antes — premium catering "for all occasions"</div>
+        <div class="role-new">Storytelling, prensa, chef-founder visible, IG editorial.</div>
+        <div class="body">Donde vive el relato. La marca que un Fortune 500 elige <em>para significar algo</em>, no para ahorrar $2 por persona.</div>
+      </div>
     </div>
     <div class="brand-card reveal" data-v="ocaso">
-      <div class="brand-tag">Ocaso</div>
-      <h3>La vertical <em>outdoor</em></h3>
-      <div class="role-now">Antes — "Contigo barato cuando no alcanza"</div>
-      <div class="role-new">Smoker trailer + bar service para festivales y activaciones.</div>
-      <div class="body">No es el hijo pobre. Es el único del grupo con capacidad outdoor + bar — y el segmento de SXSW, ACL, F1 paddock paga por eso.</div>
+      <div class="brand-card-img">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=75" alt="BBQ outdoor reference" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="brand-card-body">
+        <div class="brand-tag">Ocaso · referencia visual</div>
+        <h3>La vertical <em>outdoor</em></h3>
+        <div class="role-now">Antes — "Contigo barato cuando no alcanza"</div>
+        <div class="role-new">Smoker trailer + bar service para festivales y activaciones.</div>
+        <div class="body">No es el hijo pobre. Es el único del grupo con capacidad outdoor + bar — y el segmento de SXSW, ACL, F1 paddock paga por eso.</div>
+      </div>
     </div>
     <div class="brand-card reveal" data-v="table">
-      <div class="brand-tag">Table Manners</div>
-      <h3>La capa de <em>elevación</em></h3>
-      <div class="role-now">Antes — wishlist que nadie usa</div>
-      <div class="role-new">Add-on obligado en paquetes premium, eleva ticket 15–30%.</div>
-      <div class="body">Bundled con Contigo deja de ser opción y pasa a ser lenguaje de marca. La mesa habla antes que la comida.</div>
+      <div class="brand-card-img">
+        <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=800&q=75" alt="Tablescape reference" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="brand-card-body">
+        <div class="brand-tag">Table Manners · referencia visual</div>
+        <h3>La capa de <em>elevación</em></h3>
+        <div class="role-now">Antes — wishlist que nadie usa</div>
+        <div class="role-new">Add-on obligado en paquetes premium, eleva ticket 15–30%.</div>
+        <div class="body">Bundled con Contigo deja de ser opción y pasa a ser lenguaje de marca. La mesa habla antes que la comida.</div>
+      </div>
     </div>
     <div class="brand-card reveal" data-v="venue">
-      <div class="brand-tag">One Eleven East</div>
-      <h3>El <em>teatro</em></h3>
-      <div class="role-now">Antes — venue en pausa, "demasiada competencia"</div>
-      <div class="role-new">Sede del Tasting Engine. Donde se cierran las cuentas tier-1.</div>
-      <div class="body">No es un venue que se renta. Es <em>el escenario propio</em> donde Contigo aloja sus propias degustaciones sin costo marginal. Moat de capex que ya está pagado y no se está usando.</div>
+      <div class="brand-card-img">
+        <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=75" alt="Venue exterior reference" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="brand-card-body">
+        <div class="brand-tag">One Eleven East · referencia visual</div>
+        <h3>El <em>teatro</em></h3>
+        <div class="role-now">Antes — venue en pausa, "demasiada competencia"</div>
+        <div class="role-new">Sede del Tasting Engine. Donde se cierran las cuentas tier-1.</div>
+        <div class="body">No es un venue que se renta. Es <em>el escenario propio</em> donde Contigo aloja sus propias degustaciones sin costo marginal. Moat de capex que ya está pagado y no se está usando.</div>
+      </div>
     </div>
   </div>
 
@@ -821,7 +1186,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
 <!-- ── 4. GODIN ─────────────────────────────────────────────────── -->
 <section class="full-bleed darker" id="godin">
   <div class="inner" style="padding-top:96px;padding-bottom:96px;">
-    <div class="sec-num">04 / 09</div>
+    <div class="sec-num">05 / 10</div>
     <div class="kicker"><i></i>El movimiento</div>
     <h2>Lo que vuelve la propuesta<br><em>incomparable.</em></h2>
     <p style="font-size:15px;color:rgba(255,255,255,.45);max-width:640px;margin-top:1rem;line-height:1.7;">
@@ -869,7 +1234,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
 
 <!-- ── 5. TASTING ENGINE ────────────────────────────────────────── -->
 <section class="surf" id="engine">
-  <div class="sec-num">05 / 09</div>
+  <div class="sec-num">06 / 10</div>
   <div class="kicker"><i></i>North Star Metric</div>
   <h2>Tasting <em>Engine.</em></h2>
   <p style="font-size:15px;color:var(--muted);max-width:600px;margin-top:1rem;line-height:1.7;">
@@ -905,6 +1270,14 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
     </div>
   </div>
 
+  <div class="tasting-photo-wrap">
+    <img src="https://images.unsplash.com/photo-1530062845289-9109b2c9c868?auto=format&fit=crop&w=1600&q=80" alt="Long table candlelit reference" loading="lazy" onerror="this.style.display='none'">
+    <div class="tasting-photo-cap">
+      <span class="lbl">Mood · The Table at One Eleven East</span>
+      Una mesa larga, doce decisores, chef-founder presente. Lo que se vende no es la cena — es la sensación de que esta mesa existe y vos no estás en ella todavía.
+    </div>
+  </div>
+
   <div class="nsm-quote">
     "Cuando los planners de Austin saben que la mejor mesa de la ciudad se sienta cada trimestre <em>en One Eleven East</em>, ya no traen referidos a Crave."
     <span class="attr">El moat real</span>
@@ -913,7 +1286,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
 
 <!-- ── 6. MES 1 PRESUPUESTO NEUTRO ──────────────────────────────── -->
 <section id="mes1">
-  <div class="sec-num">06 / 09</div>
+  <div class="sec-num">07 / 10</div>
   <div class="kicker"><i></i>Plan operativo · Mes 1</div>
   <h2>Treinta días.<br><em>Presupuesto neutro.</em></h2>
   <p style="font-size:15px;color:var(--muted);max-width:620px;margin-top:1rem;line-height:1.7;">
@@ -972,7 +1345,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
 <!-- ── 7. 90 DÍAS ──────────────────────────────────────────────── -->
 <section class="full-bleed dark" id="ninety">
   <div class="inner" style="padding-top:96px;padding-bottom:96px;">
-    <div class="sec-num">07 / 09</div>
+    <div class="sec-num">08 / 10</div>
     <div class="kicker"><i></i>Outcomes 90 días</div>
     <h2>Lo que cambia<br><em>en números.</em></h2>
     <p style="font-size:15px;color:rgba(255,255,255,.45);max-width:580px;margin-top:1rem;line-height:1.7;">
@@ -1006,7 +1379,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
 
 <!-- ── 8. COMERCIAL ─────────────────────────────────────────────── -->
 <section id="comercial">
-  <div class="sec-num">08 / 09</div>
+  <div class="sec-num">09 / 10</div>
   <div class="kicker"><i></i>Estructura comercial</div>
   <h2>El acuerdo. <em>Honesto.</em></h2>
   <p style="font-size:15px;color:var(--muted);max-width:620px;margin-top:1rem;line-height:1.7;">
@@ -1048,7 +1421,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
 <!-- ── 9. IRREVERSIBILIDAD ──────────────────────────────────────── -->
 <section class="full-bleed darker" id="irrev">
   <div class="inner" style="padding-top:96px;padding-bottom:96px;">
-    <div class="sec-num">09 / 09</div>
+    <div class="sec-num">10 / 10</div>
     <div class="kicker"><i></i>Por qué irse no es opción</div>
     <h2>Esto no es un <em>servicio.</em><br>Es un sistema operativo.</h2>
     <p style="font-size:15px;color:rgba(255,255,255,.45);max-width:620px;margin-top:1rem;line-height:1.7;">
@@ -1377,7 +1750,7 @@ window.addEventListener('scroll', () => {
 });
 
 /* Keyboard navigation between sections (deck mode) */
-const sections = ['hero','fugas','flywheel','godin','engine','mes1','ninety','comercial','irrev','cierre','leeme','tools'];
+const sections = ['hero','benchmark','fugas','flywheel','godin','engine','mes1','ninety','comercial','irrev','cierre','leeme','tools'];
 function currentSection() {
   const y = window.scrollY + 100;
   let current = sections[0];

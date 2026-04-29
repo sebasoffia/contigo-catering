@@ -426,6 +426,47 @@
     }
     .pin-coworking { background: var(--w); border: 1.5px dashed var(--muted); width: 12px; height: 12px; border-radius: 50%; }
 
+    /* Competitors · gray pins, dashed border for adyacente */
+    .pin-competitor {
+      width: 14px; height: 14px; border-radius: 3px;
+      background: #C8C2BC; border: 1.5px solid #6A6A6A;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.10);
+      transition: all .15s ease;
+    }
+    .pin-competitor-t1 { background: #B0A89F; border-color: #4A4A4A; }
+    .pin-competitor-t2 { background: var(--w); border: 1.5px dashed #9A9A9A; }
+    .custom-pin-wrap:hover .pin-competitor {
+      transform: scale(1.25); border-color: var(--ink);
+    }
+
+    /* Anchor labels — Contigo HQ + One Eleven East · always visible */
+    .anchor-label-wrap { background: transparent !important; border: none !important; pointer-events: none; }
+    .anchor-label {
+      display: inline-block;
+      background: var(--w);
+      border: 1.5px solid var(--o);
+      color: var(--ink);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      padding: 4px 9px;
+      border-radius: 5px;
+      box-shadow: 0 4px 14px rgba(247, 96, 10, 0.18), 0 0 0 1px rgba(247, 96, 10, 0.08);
+      white-space: nowrap;
+      transform: translateY(-50%);
+    }
+    .anchor-label-contigo-hq {
+      background: var(--o);
+      color: var(--w);
+      border-color: var(--o);
+    }
+    .anchor-label-one-eleven-east {
+      background: #3A3632;
+      color: var(--w);
+      border-color: #3A3632;
+    }
+
     /* Account pin: donut with vertical segments */
     .pin-donut {
       width: 26px; height: 26px; display: block;
@@ -877,11 +918,10 @@
     },
 
     brands: [
-      { id: "contigo-hq", name: "Contigo Catering", role: "HQ · kitchen · premium", coords: [30.2580, -97.7300], type: "contigo", logoUrl: null, notes: "Marca principal. Piso $12K. Historia: Spotify, Bumble, Mercedes, F1 (2024 - perdida), weddings. 10+ años.", siteUrl: "https://contigocatering.com" },
-      { id: "contigo-office", name: "Contigo · Oficina Comercial", role: "Oficina · South Austin · B201", coords: [30.211271914427424, -97.7268149621747], type: "contigo", logoUrl: null, notes: "3709 Promontory Point Dr, B201 — Austin TX 78744. South Austin: zona de crecimiento con comunidad creativa y artística. Ciudad de alto costo, mercado premium B2B. Hub operacional del equipo.", siteUrl: null },
-      { id: "ocaso-base", name: "Ocaso Catering", role: "Outdoor · smoker · bar", coords: [30.2520, -97.7200], type: "ocaso", notes: "Diferencial: smoker trailer + bar services. Reframe: NO es 'Contigo barato' → es la vertical outdoor + festivales + SXSW/ACL activations.", siteUrl: "https://ocasotexas.com" },
-      { id: "table-manners", name: "Table Manners", role: "Rental · tabletop", coords: [30.2480, -97.7350], type: "table", notes: "Cubre Central Texas + Teton Valley + Rocky Mountain. Bundled con Contigo eleva ticket 15–30%.", siteUrl: "https://tablemannerstx.com" },
-      { id: "one-eleven-east", name: "One Eleven East", role: "Venue · theater", coords: [30.5427, -97.5469], type: "venue-own", notes: "Hutto, TX. Rol estratégico: TEATRO del ecosistema, sede del Tasting Engine trimestral.", siteUrl: "https://oneeleveneast.com" }
+      { id: "contigo-hq", name: "Contigo Catering", role: "HQ · kitchen · premium", address: "3709 Promontory Point Dr · B201 · Austin, TX 78744", coords: [30.1862, -97.7480], type: "contigo", logoUrl: null, notes: "Marca principal. Piso $12K. Historia: Spotify, Bumble, Mercedes, F1 (2024 - perdida), weddings. 10+ años.", siteUrl: "https://contigocatering.com" },
+      { id: "ocaso-base", name: "Ocaso Catering", role: "Outdoor · smoker · bar", address: "Op. compartida con Contigo HQ", coords: [30.1872, -97.7470], type: "ocaso", notes: "Diferencial: smoker trailer + bar services. Reframe: NO es 'Contigo barato' → es la vertical outdoor + festivales + SXSW/ACL activations.", siteUrl: "https://ocasotexas.com" },
+      { id: "table-manners", name: "Table Manners", role: "Rental · tabletop", address: "Showroom + warehouse Austin", coords: [30.1882, -97.7490], type: "table", notes: "Cubre Central Texas + Teton Valley + Rocky Mountain. Bundled con Contigo eleva ticket 15–30%.", siteUrl: "https://tablemannerstx.com" },
+      { id: "one-eleven-east", name: "One Eleven East", role: "Venue · theater", address: "111 East St · Hutto, TX 78634", coords: [30.5427, -97.5469], type: "venue-own", notes: "Hutto, TX. Rol estratégico: TEATRO del ecosistema, sede del Tasting Engine trimestral.", siteUrl: "https://oneeleveneast.com" }
     ],
 
     corridors: [
@@ -998,6 +1038,33 @@
       { id: "capital-factory", name: "Capital Factory", coords: [30.2640, -97.7440], notes: "Demo days + pitch nights diarios." }
     ],
 
+    /* Coordenadas aproximadas — refinar con Karen. Click+drag desactivado, pero cualquier pin se puede recolocar editando manualmente o vía Export/Import JSON. */
+    competitors: [
+      /* Tier 1 frontal · pelean por el mismo cliente, mismo ticket, misma semana */
+      { id: "word-of-mouth", name: "Word of Mouth Catering", tier: 1, segment: "premium-corporate-weddings", coords: [30.2616, -97.7656], ig: "@wordofmouth_catering", site: "wordofmouthcatering.com",
+        notes: "Referente histórico premium Austin. Fortune 500 + bodas. El más frontal." },
+      { id: "royal-fig", name: "Royal Fig Catering", tier: 1, segment: "farm-to-table-weddings", coords: [30.2683, -97.7474], ig: "@royalfigcatering", site: "royalfigcatering.com",
+        notes: "Farm-to-table premium. Cerró brazo retail 2024 — sigue catering. Estética rústica-elevada." },
+      { id: "24-diamonds", name: "24 Diamonds Catering", tier: 1, segment: "luxe-weddings-corporate", coords: [30.2620, -97.7140], ig: "@24diamondscatering", site: "24diamondscatering.com",
+        notes: "Luxe minimal. Bodas alto presupuesto + corporate selecto." },
+      { id: "sterling-affairs", name: "Sterling Affairs", tier: 1, segment: "luxury-weddings", coords: [30.2710, -97.7530], ig: "@sterling_affairs", site: "sterlingaffairs.com",
+        notes: "Bodas $80K+. Vínculo fuerte con planners top-tier." },
+      { id: "crave-catering", name: "Crave Catering", tier: 1, segment: "corporate-volume-premium", coords: [30.3650, -97.7420], ig: "@cravecatering", site: "cravecatering.com",
+        notes: "El más corporativo de los premium. Cuentas tipo Dell, Indeed, Tesla. Volumen + premium." },
+      { id: "austin-catering", name: "Austin Catering", tier: 1, segment: "corporate-legacy", coords: [30.2050, -97.7035], ig: "@austin_catering", site: "austincatering.com",
+        notes: "Corporate legacy. Drop-off + plated. SEO-dominante (austincatering.com)." },
+
+      /* Tier 2 adyacente · ganan momentos puntuales o verticales específicos */
+      { id: "whim-hospitality", name: "Whim Hospitality", tier: 2, segment: "venue+catering+rentals", coords: [30.4010, -97.5860], ig: "@whimhospitality", site: "whimhospitality.com",
+        notes: "Triple amenaza: catering + rentals + venues (Barr Mansion, Vista West Ranch). Compite con las 4 marcas tuyas a la vez." },
+      { id: "peached-tortilla", name: "The Peached Tortilla Catering", tier: 2, segment: "asian-southern-fusion", coords: [30.3329, -97.7400], ig: "@thepeachedtortilla", site: "thepeachedtortilla.com",
+        notes: "Fusión asiática-sureña. Eventos corporativos hip + restaurante." },
+      { id: "leroy-and-lewis", name: "LeRoy and Lewis BBQ", tier: 2, segment: "premium-bbq", coords: [30.2103, -97.7850], ig: "@leroyandlewis", site: "leroyandlewis.com",
+        notes: "BBQ premium — gana cuando el cliente pide 'Austin auténtico'. Compite más con Ocaso." },
+      { id: "rosemarys", name: "Rosemary's Catering", tier: 2, segment: "traditional-private-events", coords: [30.3140, -97.8700], ig: "@rosemarys_catering", site: "rosemaryscatering.com",
+        notes: "Servicio tradicional. Eventos privados + bodas Hill Country." }
+    ],
+
     tastings: [
       { id: "t-1", date: "TBD mayo 2026", title: "Off-season menu for tech HQs", format: "in-wild", venueDisplay: "TBD cliente", invited: 0, seats: 0, status: "planning", targetAccounts: [] },
       { id: "t-2", date: "TBD junio 2026", title: "Healthcare compliance menu", format: "in-wild", venueDisplay: "Ascension / St. David's", invited: 0, seats: 0, status: "planning", targetAccounts: [] },
@@ -1011,7 +1078,18 @@
   function loadState() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) return JSON.parse(raw);
+      if (raw) {
+        const loaded = JSON.parse(raw);
+        /* Migration: hydrate keys that didn't exist in older stored state */
+        if (!loaded.competitors) loaded.competitors = JSON.parse(JSON.stringify(DEFAULT_DATA.competitors));
+        /* Refresh anchor coords if the user is still on the legacy values */
+        const hq = (loaded.brands || []).find(b => b.id === 'contigo-hq');
+        if (hq && Math.abs(hq.coords[0] - 30.2580) < 0.001 && Math.abs(hq.coords[1] - (-97.7300)) < 0.001) {
+          hq.coords = [30.1862, -97.7480];
+          hq.address = "3709 Promontory Point Dr · B201 · Austin, TX 78744";
+        }
+        return loaded;
+      }
     } catch (e) { console.warn('Load error', e); }
     return JSON.parse(JSON.stringify(DEFAULT_DATA));
   }
@@ -1102,6 +1180,7 @@
     corridors: L.layerGroup(),
     brands: L.layerGroup(),
     accounts: L.layerGroup(),
+    competitors: L.layerGroup(),
     planners: L.layerGroup(),
     venues: L.layerGroup(),
     events: L.layerGroup(),
@@ -1201,6 +1280,7 @@
       <div class="pop-title">${b.name}</div>
       <dl class="pop-grid">
         <dt>Rol</dt><dd>${b.role || '—'}</dd>
+        ${b.address ? `<dt>Dirección</dt><dd>${b.address}</dd>` : ''}
         ${b.siteUrl ? `<dt>Sitio</dt><dd><a href="${b.siteUrl}" target="_blank" rel="noopener" style="color: var(--o); text-decoration: none; border-bottom: 1px solid var(--o);">${b.siteUrl.replace(/https?:\/\//, '')}</a></dd>` : ''}
       </dl>
       ${b.notes ? `<div class="pop-notes">${b.notes}</div>` : ''}`;
@@ -1267,6 +1347,17 @@
   function coworkingPopup(c) {
     return `<div class="pop-kicker"><i></i>Coworking · preferred caterer</div><div class="pop-title">${c.name}</div>${c.notes ? `<div class="pop-notes">${c.notes}</div>` : ''}`;
   }
+  function competitorPopup(c) {
+    const tierLabel = c.tier === 1 ? 'Frontal · pelean por mismo cliente' : 'Adyacente · momentos puntuales';
+    const igHtml = c.ig ? `<dt>Instagram</dt><dd><a href="https://instagram.com/${c.ig.replace('@','')}" target="_blank" rel="noopener" style="color: var(--o); text-decoration: none; border-bottom: 1px solid var(--o);">${c.ig}</a></dd>` : '';
+    const siteHtml = c.site ? `<dt>Sitio</dt><dd><a href="https://${c.site}" target="_blank" rel="noopener" style="color: var(--o); text-decoration: none; border-bottom: 1px solid var(--o);">${c.site}</a></dd>` : '';
+    return `
+      <div class="pop-kicker"><i></i>Competidor · tier ${c.tier} · ${tierLabel}</div>
+      <div class="pop-title">${c.name}</div>
+      ${c.segment ? `<div class="pop-status cold" style="background: rgba(170,170,170,.12); color: #6A6A6A; border-color: rgba(170,170,170,.3);">${c.segment.replace(/-/g, ' · ')}</div>` : ''}
+      <dl class="pop-grid">${igHtml}${siteHtml}</dl>
+      ${c.notes ? `<div class="pop-notes">${c.notes}</div>` : ''}`;
+  }
 
   /* ═════════════════════════════════════════════════════════════════════════
      RENDER
@@ -1296,6 +1387,23 @@
       else if (b.type === 'venue-own') icon = basicPin('pin-venue-own', 18);
       const marker = L.marker(b.coords, { icon, zIndexOffset: b.id === 'contigo-hq' ? 1000 : 500 }).bindPopup(brandPopup(b));
       layerGroups.brands.addLayer(marker);
+
+      /* Always-visible label for the two anchors (HQ + venue) */
+      if (b.id === 'contigo-hq' || b.id === 'one-eleven-east') {
+        const labelText = b.id === 'contigo-hq' ? 'Contigo HQ · cocina' : 'One Eleven East · venue';
+        const offset = b.id === 'contigo-hq' ? [42, 0] : [16, 0];
+        const labelMarker = L.marker(b.coords, {
+          icon: L.divIcon({
+            className: 'anchor-label-wrap',
+            html: `<div class="anchor-label anchor-${b.id}">${labelText}</div>`,
+            iconSize: [180, 22],
+            iconAnchor: [-offset[0], 11]
+          }),
+          interactive: false,
+          zIndexOffset: 1100
+        });
+        layerGroups.brands.addLayer(labelMarker);
+      }
     });
 
     state.accounts.forEach(a => {
@@ -1321,6 +1429,10 @@
     });
     state.coworkings.forEach(c => {
       layerGroups.coworkings.addLayer(L.marker(c.coords, { icon: basicPin('pin-coworking') }).bindPopup(coworkingPopup(c)));
+    });
+    (state.competitors || []).forEach(c => {
+      const cls = c.tier === 1 ? 'pin-competitor pin-competitor-t1' : 'pin-competitor pin-competitor-t2';
+      layerGroups.competitors.addLayer(L.marker(c.coords, { icon: basicPin(cls, 16), zIndexOffset: 200 }).bindPopup(competitorPopup(c)));
     });
 
     /* Apply visibility */
@@ -1421,6 +1533,7 @@
       { id: 'corridors', label: 'Corredores corporativos', swatch: 'rgba(247, 96, 10, 0.5)' },
       { id: 'brands', label: 'Ecosistema Contigo', swatch: 'var(--o)' },
       { id: 'accounts', label: 'Cuentas tier-1', swatch: 'var(--status-cold)' },
+      { id: 'competitors', label: 'Competidores', swatch: '#9A9A9A', border: 'dashed' },
       { id: 'planners', label: 'Event planners', swatch: 'var(--w)', border: 'solid' },
       { id: 'venues', label: 'Venues · preferred vendor', swatch: 'var(--w)', border: 'solid' },
       { id: 'events', label: 'Mega-eventos', swatch: 'var(--o)' },
@@ -1429,7 +1542,9 @@
     ];
     const counts = {
       corridors: state.corridors.length, brands: state.brands.length,
-      accounts: state.accounts.length, planners: state.planners.length,
+      accounts: state.accounts.length,
+      competitors: (state.competitors || []).length,
+      planners: state.planners.length,
       venues: state.venues.length, events: state.events.length,
       opportunities: state.opportunities.length, coworkings: state.coworkings.length
     };
