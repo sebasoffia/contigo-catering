@@ -63,6 +63,14 @@
       font-size: 12px; color: var(--muted); margin-bottom: 1.75rem;
     }
 
+    .notice {
+      font-size: 12px; line-height: 1.5; color: #8a5a00;
+      background: #fff4e5; border: 1px solid #f3d9a8;
+      border-radius: 8px; padding: 10px 12px; margin-bottom: 1.25rem;
+      display: none;
+    }
+    .notice.visible { display: block; }
+
     .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
     label { font-size: 11px; font-weight: 500; color: var(--muted); letter-spacing: 0.03em; text-transform: uppercase; }
     input {
@@ -117,6 +125,8 @@
     <h1>System access</h1>
     <p class="subtitle">Commercial proposal platform — restricted use</p>
 
+    <div class="notice" id="noticeMsg"></div>
+
     <form id="loginForm" onsubmit="handleLogin(event)">
       <div class="field">
         <label>Email</label>
@@ -134,10 +144,34 @@
   <p class="footer">Private access · <a href="https://cacerola.cl" target="_blank" rel="noopener">cacerola.cl</a></p>
 
   <script>
+    /* ── User directory ──────────────────────────────────────────────
+       reviewDays: number of days of access from first sign-in.
+       null = no expiration (owner). */
+    const USERS = {
+      'sebas@cacerola.cl':  { password: 'Contigo-Austin-26', reviewDays: null },
+      'karen@contigo.com':  { password: 'Karen-Contigo-26',  reviewDays: 30 },
+      'brooke@contigo.com': { password: 'Brooke-Contigo-26', reviewDays: 30 }
+    };
+
+    const DAY_MS = 24 * 60 * 60 * 1000;
+    const params = new URLSearchParams(window.location.search);
+
+    /* Show "access expired" notice (English) when redirected here by a guard. */
+    if (params.get('expired') === '1') {
+      const n = document.getElementById('noticeMsg');
+      n.textContent = 'Your review access has expired. Please contact Cacerola to request renewed access.';
+      n.classList.add('visible');
+    }
+
+    /* Already signed in and still within the review window → go straight in. */
     (function () {
       if (localStorage.getItem('cc_contigo_auth') === 'true') {
-        const dest = new URLSearchParams(window.location.search).get('next') || 'proposal.html';
-        window.location.href = dest;
+        const exp = localStorage.getItem('cc_contigo_expires');
+        if (exp && Date.now() > parseInt(exp, 10)) {
+          localStorage.removeItem('cc_contigo_auth');
+        } else {
+          window.location.href = params.get('next') || 'proposal.html';
+        }
       }
     })();
 
@@ -146,11 +180,31 @@
       const email = document.getElementById('email').value.trim().toLowerCase();
       const password = document.getElementById('password').value;
       const err = document.getElementById('errorMsg');
+      const user = USERS[email];
 
-      if (email === 'sebas@cacerola.cl' && password === 'Contigo-Austin-26') {
+      if (user && password === user.password) {
         localStorage.setItem('cc_contigo_auth', 'true');
-        const dest = new URLSearchParams(window.location.search).get('next') || 'proposal.html';
-        window.location.href = dest;
+
+        /* Reset the review clock only when a different user signs in.
+           The window runs from the FIRST sign-in and persists across
+           subsequent sign-ins until it expires. */
+        if (localStorage.getItem('cc_contigo_user') !== email) {
+          localStorage.setItem('cc_contigo_user', email);
+          localStorage.removeItem('cc_contigo_first_login');
+          localStorage.removeItem('cc_contigo_expires');
+        }
+
+        if (user.reviewDays) {
+          if (!localStorage.getItem('cc_contigo_first_login')) {
+            const now = Date.now();
+            localStorage.setItem('cc_contigo_first_login', String(now));
+            localStorage.setItem('cc_contigo_expires', String(now + user.reviewDays * DAY_MS));
+          }
+        } else {
+          localStorage.removeItem('cc_contigo_expires');
+        }
+
+        window.location.href = params.get('next') || 'proposal.html';
       } else {
         err.classList.add('visible');
         document.getElementById('password').value = '';

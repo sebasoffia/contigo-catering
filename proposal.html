@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>if(localStorage.getItem('cc_contigo_auth')!=='true'){window.location.href='index.html?next=proposal.html'}</script>
+<script>(function(){var L=localStorage,ok=L.getItem('cc_contigo_auth')==='true',x=L.getItem('cc_contigo_expires'),exp=ok&&x&&Date.now()>parseInt(x,10);if(exp)L.removeItem('cc_contigo_auth');if(!ok||exp){location.href='index.html?next=proposal.html'+(exp?'&expired=1':'')}})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contigo × Austin — Fractional CMO Proposal · by Cacerola</title>
@@ -585,6 +585,18 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
   color:rgba(255,255,255,.6);letter-spacing:.08em;text-transform:uppercase;
   font-weight:500;margin-bottom:.3rem;
 }
+
+/* Contigo brand lockup */
+.contigo-logo{
+  height:44px;width:auto;display:block;align-self:flex-start;
+  margin-bottom:1.6rem;object-fit:contain;
+  filter:brightness(0);opacity:.92;
+}
+.contigo-logo-foot{
+  height:22px;width:auto;display:block;object-fit:contain;
+  margin-bottom:.9rem;opacity:.8;
+}
+@media (max-width:760px){ .contigo-logo{height:34px} }
 </style>
 </head>
 <body>
@@ -617,6 +629,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
 
 <!-- ── 1. HERO ──────────────────────────────────────────────────── -->
 <section class="hero" id="hero">
+  <img class="contigo-logo" src="https://images.squarespace-cdn.com/content/v1/612e5a296d31ea104e277c94/30df6e1a-de8f-4183-af48-01b940dfa318/Asset+17.png?format=1500w" alt="Contigo" loading="eager" />
   <div class="kicker"><i></i>Proposal · Fractional CMO · 2026</div>
   <h1>A <em>window</em> that closes<br>in 36 months.</h1>
   <p class="hero-sub">
@@ -1074,6 +1087,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
 
 <!-- ── FOOTER ──────────────────────────────────────────────────── -->
 <footer>
+  <img class="contigo-logo-foot" src="https://images.squarespace-cdn.com/content/v1/612e5a296d31ea104e277c94/30df6e1a-de8f-4183-af48-01b940dfa318/Asset+17.png?format=1500w" alt="Contigo" loading="lazy" />
   <div class="foot">
     <span class="sig-brand">
       <span class="lm-mini">
@@ -1134,6 +1148,26 @@ document.addEventListener('keydown', (e) => {
     document.getElementById(prev).scrollIntoView({ behavior: 'smooth' });
   }
 });
+</script>
+
+<!-- ── Content protection ──────────────────────────────────────── -->
+<style>
+  body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+  img { -webkit-user-drag: none; user-drag: none; -webkit-touch-callout: none; }
+</style>
+<script>
+(function () {
+  var STAMP = 'Proposal Contigo 2026 by Cacerola.cl';
+  function override(e) {
+    e.preventDefault();
+    var cd = e.clipboardData || window.clipboardData;
+    if (cd) { cd.setData('text/plain', STAMP); cd.setData('text/html', STAMP); }
+  }
+  document.addEventListener('copy', override, true);
+  document.addEventListener('cut', override, true);
+  document.addEventListener('contextmenu', function (e) { e.preventDefault(); }, true);
+  document.addEventListener('dragstart', function (e) { e.preventDefault(); }, true);
+})();
 </script>
 </body>
 </html>
