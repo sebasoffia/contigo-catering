@@ -51,6 +51,7 @@
       --status-converted: #0E0E0E;
       --status-client: #0E0E0E;
       --status-lost: #C8BFB5;
+      --v-competitor: #DC2626;
     }
 
     html, body { height: 100%; margin: 0; padding: 0; }
@@ -424,6 +425,10 @@
       transform: rotate(45deg); width: 11px; height: 11px;
     }
     .pin-coworking { background: var(--w); border: 1.5px dashed var(--muted); width: 12px; height: 12px; border-radius: 50%; }
+    .pin-competitor {
+      background: var(--v-competitor); border: 2px solid var(--w); width: 14px; height: 14px;
+      box-shadow: 0 1px 4px rgba(220, 38, 38, 0.5), 0 0 0 1px rgba(220, 38, 38, 0.25);
+    }
 
     /* Account pin: donut with vertical segments */
     .pin-donut {
@@ -781,6 +786,12 @@
       </div>
 
       <div class="panel">
+        <div class="panel-kicker"><i></i>Competitive landscape</div>
+        <div class="panel-title">Tier 1 <em>competitors</em></div>
+        <div id="competitor-list" style="margin-top: 14px;"></div>
+      </div>
+
+      <div class="panel">
         <div class="panel-kicker"><i></i>Data</div>
         <div class="panel-title">Export / <em>import</em></div>
         <p class="panel-sub" style="margin-top: 6px;">
@@ -823,6 +834,8 @@
         <div class="legend-row"><span class="legend-swatch" style="background: var(--w); border: 2px solid var(--o); box-shadow: none;"></span>Invited</div>
         <div class="legend-row"><span class="legend-swatch" style="background: var(--o);"></span>Attended</div>
         <div class="legend-row"><span class="legend-swatch" style="background: var(--ink); box-shadow: 0 0 0 2px var(--o);"></span>Active client</div>
+        <div class="legend-sep"></div>
+        <div class="legend-row"><span class="legend-swatch" style="background: var(--v-competitor);"></span>Tier 1 competitor</div>
         </div>
       </div>
     </main>
@@ -983,10 +996,14 @@
       { id: "austin-tech-week", name: "Austin Tech Week", coords: [30.2672, -97.7431], dates: "Fall 2026", budget: "medium" }
     ],
 
-    opportunities: [
-      { id: "royal-fig-gap", name: "Royal Fig Gap", coords: [30.2600, -97.7500], radius: 2500,
-        estimatedValue: "USD 5–10M ARR",
-        notes: "Royal Fig closed in 2024. Farm-to-table premium with transparent pricing. MML/Crave absorbed demand without inheriting the promise. 18–36 month window." }
+    opportunities: [],
+
+    competitors: [
+      { id: "mml-catering", name: "MML Catering", siteUrl: "https://www.mmlcatering.com/", address: "5000 Burleson Road, Austin, TX 78744", coords: [30.2108, -97.7469], notes: "Formerly Word of Mouth. Absorbed Royal Fig demand. Strongest direct competitor — premium positioning but no brand ecosystem." },
+      { id: "diamond-catering", name: "Diamond Catering El Paso", siteUrl: "https://diamondcateringelpaso.com/", address: "11940 Vista Del Sol, El Paso, TX 79936", coords: [31.7800, -106.3800], notes: "El Paso-based. Regional watch — not Austin-present yet." },
+      { id: "sterling-events", name: "Sterling Events Austin", siteUrl: "https://sterlingeventsaustin.com/", address: "6134 E Hwy 290, Austin, TX 78723", coords: [30.2421, -97.6969], notes: "Corporate + social events. East Austin kitchen." },
+      { id: "crave-catering", name: "Crave Catering", siteUrl: "https://crave-catering.com/", address: "14611 Burnet Road Suite 105, Austin, TX 78728", coords: [30.4241, -97.7108], notes: "Volume-focused. Competes on price. No clear premium vertical." },
+      { id: "austin-catering", name: "Austin Catering Co.", siteUrl: "https://austincatering.com/", address: "834 Kramer Ln, Austin, TX 78758", coords: [30.4001, -97.7237], notes: "Generic positioning. Undifferentiated — website H1 could be any competitor's." }
     ],
 
     coworkings: [
@@ -1103,7 +1120,8 @@
     venues: L.layerGroup(),
     events: L.layerGroup(),
     opportunities: L.layerGroup(),
-    coworkings: L.layerGroup()
+    coworkings: L.layerGroup(),
+    competitors: L.layerGroup()
   };
   const layerVisible = {};
   Object.keys(layerGroups).forEach(k => { layerVisible[k] = true; });
@@ -1264,6 +1282,16 @@
   function coworkingPopup(c) {
     return `<div class="pop-kicker"><i></i>Coworking · preferred caterer</div><div class="pop-title">${c.name}</div>${c.notes ? `<div class="pop-notes">${c.notes}</div>` : ''}`;
   }
+  function competitorPopup(c) {
+    return `
+      <div class="pop-kicker"><i></i><span style="color: var(--v-competitor);">Tier 1 competitor</span></div>
+      <div class="pop-title">${c.name}</div>
+      <dl class="pop-grid">
+        <dt>Address</dt><dd>${c.address}</dd>
+        ${c.siteUrl ? `<dt>Website</dt><dd><a href="${c.siteUrl}" target="_blank" rel="noopener" style="color: var(--v-competitor); text-decoration: none; border-bottom: 1px solid var(--v-competitor);">${c.siteUrl.replace(/https?:\/\//, '')}</a></dd>` : ''}
+      </dl>
+      ${c.notes ? `<div class="pop-notes">${c.notes}</div>` : ''}`;
+  }
 
   /* ═════════════════════════════════════════════════════════════════════════
      RENDER
@@ -1318,6 +1346,9 @@
     });
     state.coworkings.forEach(c => {
       layerGroups.coworkings.addLayer(L.marker(c.coords, { icon: basicPin('pin-coworking') }).bindPopup(coworkingPopup(c)));
+    });
+    (state.competitors || []).forEach(c => {
+      layerGroups.competitors.addLayer(L.marker(c.coords, { icon: basicPin('pin-competitor') }).bindPopup(competitorPopup(c)));
     });
 
     /* Apply visibility */
@@ -1422,13 +1453,15 @@
       { id: 'venues', label: 'Venues · preferred vendor', swatch: 'var(--w)', border: 'solid' },
       { id: 'events', label: 'Mega-events', swatch: 'var(--o)' },
       { id: 'opportunities', label: 'Opportunities · gaps', swatch: 'rgba(247, 96, 10, 0.3)' },
-      { id: 'coworkings', label: 'Coworkings', swatch: 'var(--w)', border: 'dashed' }
+      { id: 'coworkings', label: 'Coworkings', swatch: 'var(--w)', border: 'dashed' },
+      { id: 'competitors', label: 'Tier 1 competitors', swatch: 'var(--v-competitor)' }
     ];
     const counts = {
       corridors: state.corridors.length, brands: state.brands.length,
       accounts: state.accounts.length, planners: state.planners.length,
       venues: state.venues.length, events: state.events.length,
-      opportunities: state.opportunities.length, coworkings: state.coworkings.length
+      opportunities: state.opportunities.length, coworkings: state.coworkings.length,
+      competitors: (state.competitors || []).length
     };
     const el = document.getElementById('layer-toggles');
     el.innerHTML = cfg.map(c => {
@@ -1457,11 +1490,26 @@
     });
   }
 
+  function renderCompetitors() {
+    const el = document.getElementById('competitor-list');
+    if (!el) return;
+    const list = state.competitors || [];
+    if (!list.length) { el.innerHTML = '<div class="panel-sub" style="font-style:italic;">No competitors loaded.</div>'; return; }
+    el.innerHTML = list.map(c => `
+      <div class="tasting-item">
+        <div class="tasting-date" style="color: var(--v-competitor);"><i style="background: var(--v-competitor);"></i>${c.address}</div>
+        <div class="tasting-title">${c.name}</div>
+        ${c.siteUrl ? `<div class="tasting-meta"><a href="${c.siteUrl}" target="_blank" rel="noopener" style="color: var(--v-competitor); text-decoration: none; border-bottom: 1px solid var(--v-competitor);">${c.siteUrl.replace(/https?:\/\//, '')}</a></div>` : ''}
+        ${c.notes ? `<div class="tasting-meta" style="margin-top:4px;">${c.notes}</div>` : ''}
+      </div>`).join('');
+  }
+
   function renderAll() {
     renderMap();
     renderBanner();
     renderTastings();
     renderLayerToggles();
+    renderCompetitors();
   }
 
   /* ═════════════════════════════════════════════════════════════════════════
