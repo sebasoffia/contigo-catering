@@ -46,10 +46,9 @@
       margin-bottom: 2rem;
     }
     .lm {
-      width: 32px; height: 32px; background: var(--o);
-      border-radius: 8px; display: grid; place-items: center; flex-shrink: 0;
+      width: 34px; height: 34px; display: block;
+      object-fit: contain; flex-shrink: 0;
     }
-    .lm svg { width: 16px; height: 16px; }
     .brand-text { display: flex; flex-direction: column; gap: 1px; }
     .brand-name { font-weight: 500; font-size: 15px; letter-spacing: -0.02em; }
     .brand-sub { font-size: 11px; color: var(--muted); }
@@ -111,11 +110,7 @@
 <body>
   <div class="card">
     <div class="brand">
-      <div class="lm">
-        <svg viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 11 L6.5 1 L12 11 M2.8 7.5 L10.2 7.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
+      <img class="lm" src="cacerola-logo.png" alt="Cacerola" />
       <div class="brand-text">
         <span class="brand-name">Contigo</span>
         <span class="brand-sub">by Cacerola</span>

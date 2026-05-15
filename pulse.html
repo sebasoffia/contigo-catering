@@ -54,10 +54,9 @@
     }
     .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
     .lm {
-      width: 26px; height: 26px; background: var(--o);
-      border-radius: 6px; display: grid; place-items: center;
+      width: 28px; height: 28px; display: block;
+      object-fit: contain; flex-shrink: 0;
     }
-    .lm svg { width: 13px; height: 13px; }
     .ln { font-weight: 500; font-size: 14px; letter-spacing: -0.02em; }
     .crumb {
       margin-left: 16px; padding-left: 16px;
@@ -400,10 +399,9 @@
       display: inline-flex; align-items: center; gap: 5px; color: var(--muted);
     }
     .signature .sig-brand .lm-mini {
-      width: 12px; height: 12px; background: var(--o); border-radius: 3px;
-      display: inline-grid; place-items: center;
+      width: 15px; height: 15px; display: inline-block;
+      object-fit: contain; flex-shrink: 0;
     }
-    .signature .sig-brand .lm-mini svg { width: 7px; height: 7px; }
 
     /* Responsive */
     @media (max-width: 1100px) {
@@ -424,12 +422,7 @@
     <header class="topbar">
       <div style="display:flex; align-items:center;">
         <a href="https://cacerola.cl" class="logo" target="_blank" rel="noopener">
-          <div class="lm">
-            <svg viewBox="0 0 13 13" fill="none">
-              <path d="M1.5 11L6.5 2L11.5 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M3.5 7.5H9.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </div>
+          <img class="lm" src="cacerola-logo.png" alt="Cacerola" />
           <span class="ln">Cacerola</span>
         </a>
         <span class="crumb"><em>Contigo Pulse</em> · Social listening</span>
@@ -502,7 +495,7 @@
       </div>
 
       <div class="signature">
-        Built by <span class="sig-brand"><span class="lm-mini"><svg viewBox="0 0 13 13" fill="none"><path d="M1.5 11L6.5 2L11.5 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 7.5H9.5" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></span>Cacerola</span> · for Contigo · 2026
+        Built by <span class="sig-brand"><img class="lm-mini" src="cacerola-logo.png" alt="Cacerola" />Cacerola</span> · for Contigo · 2026
       </div>
     </aside>
 
