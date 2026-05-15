@@ -1,0 +1,13 @@
+{
+  "cleanUrls": false,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/index", "destination": "/index.html" },
+    { "source": "/proposal", "destination": "/proposal.html" },
+    { "source": "/contigo-atlas", "destination": "/contigo-atlas.html" },
+    { "source": "/pulse", "destination": "/pulse.html" },
+    { "source": "/cotizador", "destination": "/cotizador.html" },
+    { "source": "/presentacion", "destination": "/presentacion.html" }
+  ]
+}
