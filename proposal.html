@@ -597,6 +597,64 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
   margin-bottom:.9rem;opacity:.8;
 }
 @media (max-width:760px){ .contigo-logo{height:34px} }
+
+/* ── How the Atlas works ─────────────────────────────────────────── */
+.atlas-intro{font-size:15px;color:var(--muted);max-width:640px;margin-top:1rem;line-height:1.7;}
+.atlas-legend-grid{
+  margin-top:2.2rem;display:grid;grid-template-columns:repeat(2,1fr);gap:14px;
+}
+.atlas-legend-card{
+  background:var(--w);border:1px solid var(--border);border-radius:10px;
+  padding:1.2rem 1.3rem;display:flex;gap:1rem;align-items:flex-start;
+}
+.atlas-legend-card .pin-demo{
+  flex-shrink:0;width:48px;height:48px;display:grid;place-items:center;
+  background:var(--surf);border-radius:8px;
+}
+.atlas-legend-card .pin-demo svg{width:36px;height:36px}
+.atlas-legend-card h5{
+  font-size:14px;color:var(--ink);margin-bottom:.3rem;font-weight:500;letter-spacing:-.005em;
+}
+.atlas-legend-card p{font-size:12.5px;color:var(--muted);line-height:1.55;font-weight:300}
+.atlas-legend-card p b{color:var(--ink);font-weight:500}
+.status-row{
+  margin-top:1.2rem;background:var(--surf);border-radius:10px;padding:1rem 1.2rem;
+  display:flex;flex-wrap:wrap;gap:.8rem 1.2rem;align-items:center;
+}
+.status-row .status-item{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11.5px;color:var(--ink);
+}
+.status-row .status-item .dot{
+  width:11px;height:11px;border-radius:50%;border:1.5px solid var(--w);
+  box-shadow:0 0 0 1px rgba(0,0,0,.15);flex-shrink:0;
+}
+.status-row .status-item .dot.cold{background:#AAAAAA}
+.status-row .status-item .dot.invited{background:var(--w);border:2px solid var(--o);box-shadow:none}
+.status-row .status-item .dot.attended{background:var(--o)}
+.status-row .status-item .dot.client{background:var(--ink);box-shadow:0 0 0 2px var(--o)}
+.status-row .status-item .dot.lost{background:#C8BFB5;position:relative}
+.status-row .status-item .dot.lost::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(45deg,transparent 45%,var(--ink) 45%,var(--ink) 55%,transparent 55%);
+}
+.actions-quick{
+  margin-top:1.2rem;display:grid;grid-template-columns:repeat(2,1fr);gap:10px;
+}
+.action-q{
+  display:flex;gap:.8rem;align-items:flex-start;
+  padding:.9rem 1.1rem;background:var(--surf);border-radius:8px;
+}
+.action-q .ico{
+  font-family:var(--serif);font-style:italic;color:var(--o);
+  font-size:20px;line-height:1;flex-shrink:0;
+}
+.action-q .body{font-size:12.5px;color:var(--muted);line-height:1.5;font-weight:300}
+.action-q .body b{color:var(--ink);font-weight:500}
+@media (max-width:760px){
+  .atlas-legend-grid,.actions-quick{grid-template-columns:1fr}
+  .atlas-legend-card[style*="span 2"]{grid-column:auto !important}
+}
 </style>
 </head>
 <body>
@@ -1055,6 +1113,106 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
   </div>
 </section>
 
+<!-- ── HOW THE ATLAS WORKS ──────────────────────────────────────── -->
+<section id="leeme">
+  <div class="kicker"><i></i>Before you open the tools</div>
+  <h2>How the <em>Atlas</em> works.</h2>
+  <p class="atlas-intro">The map is an operational tool, not decoration. It's built so the owner can open it every Monday and, in thirty seconds, know the state of the pipeline. Five things to understand before opening it.</p>
+
+  <div class="atlas-legend-grid">
+    <div class="atlas-legend-card">
+      <div class="pin-demo">
+        <svg viewBox="0 0 28 28">
+          <circle cx="14" cy="14" r="11.5" fill="white"/>
+          <path d="M 14 14 L 14 3 A 11 11 0 0 1 23.53 19.5 Z" fill="#F7600A"/>
+          <path d="M 14 14 L 23.53 19.5 A 11 11 0 0 1 4.47 19.5 Z" fill="#8B3A12"/>
+          <path d="M 14 14 L 4.47 19.5 A 11 11 0 0 1 14 3 Z" fill="#C9A961"/>
+          <circle cx="14" cy="14" r="6" fill="#0E0E0E" stroke="#fff" stroke-width="2"/>
+          <circle cx="14" cy="14" r="8" fill="none" stroke="#F7600A" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div>
+        <h5>Each account is a donut</h5>
+        <p>The ring segments show <b>which verticals</b> that account activates — Contigo (orange), Ocaso (terracotta), Table Manners (tan), One Eleven East (gray). If Tesla activates 3, its pin has 3 colors.</p>
+      </div>
+    </div>
+
+    <div class="atlas-legend-card">
+      <div class="pin-demo">
+        <svg viewBox="0 0 28 28">
+          <circle cx="14" cy="14" r="11.5" fill="#F7600A"/>
+          <circle cx="14" cy="14" r="6" fill="#fff" stroke="#F7600A" stroke-width="2"/>
+        </svg>
+      </div>
+      <div>
+        <h5>The center shows the status</h5>
+        <p>Gray = cold. Orange outline = invited. Solid orange = attended a tasting. Black = converted. Black with a ring = active client. Struck through = lost but recoverable.</p>
+      </div>
+    </div>
+
+    <div class="atlas-legend-card" style="grid-column: span 2;">
+      <div class="pin-demo" style="width:auto;height:auto;background:transparent;padding:0;">
+        <div class="status-row" style="margin:0;padding:0;background:transparent;">
+          <span class="status-item"><span class="dot cold"></span>Cold</span>
+          <span class="status-item"><span class="dot invited"></span>Invited</span>
+          <span class="status-item"><span class="dot attended"></span>Attended</span>
+          <span class="status-item"><span class="dot client"></span>Client</span>
+          <span class="status-item"><span class="dot lost"></span>Lost</span>
+        </div>
+      </div>
+      <div>
+        <h5>Each status is weighted differently in the pipeline</h5>
+        <p>The weighted pipeline in the top banner multiplies each account's estimated revenue by its close probability based on status: <b>cold 0% · invited 15% · attended 40% · converted 80% · client 100%</b>. That's why moving an account from "cold" to "invited" makes the live pipeline jump.</p>
+      </div>
+    </div>
+
+    <div class="atlas-legend-card">
+      <div class="pin-demo">
+        <svg viewBox="0 0 28 28">
+          <rect x="2" y="6" width="24" height="16" rx="2" fill="white" stroke="#E8E4DF"/>
+          <rect x="4" y="9" width="9" height="2.5" fill="#F7600A"/>
+          <rect x="4" y="13" width="6" height="2" fill="#8B3A12"/>
+          <rect x="4" y="16" width="4" height="2" fill="#C9A961"/>
+          <rect x="14" y="9" width="10" height="3" fill="#0E0E0E"/>
+          <rect x="14" y="14" width="6" height="2" fill="#AAAAAA"/>
+          <rect x="14" y="17" width="8" height="2" fill="#AAAAAA"/>
+        </svg>
+      </div>
+      <div>
+        <h5>Top banner + right sidebar</h5>
+        <p>The banner shows the <b>total weighted pipeline + breakdown by vertical</b>. The dark cell at the end is the compact NSM. The right sidebar holds the full NSM: tastings scheduled, attended, converted.</p>
+      </div>
+    </div>
+
+    <div class="atlas-legend-card">
+      <div class="pin-demo">
+        <svg viewBox="0 0 28 28">
+          <circle cx="9" cy="9" r="3" fill="#F7600A"/>
+          <line x1="13" y1="14" x2="22" y2="14" stroke="#F7600A" stroke-width="2"/>
+          <circle cx="22" cy="14" r="3" fill="white" stroke="#F7600A" stroke-width="2"/>
+          <line x1="22" y1="18" x2="22" y2="24" stroke="#F7600A" stroke-width="2" stroke-dasharray="2 2"/>
+          <text x="9" y="24" font-family="serif" font-style="italic" font-size="11" fill="#F7600A">+</text>
+        </svg>
+      </div>
+      <div>
+        <h5>Click a pin · change status · add new</h5>
+        <p>Clicking any pin opens a popup with <b>buttons to change status</b> — it recalculates everything live. <b>+ Account</b> and <b>+ Tasting</b> in the header add new points. <b>Export</b> downloads a JSON to share the state and keep it in sync.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions-quick">
+    <div class="action-q">
+      <span class="ico">→</span>
+      <div class="body"><b>See the map now</b><br>Start by clicking any gray pin — that's a cold account. Switch it to "invited" and watch the banner jump.</div>
+    </div>
+    <div class="action-q">
+      <span class="ico">→</span>
+      <div class="body"><b>Share it</b><br>The <em>Export</em> button in the sidebar downloads a JSON. Anyone can import it in their browser and land on the same state.</div>
+    </div>
+  </div>
+</section>
+
 <!-- ── LIVE TOOLS ──────────────────────────────────────────────── -->
 <section class="surf" id="tools">
   <div class="kicker"><i></i>Live product · built for this proposal</div>
@@ -1125,7 +1283,7 @@ window.addEventListener('scroll', () => {
 });
 
 /* Keyboard navigation between sections (deck mode) */
-const sections = ['hero','fugas','flywheel','godin','engine','mes1','ninety','comercial','irrev','cierre','tools'];
+const sections = ['hero','fugas','flywheel','godin','engine','mes1','ninety','comercial','irrev','cierre','leeme','tools'];
 function currentSection() {
   const y = window.scrollY + 100;
   let current = sections[0];
