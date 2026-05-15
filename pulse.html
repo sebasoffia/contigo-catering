@@ -417,6 +417,58 @@
   </style>
 </head>
 <body>
+<!-- ── ACCESS GATE ─────────────────────────────────────────────── -->
+<div id="cc-gate" role="dialog" aria-modal="true" aria-label="Acceso privado">
+  <div class="cc-card">
+    <div class="cc-logo">
+      <svg viewBox="0 0 26 26" aria-hidden="true"><rect width="26" height="26" rx="6" fill="#F7600A"/><path d="M5 20 L13 5 L21 20 M8 14 L18 14" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+    </div>
+    <h1>Contigo &times; Cacerola</h1>
+    <p class="cc-sub">Acceso privado &middot; ingres&aacute; la clave para continuar</p>
+    <input id="cc-pass" type="password" placeholder="Clave de acceso" autocomplete="off" autocapitalize="off" spellcheck="false" />
+    <div id="cc-err" aria-live="polite"></div>
+    <button id="cc-go" type="button">Entrar &rarr;</button>
+  </div>
+  <style>
+    #cc-gate{position:fixed;inset:0;z-index:2147483647;background:#0C0C0C;display:flex;align-items:center;justify-content:center;padding:24px;font-family:'DM Sans',system-ui,-apple-system,sans-serif;}
+    #cc-gate .cc-card{width:100%;max-width:340px;text-align:center;}
+    #cc-gate .cc-logo{width:44px;height:44px;margin:0 auto 22px;}
+    #cc-gate .cc-logo svg{width:44px;height:44px;display:block;}
+    #cc-gate h1{color:#fff;font-size:19px;font-weight:600;margin:0 0 6px;letter-spacing:-.01em;}
+    #cc-gate .cc-sub{color:rgba(255,255,255,.45);font-size:13px;margin:0 0 24px;line-height:1.5;}
+    #cc-gate input{width:100%;padding:13px 15px;border-radius:9px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:14px;outline:none;box-sizing:border-box;font-family:inherit;}
+    #cc-gate input:focus{border-color:#F7600A;}
+    #cc-gate #cc-err{color:#F7600A;font-size:12px;min-height:16px;margin:8px 0 0;}
+    #cc-gate button{width:100%;margin-top:10px;padding:13px;border-radius:9px;border:none;background:#F7600A;color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;}
+    #cc-gate button:hover{background:#D94F00;}
+  </style>
+</div>
+<script>
+(function(){
+  var KEY='cc-auth-contigo-2026', PASS='contigo2026';
+  var gate=document.getElementById('cc-gate');
+  if(!gate) return;
+  if(sessionStorage.getItem(KEY)==='1'){ gate.parentNode.removeChild(gate); return; }
+  var html=document.documentElement, prevOverflow=html.style.overflow;
+  html.style.overflow='hidden';
+  var pass=document.getElementById('cc-pass'), err=document.getElementById('cc-err'), go=document.getElementById('cc-go');
+  function unlock(){
+    if(pass.value.trim()===PASS){
+      sessionStorage.setItem(KEY,'1');
+      html.style.overflow=prevOverflow;
+      gate.parentNode.removeChild(gate);
+    } else {
+      err.textContent='Clave incorrecta. Probá de nuevo.';
+      pass.value=''; pass.focus();
+    }
+  }
+  go.addEventListener('click',unlock);
+  pass.addEventListener('keydown',function(e){ if(e.key==='Enter') unlock(); });
+  pass.focus();
+})();
+</script>
+<!-- ── /ACCESS GATE ────────────────────────────────────────────── -->
+
   <div class="app">
     <!-- ── Top bar ───────────────────────────────────────────────── -->
     <header class="topbar">

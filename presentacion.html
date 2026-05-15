@@ -802,6 +802,58 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
 </style>
 </head>
 <body>
+<!-- ── ACCESS GATE ─────────────────────────────────────────────── -->
+<div id="cc-gate" role="dialog" aria-modal="true" aria-label="Acceso privado">
+  <div class="cc-card">
+    <div class="cc-logo">
+      <svg viewBox="0 0 26 26" aria-hidden="true"><rect width="26" height="26" rx="6" fill="#F7600A"/><path d="M5 20 L13 5 L21 20 M8 14 L18 14" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+    </div>
+    <h1>Contigo &times; Cacerola</h1>
+    <p class="cc-sub">Acceso privado &middot; ingres&aacute; la clave para continuar</p>
+    <input id="cc-pass" type="password" placeholder="Clave de acceso" autocomplete="off" autocapitalize="off" spellcheck="false" />
+    <div id="cc-err" aria-live="polite"></div>
+    <button id="cc-go" type="button">Entrar &rarr;</button>
+  </div>
+  <style>
+    #cc-gate{position:fixed;inset:0;z-index:2147483647;background:#0C0C0C;display:flex;align-items:center;justify-content:center;padding:24px;font-family:'DM Sans',system-ui,-apple-system,sans-serif;}
+    #cc-gate .cc-card{width:100%;max-width:340px;text-align:center;}
+    #cc-gate .cc-logo{width:44px;height:44px;margin:0 auto 22px;}
+    #cc-gate .cc-logo svg{width:44px;height:44px;display:block;}
+    #cc-gate h1{color:#fff;font-size:19px;font-weight:600;margin:0 0 6px;letter-spacing:-.01em;}
+    #cc-gate .cc-sub{color:rgba(255,255,255,.45);font-size:13px;margin:0 0 24px;line-height:1.5;}
+    #cc-gate input{width:100%;padding:13px 15px;border-radius:9px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-size:14px;outline:none;box-sizing:border-box;font-family:inherit;}
+    #cc-gate input:focus{border-color:#F7600A;}
+    #cc-gate #cc-err{color:#F7600A;font-size:12px;min-height:16px;margin:8px 0 0;}
+    #cc-gate button{width:100%;margin-top:10px;padding:13px;border-radius:9px;border:none;background:#F7600A;color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;}
+    #cc-gate button:hover{background:#D94F00;}
+  </style>
+</div>
+<script>
+(function(){
+  var KEY='cc-auth-contigo-2026', PASS='contigo2026';
+  var gate=document.getElementById('cc-gate');
+  if(!gate) return;
+  if(sessionStorage.getItem(KEY)==='1'){ gate.parentNode.removeChild(gate); return; }
+  var html=document.documentElement, prevOverflow=html.style.overflow;
+  html.style.overflow='hidden';
+  var pass=document.getElementById('cc-pass'), err=document.getElementById('cc-err'), go=document.getElementById('cc-go');
+  function unlock(){
+    if(pass.value.trim()===PASS){
+      sessionStorage.setItem(KEY,'1');
+      html.style.overflow=prevOverflow;
+      gate.parentNode.removeChild(gate);
+    } else {
+      err.textContent='Clave incorrecta. Probá de nuevo.';
+      pass.value=''; pass.focus();
+    }
+  }
+  go.addEventListener('click',unlock);
+  pass.addEventListener('keydown',function(e){ if(e.key==='Enter') unlock(); });
+  pass.focus();
+})();
+</script>
+<!-- ── /ACCESS GATE ────────────────────────────────────────────── -->
+
 
 <div class="scroll-progress" id="scroll-progress"></div>
 
@@ -833,7 +885,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
   <div class="kicker"><i></i>Propuesta · CMO Fractional · 2026</div>
   <h1>Una <em>ventana</em> que se cierra<br>en 36 meses.</h1>
   <p class="hero-sub">
-    Austin es el único mercado tier-1 con retorno a oficina sostenido y un paisaje competitivo que <b>todavía no profesionalizó branding, tech y certificaciones</b>. Royal Fig dejó un gap premium sin dueño. Esta propuesta es para que ese dueño sea Contigo — antes de que un player nacional tome posición.
+    Austin es el único mercado tier-1 con retorno a oficina sostenido y un paisaje competitivo. Royal Fig dejó un gap premium sin dueño. Esta propuesta es para que ese dueño sea Contigo — antes de que un player nacional tome posición.
   </p>
   <div class="hero-actions">
     <a href="#fugas" class="btn-p">Empezar el recorrido →</a>
@@ -887,7 +939,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
   <div class="kicker"><i></i>Lectura del mercado · Q2 2026</div>
   <h2>Por qué Austin. <em>Por qué ahora.</em></h2>
   <p class="bench-intro">
-    Cinco tablas. Treinta segundos cada una. Lo que sigue es la lectura ejecutiva del mercado — el contexto sobre el que se sostiene la ventana de 18–36 meses. <b>Antes del diagnóstico operativo, esto.</b>
+    Lo que sigue es la lectura ejecutiva del mercado — el contexto sobre el que se sostiene la ventana de 18–36 meses.
   </p>
 
   <div class="bench-tables">
@@ -927,7 +979,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
           <tr>
             <td><b>Royal Fig retail</b></td>
             <td class="num">2024</td>
-            <td>Cierre del brazo retail farm-to-table. <em>Gap premium sin dueño</em> · ventana abierta. MML/Crave absorben pero sin heredar la promesa.</td>
+            <td>Cierre del brazo retail farm-to-table abre una ventana para el <em>Gap premium</em>. MML/Crave parecen competir, pero hay posibilidades de incrementar share de mercado en este segmento.</td>
           </tr>
         </tbody>
       </table>
@@ -1011,17 +1063,17 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
       <div class="bench-table-head">
         <h3>04 · <em>Calendario</em> de mega-eventos · pipeline estacional</h3>
         <span class="src">Re-pitch ABR–JUN 2026</span>
-        <p class="lede">Cuatro ventanas estacionales que concentran $40–65M anuales de catering en pocos meses. Tres están abiertas para Contigo. F1 fue perdida en 2024 — la ventana de re-pitch se cierra en JUN 2026.</p>
+        <p class="lede">Cuatro ventanas estacionales que concentran $40–65M anuales de catering en pocos meses. Tres están abiertas para Contigo. Conocer el estado del re-pitch previo al cierre en JUN 2026 de la F1.</p>
       </div>
       <table class="bench-table">
         <thead>
-          <tr><th>Evento</th><th>Fecha</th><th>Asistentes</th><th>Mercado catering</th><th>Status Contigo</th></tr>
+          <tr><th>Evento</th><th>Fecha</th><th>Asistentes</th><th>Mercado catering</th></tr>
         </thead>
         <tbody>
-          <tr><td><b>SXSW</b></td><td>Mar 2027</td><td class="num">309K</td><td class="num">$25<em>–50M</em></td><td>Sin entrar · brand houses $50K–500K c/u</td></tr>
-          <tr><td><b>F1 USGP · COTA</b></td><td>Oct 2026</td><td class="num">400K</td><td class="num">$5<em>–15M</em></td><td><em>Perdida 2024</em> · re-pitch ABR–JUN 26 · 70+ suites</td></tr>
-          <tr><td><b>ACL Festival</b></td><td>Oct 2026</td><td class="num">450K</td><td class="num">Activations laterales</td><td>Sin entrar · Ocaso natural fit</td></tr>
-          <tr><td><b>Austin Tech Week</b></td><td>Otoño 2026</td><td class="num">Boutique</td><td>Medio · brand activations</td><td>Sin entrar</td></tr>
+          <tr><td><b>SXSW</b></td><td>Mar 2027</td><td class="num">309K</td><td class="num">$25<em>–50M</em></td></tr>
+          <tr><td><b>F1 USGP · COTA</b></td><td>Oct 2026</td><td class="num">400K</td><td class="num">$5<em>–15M</em></td></tr>
+          <tr><td><b>ACL Festival</b></td><td>Oct 2026</td><td class="num">450K</td><td class="num">Activations laterales</td></tr>
+          <tr><td><b>Austin Tech Week</b></td><td>Otoño 2026</td><td class="num">Boutique</td><td>Medio · brand activations</td></tr>
         </tbody>
       </table>
     </div>
@@ -1031,7 +1083,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
       <div class="bench-table-head">
         <h3>05 · <em>Paisaje</em> competitivo · resumen ejecutivo</h3>
         <span class="src">Detalle completo en Atlas</span>
-        <p class="lede">Diez competidores relevantes. Ninguno opera un ecosistema integrado de 4 verticales. La diferencia es estructural — no se compra con más Google Ads.</p>
+        <p class="lede">Nueve competidores relevantes. Ninguno opera un ecosistema integrado de 4 verticales. La diferencia es estructural — no se compra con más Google Ads.</p>
       </div>
       <table class="bench-table">
         <thead>
@@ -1040,7 +1092,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
         <tbody>
           <tr>
             <td><b>Tier 1 frontal</b><br><span style="color:var(--sub);font-size:11.5px;">mismo cliente · mismo ticket · misma semana</span></td>
-            <td>Word of Mouth · Royal Fig · 24 Diamonds · Sterling · Crave · Austin Catering</td>
+            <td>MML Catering · Diamond Catering · Sterling Events · Crave · Austin Catering</td>
             <td><em>"Premium catering for all occasions"</em> — H1 intercambiable entre todos</td>
             <td>Ecosistema 4-marcas operado como uno · One Eleven East como teatro</td>
           </tr>
@@ -1067,7 +1119,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
   <div class="inner" style="padding-top:96px;padding-bottom:96px;">
     <div class="sec-num">03 / 10</div>
     <div class="kicker"><i></i>Diagnóstico</div>
-    <h2>Lo que veo desde afuera.<br><em>Cinco fugas.</em></h2>
+    <h2>Lo que veo desde afuera.<br><em>Cinco oportunidades.</em></h2>
     <p style="font-size:15px;color:rgba(255,255,255,.45);max-width:600px;margin-top:1rem;line-height:1.7;">
       Esto no se compra con más Google Ads. Es trabajo de operación, marca y disciplina. Cualquier consultor encuentra estas fugas en una semana. El valor está en cerrarlas en treinta días.
     </p>
@@ -1083,23 +1135,23 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
       </div>
       <div class="diag-card reveal">
         <div class="num">02</div>
-        <h3>$1K mensual mal ruteado</h3>
+        <h3>Manejo de inversión alineado</h3>
         <div class="body">
-          Google Ads tira 15 leads/mes de los cuales casi ninguno califica. Misma plata, segmentación correcta, son <b>5 cuentas tier-1 en pipeline</b>.
+          Vemos alta competencia en Google Ads. Como esta inversión está equilibrada para Contigo, sería interesante conocer cómo se integra con la inversión en Meta y equilibrar <b>brand / performance</b>.
         </div>
         <div class="impact">→ Reallocation, no aumento</div>
       </div>
       <div class="diag-card reveal">
         <div class="num">03</div>
-        <h3>Precios viven en cabezas</h3>
+        <h3>Manejo de precios cotización</h3>
         <div class="body">
-          Las vendedoras improvisan según si <b>"el limón está en temporada"</b>. Cotizar tarda hasta una semana. Es la fuga más cara — clientes calificados se van por timing.
+          Es importante medir la respuesta desde la llegada de la cotización, y entendemos que lo granular de los pedidos —como por ejemplo si <b>"el limón está en temporada"</b> o no— son temas a abordar. Esto es un tema de mercado: algunos ya lo tienen híper resuelto. Quiero vivir la experiencia Contigo.
         </div>
         <div class="impact">→ Matriz interna, &lt; 4h response</div>
       </div>
       <div class="diag-card reveal">
         <div class="num">04</div>
-        <h3>One Eleven East en pausa</h3>
+        <h3>Oportunidad de One Eleven East</h3>
         <div class="body">
           Como venue público compite con 200 salones. <b>Como teatro propio del ecosistema, no compite con nadie</b> — nadie más tiene venue controlado para alojar su propio catering con su propio menaje.
         </div>
@@ -1123,7 +1175,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
   <div class="kicker"><i></i>Reframe</div>
   <h2>Cuatro marcas. <em>Un sistema.</em></h2>
   <p style="font-size:15px;color:var(--muted);max-width:620px;margin-top:1rem;line-height:1.7;">
-    Cada marca cambia de rol. No es nueva nómina. Es nueva narrativa interna. La sinergia ya está construida — falta operarla.
+    Cada marca cambia de rol. No es nueva nómina. Es nueva narrativa interna. La sinergia ya está construida — hay una tremenda oportunidad de operarlas.
   </p>
 
   <div class="brand-grid">
@@ -1146,9 +1198,9 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
       <div class="brand-card-body">
         <div class="brand-tag">Ocaso · referencia visual</div>
         <h3>La vertical <em>outdoor</em></h3>
-        <div class="role-now">Antes — "Contigo barato cuando no alcanza"</div>
+        <div class="role-now">Antes — "Contigo económico, cuando quiero gastar menos"</div>
         <div class="role-new">Smoker trailer + bar service para festivales y activaciones.</div>
-        <div class="body">No es el hijo pobre. Es el único del grupo con capacidad outdoor + bar — y el segmento de SXSW, ACL, F1 paddock paga por eso.</div>
+        <div class="body">No es el negocio más chico. Es el único del grupo con capacidad outdoor + bar — y el segmento de SXSW, ACL, F1 paddock paga por eso.</div>
       </div>
     </div>
     <div class="brand-card reveal" data-v="table">
@@ -1158,7 +1210,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
       <div class="brand-card-body">
         <div class="brand-tag">Table Manners · referencia visual</div>
         <h3>La capa de <em>elevación</em></h3>
-        <div class="role-now">Antes — wishlist que nadie usa</div>
+        <div class="role-now">Antes — wishlist independiente</div>
         <div class="role-new">Add-on obligado en paquetes premium, eleva ticket 15–30%.</div>
         <div class="body">Bundled con Contigo deja de ser opción y pasa a ser lenguaje de marca. La mesa habla antes que la comida.</div>
       </div>
@@ -1190,7 +1242,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
     <div class="kicker"><i></i>El movimiento</div>
     <h2>Lo que vuelve la propuesta<br><em>incomparable.</em></h2>
     <p style="font-size:15px;color:rgba(255,255,255,.45);max-width:640px;margin-top:1rem;line-height:1.7;">
-      Cinco principios de Seth Godin aplicados a la realidad operativa de Contigo. No son frases motivacionales — son decisiones que cambian a quién se contrata y a quién no.
+      Cinco principios aplicados a la realidad operativa de Contigo. No son frases motivacionales — son decisiones que cambian a quién se contrata y a quién no.
     </p>
 
     <div class="godin-grid">
@@ -1216,7 +1268,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
       </div>
       <div class="godin-cell">
         <div class="gn">05</div>
-        <h3>Purple cow <em>o invisible</em></h3>
+        <h3>Seamos la <em>Purple cow</em></h3>
         <div class="body">Comprometerse con UNA cosa pública y verificable que ningún otro publique. Mi candidata: <b>sourcing por nombre de granja + chef-founder visible + matriz de pricing transparente para enterprise (no público)</b>.</div>
       </div>
       <div class="godin-cell">
@@ -1259,7 +1311,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
       <div class="ft-kick">Formato 2 · Semanal</div>
       <h3>Contigo <em>in-the-wild</em></h3>
       <div class="ft-body">
-        Degustación itinerante en la oficina del prospect. Chef + Karen + set de Table Manners + menú propuesto. <b>45 minutos en su sala de reuniones.</b> Cero fricción. Optimizado para Office Managers downtown.
+        Degustación itinerante en la oficina del prospect. Chef + set de Table Manners + menú propuesto. <b>45 minutos en su sala de reuniones.</b> Cero fricción. Optimizado para Office Managers downtown. Afuera Ocaso los espera con un ticket propio.
       </div>
       <div class="ft-stats">
         <div class="ft-stat"><span class="v">~40</span>cenas / año</div>
@@ -1372,7 +1424,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
     </div>
 
     <p style="margin-top:2.5rem;font-family:var(--serif);font-style:italic;font-size:18px;color:rgba(255,255,255,.6);max-width:740px;line-height:1.55;">
-      Estos números no son pronóstico — son la <em>condición de continuidad</em>. Si no se cumplen, la propuesta se rediseña al mes 4 sin penalidad para Contigo.
+      Estos números no son pronóstico — son la <em>condición de continuidad</em>. Si no se cumplen, la propuesta se rediseña al mes 4.
     </p>
   </div>
 </section>
@@ -1383,7 +1435,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
   <div class="kicker"><i></i>Estructura comercial</div>
   <h2>El acuerdo. <em>Honesto.</em></h2>
   <p style="font-size:15px;color:var(--muted);max-width:620px;margin-top:1rem;line-height:1.7;">
-    Compromiso de seis meses mínimo. Sin equity. La estructura está pensada para que el variable empiece a superar al fijo en el mes 2-3 — y a partir de ahí, el costo total se paga con el revenue que él mismo generó.
+    Compromiso de seis meses mínimo. La estructura está pensada para que el variable empiece a superar al fijo en el mes 2-3 — y a partir de ahí, el costo total se paga con el revenue que él mismo generó.
   </p>
 
   <div class="tier-grid">
@@ -1406,9 +1458,6 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
       <div class="price">8<span class="small">% revenue incremental</span></div>
       <ul>
         <li><b>8% del revenue incremental</b> de canales nuevos · 12 meses</li>
-        <li><b>$3,000 por cuenta faro</b> cerrada (Tesla, Apple, Bumble re-entry, F1 recovery, Ascension, St. David's, Mercedes, UT)</li>
-        <li><b>5% del revenue concentrado</b> en SXSW + F1 + ACL</li>
-        <li>Sin equity · puede surgir natural en año 2</li>
       </ul>
     </div>
   </div>
@@ -1424,32 +1473,6 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
     <div class="sec-num">10 / 10</div>
     <div class="kicker"><i></i>Por qué irse no es opción</div>
     <h2>Esto no es un <em>servicio.</em><br>Es un sistema operativo.</h2>
-    <p style="font-size:15px;color:rgba(255,255,255,.45);max-width:620px;margin-top:1rem;line-height:1.7;">
-      Cuatro mecanismos hacen que el día que Contigo piense en irse, le duela demasiado. No por dependencia artificial — por la naturaleza misma del trabajo.
-    </p>
-
-    <div class="irrev-list">
-      <div class="irrev-cell reveal">
-        <div class="num">01</div>
-        <h4>El permission asset es propio en su ejecución</h4>
-        <div class="body">El boletín, el atlas, el CRM con 500 Office Managers, las relaciones con planners — todo eso vive en sistemas que <em>el CMO opera</em>. Contigo puede heredarlos, pero no operarlos sin el músculo construido.</div>
-      </div>
-      <div class="irrev-cell reveal">
-        <div class="num">02</div>
-        <h4>Las cuentas faro están atadas a la relación</h4>
-        <div class="body">Cuando vos cerrás Tesla, el Workplace Manager <em>te conoce a vos</em>. Reemplazarte significa rebootear la cuenta. Las cuentas tier-1 son personas, no contratos.</div>
-      </div>
-      <div class="irrev-cell reveal">
-        <div class="num">03</div>
-        <h4>El atlas es público y vivo</h4>
-        <div class="body">Cuando la dueña abre el atlas cada lunes para ver el estado, eso es <em>una rutina de management</em> que se construyó con el CMO. Apagarlo es una conversación incómoda con su propio equipo.</div>
-      </div>
-      <div class="irrev-cell reveal">
-        <div class="num">04</div>
-        <h4>El framing del mercado</h4>
-        <div class="body">La propuesta empieza con "hay una ventana de 18-36 meses". El día que Contigo piense en irse, el CMO ya le explicó que parar significa <em>perder la categoría</em>. No es chantaje — es la verdad estructural del mercado.</div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -1458,11 +1481,6 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
   <div class="closer">
     <div class="kicker" style="justify-content:center;"><i></i>Cierre</div>
     <h2>No es <em>si</em> entran.<br>Es <em>cómo</em> entran<br>antes de que la ventana cierre.</h2>
-    <p class="sub">
-      Si funciona, no podés volver a hacerlo sin esta operación corriendo.<br>
-      Si no funciona, perdiste 6 meses y $27K.<br>
-      Si funciona y se va antes de mes 12, le regaló la ventana al que viene atrás.
-    </p>
     <div class="closer-actions">
       <a href="mailto:sebas@cacerola.cl?subject=Reunión%20Contigo%20%C3%97%20Austin" class="btn-w">Acordar la primera reunión →</a>
       <a href="contigo-atlas.html" class="btn-o-line">Explorar el Atlas en vivo</a>
@@ -1473,110 +1491,8 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
 <!-- ── LÉEME · 3 preguntas razonables ──────────────────────────── -->
 <section id="leeme">
   <div class="sec-num">Léeme</div>
-  <div class="kicker"><i></i>Antes de explorar las herramientas</div>
-  <h2>Tres preguntas <em>razonables.</em></h2>
-  <p class="leeme-lede">
-    Cuánto vas a pagar, por qué este número, y cómo se lee el mapa que vas a abrir. Tres minutos. Cubrí esto antes de la primera reunión y la conversación se simplifica el doble.
-  </p>
-
-  <!-- Bloque 1 · Honorarios -->
-  <div class="leeme-block">
-    <div class="leeme-head">
-      <div class="leeme-num">01</div>
-      <h3>Cuánto. <em>El detalle.</em></h3>
-    </div>
-    <p>El acuerdo combina un fijo bajo con una variable agresiva. Pensado para que la variable empiece a superar al fijo en el mes 2-3 — momento en que el costo total se paga con el revenue que el CMO mismo generó.</p>
-
-    <div class="fee-table">
-      <div class="fee-row head">
-        <div>Concepto</div>
-        <div>Monto</div>
-        <div>Cuándo se paga</div>
-      </div>
-      <div class="fee-row">
-        <div class="concept">Base mensual</div>
-        <div class="amount">$4,500</div>
-        <div class="when">Inicio de cada mes · 6 meses mínimo</div>
-      </div>
-      <div class="fee-row">
-        <div class="concept">Performance variable</div>
-        <div class="amount">8%</div>
-        <div class="when">Trimestral · sobre revenue de canales nuevos</div>
-      </div>
-      <div class="fee-row">
-        <div class="concept">Bonus por cuenta faro cerrada</div>
-        <div class="amount">$3,000</div>
-        <div class="when">Al primer ticket facturado · por cuenta</div>
-      </div>
-      <div class="fee-row">
-        <div class="concept">Bonus mega-eventos</div>
-        <div class="amount">5%</div>
-        <div class="when">Trimestral · SXSW + F1 + ACL</div>
-      </div>
-    </div>
-
-    <div class="fee-total">
-      <div>
-        <div class="label">Año 1 · proyección esperada</div>
-        <div class="v">$130<span class="sub-amount">–160K</span></div>
-      </div>
-      <div class="right-sub">
-        Promedio efectivo: <em>~$11–13K/mes</em><br>
-        Mínimo garantizado (sólo base): $54K
-      </div>
-    </div>
-
-    <p class="fee-context">
-      Las cuentas faro son ocho: <em>Tesla, Apple Parmer, Bumble, Mercedes, F1, UT Austin, Ascension, St. David's</em>. Si entra la mitad en año 1, los bonos aportan $12K. Si entra F1 sola, su 5% en paddock catering ronda los $20K adicionales.
-    </p>
-  </div>
-
-  <!-- Bloque 2 · Por qué este número -->
-  <div class="leeme-block">
-    <div class="leeme-head">
-      <div class="leeme-num">02</div>
-      <h3>Por qué <em>este</em> precio.</h3>
-    </div>
-    <p>Cinco decisiones explícitas que sostienen la estructura. No es "lo que cobro" — es lo que la arquitectura del acuerdo necesita para alinear incentivos.</p>
-
-    <ul class="why-list">
-      <li class="why-item">
-        <span class="why-bullet">i.</span>
-        <div>
-          <h5>Base baja, variable alta</h5>
-          <p>Un CMO Fractional senior en USA cobra <b>$10–25K mensuales fijos</b>. Bajamos el fijo a $4.5K — accesible — y subimos la alineación con resultados via 8% de revenue. La empresa asume menos riesgo upfront, el CMO asume más.</p>
-        </div>
-      </li>
-      <li class="why-item">
-        <span class="why-bullet">ii.</span>
-        <div>
-          <h5>Cost arbitrage transparente</h5>
-          <p>Estoy basado en Chile. Eso te ahorra plata estructuralmente. <b>No es descuento — es estructura.</b> El delta lo invertimos en performance, no se lo queda nadie.</p>
-        </div>
-      </li>
-      <li class="why-item">
-        <span class="why-bullet">iii.</span>
-        <div>
-          <h5>Sin equity</h5>
-          <p>Mi upside está topado a mi trabajo del año. <b>La empresa la armás vos.</b> Si el acuerdo evoluciona naturalmente hacia equity en año 2, lo conversamos — no es punto de partida.</p>
-        </div>
-      </li>
-      <li class="why-item">
-        <span class="why-bullet">iv.</span>
-        <div>
-          <h5>6 meses mínimo · no menos</h5>
-          <p>El Tasting Engine necesita 90 días para producir su primer ciclo de cierres y 180 para mostrar tracción. <b>Menos que eso es casino para los dos lados.</b> 6 meses es el piso honesto.</p>
-        </div>
-      </li>
-      <li class="why-item">
-        <span class="why-bullet">v.</span>
-        <div>
-          <h5>Payback en mes 2-3</h5>
-          <p>Con la proyección conservadora del mes 1 (~$8–11K incremental), <b>en mes 2 la variable empieza a superar al fijo</b>. En mes 4-6, el costo total efectivo del CMO está siendo pagado por el revenue que él mismo generó. Eso es el ROI 4–8x al mes 6.</p>
-        </div>
-      </li>
-    </ul>
-  </div>
+  <div class="kicker"><i></i>Vamos a explorar las herramientas</div>
+  <h2>Como opera <em>todo.</em></h2>
 
   <!-- Bloque 3 · Cómo leer el Atlas -->
   <div class="leeme-block">
