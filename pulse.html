@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>(function(){var L=localStorage,ok=L.getItem('cc_contigo_auth')==='true',x=L.getItem('cc_contigo_expires'),exp=ok&&x&&Date.now()>parseInt(x,10);if(exp)L.removeItem('cc_contigo_auth');if(!ok||exp){location.href='index.html?next=pulse.html'+(exp?'&expired=1':'')}})();</script>
+<script>(function(){var L=localStorage,ok=L.getItem('cc_contigo_auth')==='true',x=L.getItem('cc_contigo_expires'),exp=ok&&x&&Date.now()>parseInt(x,10);if(exp)L.removeItem('cc_contigo_auth');if(!ok||exp){try{document.documentElement.style.visibility='hidden'}catch(e){}location.replace('index.html?next=pulse.html'+(exp?'&expired=1':''));throw 'cc-auth-redirect'}})();</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contigo Pulse — Social listening · by Cacerola</title>
