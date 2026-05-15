@@ -49,8 +49,7 @@ nav.topbar{
   border-bottom:1px solid var(--border);
 }
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
-.lm{width:26px;height:26px;background:var(--o);border-radius:6px;display:grid;place-items:center}
-.lm svg{width:13px;height:13px}
+.lm{width:28px;height:28px;display:block;object-fit:contain;flex-shrink:0}
 .ln{font-weight:500;font-size:14px;letter-spacing:-.02em;color:var(--ink)}
 .crumb{
   margin-left:14px;padding-left:14px;border-left:1px solid var(--border);
@@ -470,10 +469,8 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
   display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.7);
 }
 .foot .sig-brand .lm-mini{
-  width:14px;height:14px;background:var(--o);border-radius:3px;
-  display:inline-grid;place-items:center;
+  width:18px;height:18px;display:inline-block;object-fit:contain;flex-shrink:0;
 }
-.foot .sig-brand .lm-mini svg{width:8px;height:8px}
 
 /* ── REVEAL ──────────────────────────────────────────────────────── */
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
@@ -668,12 +665,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
 <nav class="topbar">
   <div style="display:flex;align-items:center;">
     <a href="https://cacerola.cl" class="logo" target="_blank" rel="noopener">
-      <div class="lm">
-        <svg viewBox="0 0 13 13" fill="none">
-          <path d="M1.5 11L6.5 2L11.5 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M3.5 7.5H9.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
+      <img class="lm" src="cacerola-logo.png" alt="Cacerola" />
       <span class="ln">Cacerola</span>
     </a>
     <span class="crumb"><em>Contigo</em> × Austin · Proposal</span>
@@ -1250,12 +1242,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:30px 2rem}
   <img class="contigo-logo-foot" src="https://images.squarespace-cdn.com/content/v1/612e5a296d31ea104e277c94/30df6e1a-de8f-4183-af48-01b940dfa318/Asset+17.png?format=1500w" alt="Contigo" loading="lazy" />
   <div class="foot">
     <span class="sig-brand">
-      <span class="lm-mini">
-        <svg viewBox="0 0 13 13" fill="none">
-          <path d="M1.5 11L6.5 2L11.5 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M3.5 7.5H9.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </span>
+      <img class="lm-mini" src="cacerola-logo.png" alt="Cacerola" />
       Cacerola Growth Marketing SpA · Santiago, Chile
     </span>
     <div>
