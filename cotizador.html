@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <script>if(localStorage.getItem('cc_contigo_auth')!=='true'){window.location.href='index.html?next=cotizador.html'}</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contigo Cotizador — Chat con el chef · por Cacerola</title>
-  <meta name="description" content="Cotización conversacional con pricing USDA en vivo. De 1 semana de respuesta a 60 segundos." />
+  <title>Contigo Quoter — Chat with the chef · by Cacerola</title>
+  <meta name="description" content="Conversational quoting with live USDA pricing. From a week of response time to 60 seconds." />
   <link rel="canonical" href="https://contigo.cacerola.cl/cotizador" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -468,17 +467,16 @@
           </div>
           <span class="ln">Cacerola</span>
         </a>
-        <span class="crumb"><em>Contigo Cotizador</em> · Chat con el chef</span>
+        <span class="crumb"><em>Contigo Quoter</em> · Chat with the chef</span>
         <nav class="nav-tabs">
-          <a href="presentacion.html" class="nav-tab">Presentación</a>
           <a href="contigo-atlas.html" class="nav-tab">Atlas</a>
           <a href="pulse.html" class="nav-tab">Pulse</a>
-          <a href="cotizador.html" class="nav-tab active">Cotizador</a>
+          <a href="cotizador.html" class="nav-tab active">Quoter</a>
         </nav>
       </div>
       <div class="topbar-meta">
         <span>Response time<span class="val" id="rt-clock">0s</span></span>
-        <span>USDA Dallas<span class="val">22 abr 2026</span></span>
+        <span>USDA Dallas<span class="val">Apr 22, 2026</span></span>
       </div>
     </header>
 
@@ -487,38 +485,38 @@
       <div class="chat-scroll" id="chat-scroll">
         <div class="chat-inner">
           <div class="chat-hero">
-            <div class="kicker"><i></i>De 1 semana a 60 segundos</div>
-            <h1>Contame de tu evento. <em>Armo la propuesta mientras hablamos.</em></h1>
-            <div class="sub">Soy el chef virtual de Contigo. En 7 preguntas tenés menú completo, breakdown de costos con pricing USDA en vivo, y propuesta descargable.</div>
+            <div class="kicker"><i></i>From a week to 60 seconds</div>
+            <h1>Tell me about your event. <em>I build the proposal as we talk.</em></h1>
+            <div class="sub">I'm Contigo's virtual chef. 7 questions gets you a full menu, cost breakdown with live USDA pricing, and a downloadable proposal.</div>
           </div>
           <div id="chat-messages"></div>
         </div>
       </div>
-      <div class="chat-input-hint" id="chat-hint" style="display:none;">Refiná con texto libre — ej: "más vegetariano", "menos carne", "premium budget"</div>
+      <div class="chat-input-hint" id="chat-hint" style="display:none;">Refine with free text — e.g., "more vegetarian", "less meat", "premium budget"</div>
       <div class="chat-input-bar">
-        <input type="text" id="chat-input" placeholder="Elegí una opción arriba para empezar..." disabled />
-        <button id="chat-send" disabled onclick="handleFreeText()">Enviar</button>
+        <input type="text" id="chat-input" placeholder="Pick an option above to get started..." disabled />
+        <button id="chat-send" disabled onclick="handleFreeText()">Send</button>
       </div>
     </main>
 
     <!-- ── Right: live quote ─────────────────────────────────────── -->
     <aside class="quote-panel">
       <div class="qp-head">
-        <div class="kicker"><i></i>Propuesta · live preview</div>
-        <h2>Cotización <em>viva</em></h2>
+        <div class="kicker"><i></i>Proposal · live preview</div>
+        <h2>Live <em>quote</em></h2>
         <div class="qp-ref" id="qp-ref">C-2026-XX-XX-000</div>
       </div>
       <div class="qp-body" id="qp-body">
         <div class="qp-section">
-          <h4>Evento</h4>
-          <div class="qp-empty">Se completa a medida que respondés.</div>
+          <h4>Event</h4>
+          <div class="qp-empty">Fills in as you answer.</div>
         </div>
       </div>
       <div class="qp-foot">
         <div class="qp-ctas">
-          <button class="qp-cta primary disabled" id="cta-pdf">↓ Descargar PDF</button>
-          <button class="qp-cta dark disabled" id="cta-book">Reservar degustación</button>
-          <button class="qp-cta disabled" id="cta-chef">Hablar con el chef</button>
+          <button class="qp-cta primary disabled" id="cta-pdf">↓ Download PDF</button>
+          <button class="qp-cta dark disabled" id="cta-book">Book a tasting</button>
+          <button class="qp-cta disabled" id="cta-chef">Talk to the chef</button>
         </div>
       </div>
     </aside>
@@ -526,15 +524,15 @@
 
   <script>
   /* ═════════════════════════════════════════════════════════════════════════
-     CONTIGO COTIZADOR — Chat guionado + pricing en vivo
+     CONTIGO QUOTER — Scripted chat + live pricing
   ══════════════════════════════════════════════════════════════════════════ */
 
-  /* ── USDA AMS Dallas Terminal · snapshot 22 abr 2026 ─────────────
-     En producción: GET https://mymarketnews.ams.usda.gov/... (diario).
-     Precios mayoristas por libra. Margen catering típico: 3.2x–3.8x.
+  /* ── USDA AMS Dallas Terminal · snapshot Apr 22, 2026 ────────────
+     In production: GET https://mymarketnews.ams.usda.gov/... (daily).
+     Wholesale prices per lb. Typical catering margin: 3.2x–3.8x.
   ──────────────────────────────────────────────────────────────── */
   const USDA_SNAPSHOT = {
-    date: '22 abr 2026',
+    date: 'Apr 22, 2026',
     source: 'USDA AMS · Dallas Terminal Market',
     items: [
       { ing: 'Beef tenderloin', wholesale: 14.20, unit: '/lb' },
@@ -617,18 +615,18 @@
 
   /* ── Event types, vibes, dietary presets ─────────────────────── */
   const EVENT_TYPES = [
-    { id: 'boardroom', name: 'Board dinner', sub: 'C-suite · hasta 20 pax', defaultCount: 14 },
-    { id: 'tech', name: 'Tech HQ lunch', sub: 'Office · recurrente', defaultCount: 40 },
-    { id: 'brand', name: 'Brand activation', sub: 'SXSW · F1 · producto', defaultCount: 80 },
+    { id: 'boardroom', name: 'Board dinner', sub: 'C-suite · up to 20 pax', defaultCount: 14 },
+    { id: 'tech', name: 'Tech HQ lunch', sub: 'Office · recurring', defaultCount: 40 },
+    { id: 'brand', name: 'Brand activation', sub: 'SXSW · F1 · product launch', defaultCount: 80 },
     { id: 'wedding', name: 'Wedding', sub: 'Plated · full service', defaultCount: 120 },
     { id: 'festival', name: 'Festival hospitality', sub: 'Outdoor · smoker station', defaultCount: 200 },
     { id: 'healthcare', name: 'Healthcare conference', sub: 'Pharma · compliance', defaultCount: 60 }
   ];
 
   const VENUES = [
-    { id: 'one-eleven', name: 'One Eleven East', sub: 'Nuestro venue · Hutto', fee: 0, includesTable: true },
-    { id: 'client', name: 'Oficina del cliente', sub: 'In-the-wild', fee: 0, includesTable: false },
-    { id: 'third', name: 'Venue tercero', sub: 'Palmer · Driskill · Blanton...', fee: 0, includesTable: false },
+    { id: 'one-eleven', name: 'One Eleven East', sub: 'Our venue · Hutto', fee: 0, includesTable: true },
+    { id: 'client', name: 'Client\'s office', sub: 'In-the-wild', fee: 0, includesTable: false },
+    { id: 'third', name: 'Third-party venue', sub: 'Palmer · Driskill · Blanton...', fee: 0, includesTable: false },
     { id: 'outdoor', name: 'Outdoor · Hill Country', sub: 'Smoker-friendly', fee: 0, includesTable: false }
   ];
 
@@ -646,7 +644,7 @@
     { id: 'halal', name: 'Halal' },
     { id: 'kosher', name: 'Kosher' },
     { id: 'nuts', name: 'Nut allergy' },
-    { id: 'none', name: 'Sin restricciones' }
+    { id: 'none', name: 'No restrictions' }
   ];
 
   /* ── State ────────────────────────────────────────────────────── */
@@ -690,7 +688,7 @@
     const div = document.createElement('div');
     div.className = 'msg-row user';
     div.innerHTML = `
-      <div class="msg-avatar user">Tú</div>
+      <div class="msg-avatar user">You</div>
       <div class="msg-bubble">${text}</div>
     `;
     messagesEl.appendChild(div);
@@ -726,7 +724,7 @@
 
   /* ── Conversation flow ───────────────────────────────────────── */
   async function startConversation() {
-    await typeThenSay(`<b>Hola.</b> Soy el chef virtual de <em>Contigo</em>. Para armarte la propuesta necesito entender el evento. <div class="small">Empecemos: ¿qué tipo de evento es?</div>`, 600);
+    await typeThenSay(`<b>Hey there.</b> I'm Contigo's virtual chef. To put together the right proposal I need to understand your event. <div class="small">Let's start: what type of event is it?</div>`, 600);
     askEventType();
   }
 
@@ -745,7 +743,7 @@
     state.headcount = e.defaultCount;
     appendUserMessage(e.name);
     updatePreview();
-    await typeThenSay(`Perfecto. <b>${e.name}</b> suele ser <em>${e.defaultCount} personas</em> según nuestro promedio. ¿Cuántos van a asistir al tuyo?`);
+    await typeThenSay(`Got it. <b>${e.name}</b> typically runs <em>${e.defaultCount} guests</em> based on our average. How many are you expecting?`);
     askHeadcount();
   };
 
@@ -753,7 +751,7 @@
     const html = `
       <div class="opt-number">
         <input type="number" id="hc-input" min="1" max="2000" value="${state.headcount}" />
-        <button class="opt-confirm" onclick="confirmHeadcount()">Confirmar</button>
+        <button class="opt-confirm" onclick="confirmHeadcount()">Confirm</button>
       </div>
       <div class="small" style="margin-top:8px;">Presets:
         <button class="refine-btn" onclick="setHc(14)" style="margin-top:4px;">14</button>
@@ -768,21 +766,21 @@
   window.confirmHeadcount = async function() {
     const v = parseInt(document.getElementById('hc-input').value) || 1;
     state.headcount = v;
-    appendUserMessage(`${v} personas`);
+    appendUserMessage(`${v} guests`);
     updatePreview();
-    await typeThenSay(`<b>${v} personas</b> anotadas. ¿Cuándo es el evento? <div class="small">Fecha estimada o rango. Importa para proyectar estacionalidad de ingredientes.</div>`);
+    await typeThenSay(`<b>${v} guests</b> noted. When is the event? <div class="small">Estimated date or range — helps project ingredient seasonality.</div>`);
     askDate();
   };
 
   function askDate() {
     const today = new Date();
     const presets = [
-      { label: 'Próximas 2 semanas', val: 'proximas 2 semanas' },
-      { label: 'Mayo 2026', val: 'mayo 2026' },
-      { label: 'Junio 2026', val: 'junio 2026' },
-      { label: 'Verano (low season)', val: 'verano 2026 — low season' },
-      { label: 'SXSW 2027', val: 'SXSW · marzo 2027' },
-      { label: 'F1 · oct 2026', val: 'F1 USGP · octubre 2026' }
+      { label: 'Next 2 weeks', val: 'next 2 weeks' },
+      { label: 'May 2026', val: 'May 2026' },
+      { label: 'June 2026', val: 'June 2026' },
+      { label: 'Summer (low season)', val: 'summer 2026 — low season' },
+      { label: 'SXSW 2027', val: 'SXSW · March 2027' },
+      { label: 'F1 · Oct 2026', val: 'F1 USGP · October 2026' }
     ];
     const html = `
       <div class="opt-grid">
@@ -794,7 +792,7 @@
     state.dateStr = d;
     appendUserMessage(d);
     updatePreview();
-    await typeThenSay(`¿Dónde lo hacemos?`);
+    await typeThenSay(`Where would you like to host it?`);
     askVenue();
   };
 
@@ -813,9 +811,9 @@
     appendUserMessage(v.name);
     updatePreview();
     let extra = '';
-    if (v.id === 'one-eleven') extra = ' <em>One Eleven East</em> viene con Table Manners incluido — ahorro de ~$8/pp.';
-    if (v.id === 'outdoor') extra = ' Outdoor abre la puerta a <em>Ocaso smoker station</em> — nuestra vertical BBQ.';
-    await typeThenSay(`Anotado.${extra} ¿Restricciones alimentarias? <div class="small">Elegí las que apliquen. Podés seleccionar varias.</div>`);
+    if (v.id === 'one-eleven') extra = ' <em>One Eleven East</em> includes Table Manners — saves ~$8/pp.';
+    if (v.id === 'outdoor') extra = ' Outdoor opens the door to <em>Ocaso smoker station</em> — our BBQ vertical.';
+    await typeThenSay(`Noted.${extra} Any dietary restrictions? <div class="small">Select all that apply. You can pick more than one.</div>`);
     askDietary();
   };
 
@@ -826,7 +824,7 @@
           <button class="opt-btn multi" data-id="${d.id}" onclick="toggleDietary('${d.id}', this)">
             <span class="opt-title">${d.name}</span>
           </button>`).join('')}
-        <button class="opt-confirm" onclick="confirmDietary()">Continuar →</button>
+        <button class="opt-confirm" onclick="confirmDietary()">Continue →</button>
       </div>`;
     appendBotMessage(html);
   }
@@ -845,10 +843,10 @@
     else state.dietary = state.dietary.filter(x => x !== id);
   };
   window.confirmDietary = async function() {
-    const lbl = state.dietary.length ? state.dietary.map(id => DIETARY.find(d => d.id === id).name).join(', ') : 'sin restricciones';
+    const lbl = state.dietary.length ? state.dietary.map(id => DIETARY.find(d => d.id === id).name).join(', ') : 'no restrictions';
     appendUserMessage(lbl);
     updatePreview();
-    await typeThenSay(`Listo. Ahora la decisión más divertida: <em>vibe</em>. ¿Qué estilo estás buscando?`);
+    await typeThenSay(`Now the fun part: <em>vibe</em>. What style are you going for?`);
     askVibe();
   };
 
@@ -864,17 +862,17 @@
     const v = VIBES.find(x => x.id === id);
     state.vibe = v;
     appendUserMessage(v.name);
-    await typeThenSay(`Excelente. Última pregunta: ¿rango de presupuesto por persona? <div class="small">Nos ayuda a calibrar — es opcional.</div>`);
+    await typeThenSay(`Perfect. Last question: budget range per person? <div class="small">Helps us calibrate — optional.</div>`);
     askBudget();
   };
 
   function askBudget() {
     const presets = [
-      { label: '$40–60 / pp', val: 50, sub: 'Accesible' },
+      { label: '$40–60 / pp', val: 50, sub: 'Budget-friendly' },
       { label: '$60–90 / pp', val: 75, sub: 'Mid-premium' },
       { label: '$90–130 / pp', val: 110, sub: 'Premium' },
       { label: '$130+ / pp', val: 160, sub: 'Luxury' },
-      { label: 'Sin presupuesto fijo', val: null, sub: 'Optimizá vos' }
+      { label: 'No fixed budget', val: null, sub: 'Optimize for us' }
     ];
     const html = `<div class="opt-grid">${presets.map(p => `
       <button class="opt-btn" onclick="selectBudget(${p.val}, '${p.label}')">
@@ -886,7 +884,7 @@
   window.selectBudget = async function(val, label) {
     state.budgetPP = val;
     appendUserMessage(label);
-    await typeThenSay(`Perfecto. Voy a consultar pricing USDA Dallas de hoy y armar el menú.`, 500);
+    await typeThenSay(`Perfect. Pulling today's USDA Dallas pricing and building your menu.`, 500);
     await generateMenu();
   };
 
@@ -922,18 +920,18 @@
 
     const msg = `
       <div class="menu-card">
-        <div class="kicker"><i style="display:inline-block;width:14px;height:1.5px;background:var(--o);"></i> Menú sugerido</div>
+        <div class="kicker"><i style="display:inline-block;width:14px;height:1.5px;background:var(--o);"></i> Suggested menu</div>
         <h3>${m.name.replace(m.name.split(' ').pop(), `<em>${m.name.split(' ').pop()}</em>`)}</h3>
         <div class="tag">${m.vibe} · ~$${m.pricePerPerson}/pp base</div>
         ${coursesHtml}
         <div class="menu-addons">
-          <h4>Add-ons sugeridos</h4>
+          <h4>Suggested add-ons</h4>
           ${addonsHtml.join('')}
         </div>
         <div class="refine-buttons">
-          <button class="refine-btn" onclick="refineMenu('lighter')">+ ligero</button>
+          <button class="refine-btn" onclick="refineMenu('lighter')">+ lighter</button>
           <button class="refine-btn" onclick="refineMenu('richer')">+ premium</button>
-          <button class="refine-btn" onclick="refineMenu('vegetarian')">+ vegetariano</button>
+          <button class="refine-btn" onclick="refineMenu('vegetarian')">+ vegetarian</button>
           <button class="refine-btn" onclick="refineMenu('texmex')">+ Tex-Mex</button>
           <button class="refine-btn" onclick="refineMenu('seafood')">+ seafood</button>
         </div>
@@ -947,7 +945,7 @@
 
     updatePreview();
 
-    await typeThenSay(`<b>Listo.</b> Tenés la cotización calculada a la derecha con el breakdown por vertical del ecosistema Contigo + referencia USDA. <div class="small">Podés pedir variaciones tocando los botones del menú, o descargar la propuesta.</div>`, 1200);
+    await typeThenSay(`<b>Done.</b> Your quote is calculated on the right with a breakdown by Contigo ecosystem vertical + USDA reference pricing. <div class="small">You can request changes using the menu buttons, or download the proposal.</div>`, 1200);
     enableFreeText();
     enableCTAs();
   }
@@ -955,8 +953,8 @@
   window.refineMenu = async function(kind) {
     const m = { lighter: 'healthcare-compliance', richer: 'gulf-coast-plated', vegetarian: 'healthcare-compliance', texmex: 'tex-mex-reserve', seafood: 'gulf-coast-plated' }[kind];
     state.selectedMenu = MENUS[m];
-    appendUserMessage(`Hacelo más ${kind}`);
-    await typeThenSay(`Cambiado. Nuevo menú:`);
+    appendUserMessage(`Make it ${kind}`);
+    await typeThenSay(`Done. Updated menu:`);
     await generateMenu();
   };
 
@@ -971,18 +969,18 @@
     if (state.eventType) {
       sections.push(`
         <div class="qp-section">
-          <h4>Evento</h4>
+          <h4>Event</h4>
           <dl class="qp-grid">
-            <dt>Tipo</dt><dd><em>${state.eventType.name}</em></dd>
-            ${state.headcount ? `<dt>Pax</dt><dd>${state.headcount}</dd>` : ''}
-            ${state.dateStr ? `<dt>Fecha</dt><dd>${state.dateStr}</dd>` : ''}
+            <dt>Type</dt><dd><em>${state.eventType.name}</em></dd>
+            ${state.headcount ? `<dt>Guests</dt><dd>${state.headcount}</dd>` : ''}
+            ${state.dateStr ? `<dt>Date</dt><dd>${state.dateStr}</dd>` : ''}
             ${state.venue ? `<dt>Venue</dt><dd>${state.venue.name}</dd>` : ''}
             ${state.dietary.length ? `<dt>Dietary</dt><dd>${state.dietary.map(id => DIETARY.find(d => d.id === id).name).join(', ')}</dd>` : ''}
             ${state.vibe ? `<dt>Vibe</dt><dd><em>${state.vibe.name}</em></dd>` : ''}
           </dl>
         </div>`);
     } else {
-      sections.push(`<div class="qp-section"><h4>Evento</h4><div class="qp-empty">Se completa a medida que respondés.</div></div>`);
+      sections.push(`<div class="qp-section"><h4>Event</h4><div class="qp-empty">Fills in as you answer.</div></div>`);
     }
 
     // Pricing
@@ -1004,24 +1002,24 @@
       if (wine) rows.push({ label: 'Wine pairing · Contigo', amt: wine, v: 'var(--v-contigo)' });
       if (smoker) rows.push({ label: 'Ocaso smoker station', amt: smoker, v: 'var(--v-ocaso)' });
       if (table) rows.push({ label: 'Table Manners service', amt: table, v: 'var(--v-table)' });
-      if (state.venue?.includesTable) rows.push({ label: 'Table Manners incluido', amt: 0, v: 'var(--v-table)', free: true });
-      if (state.venue?.id === 'one-eleven') rows.push({ label: 'One Eleven East venue (propio)', amt: 0, v: 'var(--v-venue)', free: true });
+      if (state.venue?.includesTable) rows.push({ label: 'Table Manners included', amt: 0, v: 'var(--v-table)', free: true });
+      if (state.venue?.id === 'one-eleven') rows.push({ label: 'One Eleven East venue (ours)', amt: 0, v: 'var(--v-venue)', free: true });
       rows.push({ label: 'Service + staffing', amt: service, v: null });
 
       const rowsHtml = rows.map(r => `
         <div class="qp-price-row">
           <span class="label">${r.v ? `<span class="vert" style="background: ${r.v};"></span>` : ''}${r.label}</span>
-          <span class="amt">${r.free ? '<em style="font-family: var(--serif); font-style: italic; color: var(--o);">incluido</em>' : '$' + r.amt.toLocaleString()}</span>
+          <span class="amt">${r.free ? '<em style="font-family: var(--serif); font-style: italic; color: var(--o);">included</em>' : '$' + r.amt.toLocaleString()}</span>
         </div>`).join('');
 
       sections.push(`
         <div class="qp-section">
-          <h4>Menú</h4>
+          <h4>Menu</h4>
           <div style="font-family: var(--serif); font-size: 17px; color: var(--ink); line-height: 1.2; letter-spacing: -0.01em;"><em>${state.selectedMenu.name}</em></div>
           <div style="font-size: 11.5px; color: var(--muted); margin-top: 3px;">${state.selectedMenu.vibe}</div>
         </div>
         <div class="qp-section">
-          <h4>Breakdown por vertical</h4>
+          <h4>Breakdown by vertical</h4>
           ${rowsHtml}
           <div class="qp-price-row" style="color: var(--muted);">
             <span class="label">Subtotal</span>
@@ -1034,7 +1032,7 @@
           <div class="qp-price-total">
             <div>
               <div class="label">Total</div>
-              <div class="qp-price-per">$${Math.round(total/hc).toLocaleString()} por persona</div>
+              <div class="qp-price-per">$${Math.round(total/hc).toLocaleString()} per person</div>
             </div>
             <div class="amt"><em>$${total.toLocaleString()}</em></div>
           </div>
@@ -1050,9 +1048,9 @@
       sections.push(`
         <div class="qp-section">
           <div class="qp-usda">
-            <h5><span class="dot"></span>Intel de mercado · ${USDA_SNAPSHOT.date}</h5>
+            <h5><span class="dot"></span>Market intel · ${USDA_SNAPSHOT.date}</h5>
             ${usdaRows}
-            <div class="src">${USDA_SNAPSHOT.source} · margen catering blended 3.2x–3.8x</div>
+            <div class="src">${USDA_SNAPSHOT.source} · blended catering margin 3.2x–3.8x</div>
           </div>
         </div>`);
     }
@@ -1066,8 +1064,8 @@
       document.getElementById(id).classList.remove('disabled');
     });
     document.getElementById('cta-pdf').onclick = downloadProposal;
-    document.getElementById('cta-book').onclick = () => alert('Calendly embed aquí. Para demo, asumimos reserva confirmada con Karen + chef-founder.');
-    document.getElementById('cta-chef').onclick = () => alert('WhatsApp / Calendly con el chef-founder. Para demo, simulado.');
+    document.getElementById('cta-book').onclick = () => alert('Calendly embed here. For demo purposes, booking confirmed with Karen + chef-founder.');
+    document.getElementById('cta-chef').onclick = () => alert('WhatsApp / Calendly with the chef-founder. Simulated for demo.');
   }
 
   function downloadProposal() {
@@ -1107,21 +1105,21 @@ table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
 .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #E8E4DF; font-size: 11px; color: #888; }
 @media print { body { margin: 20px; } }
 </style></head><body>
-<div class="kicker">Propuesta · Contigo Catering</div>
-<h1>${m.name} para <em>${state.eventType.name}</em></h1>
+<div class="kicker">Proposal · Contigo Catering</div>
+<h1>${m.name} for <em>${state.eventType.name}</em></h1>
 <div class="ref">${state.ref} · Austin, TX</div>
 
-<h2 class="kicker">Evento</h2>
+<h2 class="kicker">Event</h2>
 <dl class="grid">
-<dt>Tipo</dt><dd>${state.eventType.name}</dd>
-<dt>Pax</dt><dd>${hc} personas</dd>
-<dt>Fecha</dt><dd>${state.dateStr || 'TBD'}</dd>
+<dt>Type</dt><dd>${state.eventType.name}</dd>
+<dt>Guests</dt><dd>${hc}</dd>
+<dt>Date</dt><dd>${state.dateStr || 'TBD'}</dd>
 <dt>Venue</dt><dd>${state.venue.name} (${state.venue.sub})</dd>
-<dt>Dietary</dt><dd>${state.dietary.length ? state.dietary.map(id => DIETARY.find(d => d.id === id).name).join(', ') : 'Sin restricciones'}</dd>
+<dt>Dietary</dt><dd>${state.dietary.length ? state.dietary.map(id => DIETARY.find(d => d.id === id).name).join(', ') : 'No restrictions'}</dd>
 <dt>Vibe</dt><dd>${state.vibe?.name || '—'}</dd>
 </dl>
 
-<h2 class="kicker">Menú · <em>${m.name}</em></h2>
+<h2 class="kicker">Menu · <em>${m.name}</em></h2>
 <table>${coursesPrint}</table>
 
 <h2 class="kicker">Breakdown</h2>
@@ -1132,11 +1130,11 @@ ${table ? `<div class="price-row"><span>Table Manners service</span><span>$${tab
 <div class="price-row"><span>Service + staffing</span><span>$${service.toLocaleString()}</span></div>
 <div class="price-row"><span>Subtotal</span><span>$${subtotal.toLocaleString()}</span></div>
 <div class="price-row"><span>Tax (8.25%)</span><span>$${tax.toLocaleString()}</span></div>
-<div class="total-row"><span><div style="text-transform:uppercase;letter-spacing:0.1em;font-size:10px;color:#888;">Total</div><div style="font-size:11px;color:#888;margin-top:4px;">$${Math.round(total/hc).toLocaleString()} por persona</div></span><span class="amt">$${total.toLocaleString()}</span></div>
+<div class="total-row"><span><div style="text-transform:uppercase;letter-spacing:0.1em;font-size:10px;color:#888;">Total</div><div style="font-size:11px;color:#888;margin-top:4px;">$${Math.round(total/hc).toLocaleString()} per person</div></span><span class="amt">$${total.toLocaleString()}</span></div>
 
 <div class="footer">
-Pricing referenciado a USDA AMS Dallas Terminal del ${USDA_SNAPSHOT.date}. Respuesta a consultas ≤ 4 horas hábiles. COI $2M · W-9 · Food safety ServSafe certified. Contigo Catering · Austin TX · hello@contigocatering.com
-<br><br>Cotización generada en ${Math.floor((Date.now()-startTime)/1000)} segundos vía <strong>Contigo Cotizador</strong> · construido por Cacerola.
+Pricing referenced to USDA AMS Dallas Terminal Market as of ${USDA_SNAPSHOT.date}. Response to inquiries ≤ 4 business hours. COI $2M · W-9 · Food safety ServSafe certified. Contigo Catering · Austin TX · hello@contigocatering.com
+<br><br>Quote generated in ${Math.floor((Date.now()-startTime)/1000)} seconds via <strong>Contigo Quoter</strong> · built by Cacerola.
 </div>
 <script>window.onload = () => window.print();<\/script>
 </body></html>`);
@@ -1149,7 +1147,7 @@ Pricing referenciado a USDA AMS Dallas Terminal del ${USDA_SNAPSHOT.date}. Respu
     const btn = document.getElementById('chat-send');
     input.disabled = false;
     btn.disabled = false;
-    input.placeholder = 'Refiná: "más ligero", "sin mariscos", "más premium"...';
+    input.placeholder = 'Refine: "lighter", "no shellfish", "more premium"...';
     document.getElementById('chat-hint').style.display = 'block';
     input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleFreeText(); });
   }
@@ -1162,18 +1160,18 @@ Pricing referenciado a USDA AMS Dallas Terminal del ${USDA_SNAPSHOT.date}. Respu
 
     const t = txt.toLowerCase();
     let refineKey = null;
-    if (/ligero|light|liviano|menos|healthier|saludable|salud/.test(t)) refineKey = 'lighter';
-    else if (/premium|lujo|luxury|rico|caro|alta/.test(t)) refineKey = 'richer';
-    else if (/veg|plant|sin carne/.test(t)) refineKey = 'vegetarian';
-    else if (/mex|tex|picante/.test(t)) refineKey = 'texmex';
-    else if (/seafood|pescado|mar/.test(t)) refineKey = 'seafood';
+    if (/light|lean|healthy|less|low|clean/.test(t)) refineKey = 'lighter';
+    else if (/premium|luxury|rich|upscale|fancy|more/.test(t)) refineKey = 'richer';
+    else if (/veg|plant|meatless|no meat/.test(t)) refineKey = 'vegetarian';
+    else if (/mex|tex|spicy/.test(t)) refineKey = 'texmex';
+    else if (/seafood|fish|ocean/.test(t)) refineKey = 'seafood';
 
     if (refineKey) {
       state.selectedMenu = MENUS[{ lighter: 'healthcare-compliance', richer: 'gulf-coast-plated', vegetarian: 'healthcare-compliance', texmex: 'tex-mex-reserve', seafood: 'gulf-coast-plated' }[refineKey]];
-      await typeThenSay(`Entendido. Cambio el menú a <em>${state.selectedMenu.name}</em>:`);
+      await typeThenSay(`Got it. Switching to <em>${state.selectedMenu.name}</em>:`);
       await generateMenu();
     } else {
-      await typeThenSay(`Anotado: <em>"${txt}"</em>. Puedo ajustar el menú si me decís qué dirección preferís — probá "más ligero", "más premium", "sin carne", "Tex-Mex" o "seafood". Si querés algo más específico, hablalo con el chef-founder desde el botón de la derecha.`);
+      await typeThenSay(`Noted: <em>"${txt}"</em>. I can adjust the menu if you tell me which direction — try "lighter", "more premium", "vegetarian", "Tex-Mex", or "seafood". For something more specific, use the Talk to the chef button on the right.`);
     }
   };
 

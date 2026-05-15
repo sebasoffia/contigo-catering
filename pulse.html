@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <script>if(localStorage.getItem('cc_contigo_auth')!=='true'){window.location.href='index.html?next=pulse.html'}</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contigo Pulse — Social listening · por Cacerola</title>
-  <meta name="description" content="Escucha en vivo de solicitudes de catering en Austin: Reddit, X, LinkedIn. Cada señal se puede convertir en cuenta del Atlas." />
+  <title>Contigo Pulse — Social listening · by Cacerola</title>
+  <meta name="description" content="Live monitoring of catering requests in Austin: Reddit, X, LinkedIn. Every signal can be converted into an Atlas account." />
   <link rel="canonical" href="https://contigo.cacerola.cl/pulse" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -433,42 +432,41 @@
         </a>
         <span class="crumb"><em>Contigo Pulse</em> · Social listening</span>
         <nav class="nav-tabs">
-          <a href="presentacion.html" class="nav-tab">Presentación</a>
           <a href="contigo-atlas.html" class="nav-tab">Atlas</a>
           <a href="pulse.html" class="nav-tab active">Pulse</a>
-          <a href="cotizador.html" class="nav-tab">Cotizador</a>
+          <a href="cotizador.html" class="nav-tab">Quoter</a>
         </nav>
       </div>
       <div class="topbar-meta">
         <span><span class="status-dot"></span>Reddit LIVE</span>
-        <span id="last-update">Actualizado —</span>
+        <span id="last-update">Updated —</span>
       </div>
     </header>
 
     <!-- ── Left sidebar: filters ─────────────────────────────────── -->
     <aside class="left">
       <div class="quote-strip">
-        <p>"Escuchar es el nuevo marketing. Interrumpir ya no escala."</p>
+        <p>"Listening is the new marketing. Interruption doesn't scale anymore."</p>
         <span class="attr">Permission > interruption · Godin</span>
       </div>
 
       <div class="panel">
-        <div class="panel-kicker"><i></i>Qué escuchamos</div>
-        <div class="panel-title">Señales <em>en vivo</em></div>
+        <div class="panel-kicker"><i></i>What we listen for</div>
+        <div class="panel-title">Live <em>signals</em></div>
         <p class="panel-sub">
-          Cada post es una solicitud de recomendación de catering en Austin. Ranking por <b>heat score</b> (intención + recencia + engagement). Click en <em>Agregar al Atlas</em> convierte la señal en cuenta tier-3 con el contexto del post.
+          Each post is a catering recommendation request in Austin. Ranked by <b>heat score</b> (intent + recency + engagement). Click <em>Add to Atlas</em> to convert the signal into a tier-3 account with the post's context.
         </p>
       </div>
 
       <div class="panel">
-        <div class="panel-kicker"><i></i>Keywords activas</div>
+        <div class="panel-kicker"><i></i>Active keywords</div>
         <div class="keyword-row" id="keyword-chips">
           <!-- rendered by JS -->
         </div>
       </div>
 
       <div class="panel">
-        <div class="panel-kicker"><i></i>Plataformas</div>
+        <div class="panel-kicker"><i></i>Platforms</div>
         <label class="platform-toggle">
           <input type="checkbox" id="plat-reddit" checked />
           <span class="p-badge reddit">Reddit</span>
@@ -478,30 +476,30 @@
         <label class="platform-toggle">
           <input type="checkbox" id="plat-x" checked />
           <span class="p-badge x">X</span>
-          <span>Embed · búsqueda externa</span>
+          <span>Embed · external search</span>
           <span class="p-count" id="count-x">demo</span>
         </label>
         <label class="platform-toggle">
           <input type="checkbox" id="plat-linkedin" checked />
           <span class="p-badge linkedin">LinkedIn</span>
-          <span>Cola manual</span>
+          <span>Manual queue</span>
           <span class="p-count" id="count-linkedin">0</span>
         </label>
       </div>
 
       <div class="panel">
-        <div class="panel-kicker"><i></i>Agregar desde LinkedIn</div>
-        <p class="panel-sub">Pegá título + excerpt de un post de LinkedIn relevante. Se agrega a la cola y al feed.</p>
+        <div class="panel-kicker"><i></i>Add from LinkedIn</div>
+        <p class="panel-sub">Paste the title + excerpt from a relevant LinkedIn post. It gets added to the queue and the feed.</p>
         <div class="linkedin-add">
-          <input type="text" id="li-title" placeholder="Título / autor" />
-          <textarea id="li-body" placeholder="Excerpt del post..."></textarea>
-          <input type="text" id="li-url" placeholder="URL (opcional)" />
-          <button class="btn-primary" onclick="addLinkedInPost()">+ Agregar a cola</button>
+          <input type="text" id="li-title" placeholder="Title / author" />
+          <textarea id="li-body" placeholder="Post excerpt..."></textarea>
+          <input type="text" id="li-url" placeholder="URL (optional)" />
+          <button class="btn-primary" onclick="addLinkedInPost()">+ Add to queue</button>
         </div>
       </div>
 
       <div class="signature">
-        Construido por <span class="sig-brand"><span class="lm-mini"><svg viewBox="0 0 13 13" fill="none"><path d="M1.5 11L6.5 2L11.5 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 7.5H9.5" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></span>Cacerola</span> · para Contigo · 2026
+        Built by <span class="sig-brand"><span class="lm-mini"><svg viewBox="0 0 13 13" fill="none"><path d="M1.5 11L6.5 2L11.5 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 7.5H9.5" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></span>Cacerola</span> · for Contigo · 2026
       </div>
     </aside>
 
@@ -510,24 +508,24 @@
       <div class="feed-head">
         <div>
           <h1>Feed · <em>Austin</em></h1>
-          <div class="meta" id="feed-meta">Cargando señales…</div>
+          <div class="meta" id="feed-meta">Loading signals…</div>
         </div>
         <button class="btn-refresh" id="btn-refresh" onclick="refreshFeed()">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-          Actualizar
+          Refresh
         </button>
       </div>
       <div id="feed-list" class="feed-list">
-        <div class="loading-pulse">Consultando Reddit en vivo…</div>
+        <div class="loading-pulse">Fetching Reddit live…</div>
       </div>
     </main>
 
     <!-- ── Right sidebar: queue ──────────────────────────────────── -->
     <aside class="right">
       <div class="panel">
-        <div class="panel-kicker"><i></i>Acción requerida</div>
-        <div class="panel-title">Cola <em>caliente</em></div>
-        <p class="panel-sub">Señales con heat score ≥ 7 que aún no movimos al Atlas.</p>
+        <div class="panel-kicker"><i></i>Action required</div>
+        <div class="panel-title">Hot <em>queue</em></div>
+        <p class="panel-sub">Signals with heat score ≥ 7 not yet moved to the Atlas.</p>
       </div>
       <div id="queue-list">
         <!-- rendered by JS -->
@@ -598,7 +596,7 @@
       url: 'https://x.com/search?q=catering+austin',
       created: daysAgo(1),
       engagement: { likes: 34, replies: 12 },
-      note: 'Demo — X API requiere paid access desde 2023',
+      note: 'Demo — X API requires paid access since 2023',
       heatBoost: 5
     },
     {
@@ -610,7 +608,7 @@
       url: 'https://x.com/search?q=corporate+catering+austin',
       created: daysAgo(3),
       engagement: { likes: 18, replies: 7 },
-      note: 'Demo — X API requiere paid access desde 2023',
+      note: 'Demo — X API requires paid access since 2023',
       heatBoost: 4
     },
     {
@@ -622,7 +620,7 @@
       url: 'https://x.com/search?q=wedding+catering+austin',
       created: daysAgo(5),
       engagement: { likes: 52, replies: 24 },
-      note: 'Demo — X API requiere paid access desde 2023',
+      note: 'Demo — X API requires paid access since 2023',
       heatBoost: 6
     }
   ];
@@ -691,7 +689,7 @@
           platform: 'reddit',
           user: 'u/' + p.author,
           title: p.title,
-          body: truncateBody(p.selftext || '(Sin cuerpo — click en "Ver post" para contexto)', 280),
+          body: truncateBody(p.selftext || '(No body — click "View post" for context)', 280),
           url: 'https://www.reddit.com' + p.permalink,
           created: p.created_utc * 1000,
           subreddit: 'r/' + p.subreddit,
@@ -734,14 +732,14 @@
     document.getElementById('count-linkedin').textContent = posts.filter(p => p.platform === 'linkedin').length;
 
     document.getElementById('feed-meta').innerHTML = `
-      <em>${filtered.length}</em> señales · última actualización ${lastFetch ? timeAgo(lastFetch) : '—'}
+      <em>${filtered.length}</em> signals · last updated ${lastFetch ? timeAgo(lastFetch) : '—'}
     `;
 
     if (!filtered.length) {
       listEl.innerHTML = `
         <div class="empty-state">
           <div class="icon">—</div>
-          <p>Sin señales con las keywords activas en este momento.<br/>Probá activar más keywords o refrescar en un rato.</p>
+          <p>No signals for the active keywords right now.<br/>Try enabling more keywords or refresh in a moment.</p>
         </div>`;
       renderQueue();
       return;
@@ -775,9 +773,9 @@
               ${p.engagement?.replies !== undefined ? `<span><b>${p.engagement.replies}</b> replies</span>` : ''}
             </div>
             <div class="post-actions">
-              <a class="btn-action" href="${p.url}" target="_blank" rel="noopener">Ver post ↗</a>
+              <a class="btn-action" href="${p.url}" target="_blank" rel="noopener">View post ↗</a>
               <button class="btn-action primary ${added ? 'added' : ''}" onclick="addToAtlas('${p.id}')" ${added ? 'disabled' : ''}>
-                ${added ? '✓ En el Atlas' : '→ Agregar al Atlas'}
+                ${added ? '✓ In Atlas' : '→ Add to Atlas'}
               </button>
             </div>
           </div>
@@ -796,7 +794,7 @@
       .slice(0, 8);
 
     if (!hot.length) {
-      el.innerHTML = `<div class="empty-state" style="padding:30px 20px;"><div class="icon" style="font-size:30px;">∅</div><p style="font-size:12px;">Ninguna señal <em>blazing</em> ahora. Refrescá o sumá keywords.</p></div>`;
+      el.innerHTML = `<div class="empty-state" style="padding:30px 20px;"><div class="icon" style="font-size:30px;">∅</div><p style="font-size:12px;">No <em>blazing</em> signals right now. Refresh or add more keywords.</p></div>`;
       return;
     }
     el.innerHTML = hot.map(p => `
@@ -812,11 +810,11 @@
 
   function timeAgo(ts) {
     const s = (Date.now() - ts) / 1000;
-    if (s < 60) return 'ahora';
+    if (s < 60) return 'just now';
     if (s < 3600) return Math.round(s/60) + 'm';
     if (s < 86400) return Math.round(s/3600) + 'h';
     if (s < 604800) return Math.round(s/86400) + 'd';
-    return Math.round(s/604800) + 'sem';
+    return Math.round(s/604800) + 'w';
   }
 
   /* ── Add to Atlas (writes to shared localStorage) ─────────────── */
@@ -832,7 +830,7 @@
       atlasState = raw ? JSON.parse(raw) : null;
     } catch (e) { atlasState = null; }
     if (!atlasState) {
-      showToast('Atlas aún no inicializado. Abrí el Atlas primero.', 'index.html');
+      showToast('Atlas not initialized yet. Open the Atlas first.', 'index.html');
       return;
     }
 
@@ -856,17 +854,17 @@
       estimatedRevenue: estimateRevenue(post),
       coords: fallbackCoords,
       verticals: inferVerticals(post),
-      notes: `Via ${post.platform.toUpperCase()} · ${post.user}\n"${post.title}"\n\n${post.body.replace(/<[^>]+>/g, '')}\n\nFuente: ${post.url}`
+      notes: `Via ${post.platform.toUpperCase()} · ${post.user}\n"${post.title}"\n\n${post.body.replace(/<[^>]+>/g, '')}\n\nSource: ${post.url}`
     };
 
     atlasState.accounts.push(newAccount);
-    atlasState.meta.lastUpdated = new Date().toLocaleDateString('es-CL');
+    atlasState.meta.lastUpdated = new Date().toLocaleDateString('en-US');
     localStorage.setItem(ATLAS_STORAGE_KEY, JSON.stringify(atlasState));
 
     pulseState.addedPostIds.push(postId);
     savePulseState();
 
-    showToast(`"${inferredName}" agregada al Atlas`, 'index.html');
+    showToast(`"${inferredName}" added to Atlas`, 'index.html');
     renderFeed();
   };
 
@@ -924,7 +922,7 @@
   function showToast(msg, linkUrl) {
     const t = document.getElementById('toast');
     const m = document.getElementById('toast-msg');
-    m.innerHTML = msg + (linkUrl ? ` · <a href="${linkUrl}">Abrir Atlas</a>` : '');
+    m.innerHTML = msg + (linkUrl ? ` · <a href="${linkUrl}">Open Atlas</a>` : '');
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 5000);
   }
@@ -934,7 +932,7 @@
     const title = document.getElementById('li-title').value.trim();
     const body = document.getElementById('li-body').value.trim();
     const url = document.getElementById('li-url').value.trim();
-    if (!title || !body) { alert('Completá título y cuerpo.'); return; }
+    if (!title || !body) { alert('Please fill in the title and body.'); return; }
     const post = {
       id: 'linkedin-' + Date.now().toString(36),
       platform: 'linkedin',
@@ -952,7 +950,7 @@
     document.getElementById('li-body').value = '';
     document.getElementById('li-url').value = '';
     renderFeed();
-    showToast('Post agregado al feed');
+    showToast('Post added to feed');
   };
 
   /* ── Keyword chips ────────────────────────────────────────────── */
@@ -973,7 +971,7 @@
     const btn = document.getElementById('btn-refresh');
     btn.disabled = true;
     btn.classList.add('spinning');
-    document.getElementById('feed-list').innerHTML = '<div class="loading-pulse">Consultando Reddit en vivo…</div>';
+    document.getElementById('feed-list').innerHTML = '<div class="loading-pulse">Fetching Reddit live…</div>';
 
     const reddit = await fetchReddit();
     let newPosts = [];
@@ -993,10 +991,10 @@
     ];
 
     lastFetch = Date.now();
-    document.getElementById('last-update').textContent = 'Actualizado ' + timeAgo(lastFetch);
+    document.getElementById('last-update').textContent = 'Updated ' + timeAgo(lastFetch);
 
     if (error) {
-      const banner = `<div class="error-box"><b>Reddit no respondió</b> (${escapeHtml(error)}). Algunas redes bloquean el request — probá desde otra red o hosteá en el dominio. Mientras tanto, ves X demo + LinkedIn manuales.</div>`;
+      const banner = `<div class="error-box"><b>Reddit didn't respond</b> (${escapeHtml(error)}). Some networks block the request — try from another network or host on the domain. In the meantime, you're seeing X demo + manual LinkedIn posts.</div>`;
       document.getElementById('feed-list').innerHTML = banner;
       setTimeout(() => {
         const currentHtml = document.getElementById('feed-list').innerHTML;

@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <script>if(localStorage.getItem('cc_contigo_auth')!=='true'){window.location.href='index.html?next=contigo-atlas.html'}</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contigo Atlas — Austin · por Cacerola</title>
-  <meta name="description" content="Mapa operacional del ecosistema Contigo en Austin. NSM: degustaciones cerradas y convertidas. Construido por Cacerola." />
+  <title>Contigo Atlas — Austin · by Cacerola</title>
+  <meta name="description" content="Operational map of the Contigo ecosystem in Austin. NSM: tastings closed and converted. Built by Cacerola." />
   <link rel="canonical" href="https://contigo.cacerola.cl/" />
   <meta property="og:title" content="Contigo Atlas — Austin" />
-  <meta property="og:description" content="Mapa operacional del ecosistema Contigo en Austin." />
+  <meta property="og:description" content="Operational map of the Contigo ecosystem in Austin." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://contigo.cacerola.cl/" />
 
@@ -426,47 +425,6 @@
     }
     .pin-coworking { background: var(--w); border: 1.5px dashed var(--muted); width: 12px; height: 12px; border-radius: 50%; }
 
-    /* Competitors · gray pins, dashed border for adyacente */
-    .pin-competitor {
-      width: 14px; height: 14px; border-radius: 3px;
-      background: #C8C2BC; border: 1.5px solid #6A6A6A;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.10);
-      transition: all .15s ease;
-    }
-    .pin-competitor-t1 { background: #B0A89F; border-color: #4A4A4A; }
-    .pin-competitor-t2 { background: var(--w); border: 1.5px dashed #9A9A9A; }
-    .custom-pin-wrap:hover .pin-competitor {
-      transform: scale(1.25); border-color: var(--ink);
-    }
-
-    /* Anchor labels — Contigo HQ + One Eleven East · always visible */
-    .anchor-label-wrap { background: transparent !important; border: none !important; pointer-events: none; }
-    .anchor-label {
-      display: inline-block;
-      background: var(--w);
-      border: 1.5px solid var(--o);
-      color: var(--ink);
-      font-family: 'DM Sans', system-ui, sans-serif;
-      font-size: 10.5px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      padding: 4px 9px;
-      border-radius: 5px;
-      box-shadow: 0 4px 14px rgba(247, 96, 10, 0.18), 0 0 0 1px rgba(247, 96, 10, 0.08);
-      white-space: nowrap;
-      transform: translateY(-50%);
-    }
-    .anchor-label-contigo-hq {
-      background: var(--o);
-      color: var(--w);
-      border-color: var(--o);
-    }
-    .anchor-label-one-eleven-east {
-      background: #3A3632;
-      color: var(--w);
-      border-color: #3A3632;
-    }
-
     /* Account pin: donut with vertical segments */
     .pin-donut {
       width: 26px; height: 26px; display: block;
@@ -763,15 +721,14 @@
         </a>
         <span class="crumb"><em>Contigo Atlas</em> · Austin · v2</span>
         <nav class="nav-tabs">
-          <a href="presentacion.html" class="nav-tab">Presentación</a>
           <a href="contigo-atlas.html" class="nav-tab active">Atlas</a>
           <a href="pulse.html" class="nav-tab">Pulse</a>
-          <a href="cotizador.html" class="nav-tab">Cotizador</a>
+          <a href="cotizador.html" class="nav-tab">Quoter</a>
         </nav>
       </div>
       <div class="topbar-actions">
-        <button class="btn-nav" id="btn-add-tasting">+ Degustación</button>
-        <button class="btn-nav primary" id="btn-add-account">+ Cuenta</button>
+        <button class="btn-nav" id="btn-add-tasting">+ Tasting</button>
+        <button class="btn-nav primary" id="btn-add-account">+ Account</button>
       </div>
     </header>
 
@@ -779,7 +736,7 @@
     <aside class="sidebar">
       <div class="quote-strip">
         <p>"The smallest viable audience beats the largest possible market."</p>
-        <span class="attr">Seth Godin · aplicado a 40 oficinas, no a Austin entero</span>
+        <span class="attr">Seth Godin · applied to 40 offices, not all of Austin</span>
       </div>
 
       <div class="nsm">
@@ -787,52 +744,52 @@
         <div class="nsm-title">Tasting <em>Engine</em></div>
         <div class="nsm-cycle" id="nsm-cycle-name">Q2 2026 · May – Jul</div>
         <div class="nsm-row">
-          <span class="nsm-label">Programadas</span>
+          <span class="nsm-label">Scheduled</span>
           <span class="nsm-value"><span id="nsm-scheduled">0</span><span class="goal">/ 8</span></span>
         </div>
         <div class="nsm-bar"><div class="nsm-bar-fill" id="bar-scheduled"></div></div>
         <div class="nsm-row">
-          <span class="nsm-label">Asientos asistidos</span>
+          <span class="nsm-label">Attended seats</span>
           <span class="nsm-value"><span id="nsm-seats">0</span><span class="goal">/ 40</span></span>
         </div>
         <div class="nsm-bar"><div class="nsm-bar-fill" id="bar-seats"></div></div>
         <div class="nsm-row">
-          <span class="nsm-label">Cuentas convertidas</span>
+          <span class="nsm-label">Converted accounts</span>
           <span class="nsm-value"><span id="nsm-converted">0</span><span class="goal">/ 6</span></span>
         </div>
         <div class="nsm-bar"><div class="nsm-bar-fill" id="bar-converted"></div></div>
         <div class="nsm-row">
-          <span class="nsm-label">Pipeline ponderado</span>
+          <span class="nsm-label">Weighted pipeline</span>
           <span class="nsm-value" id="nsm-pipeline">$0<span class="goal">/ $150K</span></span>
         </div>
         <div class="nsm-bar"><div class="nsm-bar-fill" id="bar-pipeline"></div></div>
       </div>
 
       <div class="panel">
-        <div class="panel-kicker"><i></i>Capas del mapa</div>
-        <div class="panel-title"><em>Qué</em> estás viendo</div>
+        <div class="panel-kicker"><i></i>Map layers</div>
+        <div class="panel-title"><em>What</em> you're viewing</div>
         <div id="layer-toggles" style="margin-top: 14px;"></div>
       </div>
 
       <div class="panel">
-        <div class="panel-kicker"><i></i>NSM en marcha</div>
-        <div class="panel-title">Próximas <em>degustaciones</em></div>
+        <div class="panel-kicker"><i></i>NSM in progress</div>
+        <div class="panel-title">Upcoming <em>tastings</em></div>
         <div id="tasting-list" style="margin-top: 14px;"></div>
         <div class="action-row" style="margin-top: 14px;">
-          <button class="action-btn primary" onclick="openAddTastingModal()">+ Agregar degustación</button>
+          <button class="action-btn primary" onclick="openAddTastingModal()">+ Add tasting</button>
         </div>
       </div>
 
       <div class="panel">
-        <div class="panel-kicker"><i></i>Datos</div>
+        <div class="panel-kicker"><i></i>Data</div>
         <div class="panel-title">Export / <em>import</em></div>
         <p class="panel-sub" style="margin-top: 6px;">
-          El Atlas guarda estado en este browser. Para compartir con Karen u operar desde otra máquina, exportá el JSON y que ella lo importe.
+          The Atlas stores its state in this browser. To share with Karen or operate from another machine, export the JSON and have her import it.
         </p>
         <div class="data-ops">
-          <button class="action-btn" onclick="exportJson()">↓ Exportar</button>
+          <button class="action-btn" onclick="exportJson()">↓ Export</button>
           <label class="action-btn" style="cursor: pointer;">
-            ↑ Importar
+            ↑ Import
             <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importJson(event)" />
           </label>
           <button class="action-btn" onclick="resetToDefaults()">Reset</button>
@@ -840,7 +797,7 @@
       </div>
 
       <div class="signature">
-        Construido por <span class="sig-brand"><span class="lm-mini"><svg viewBox="0 0 13 13" fill="none"><path d="M1.5 11L6.5 2L11.5 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 7.5H9.5" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></span>Cacerola</span> · para Contigo · 2026
+        Built by <span class="sig-brand"><span class="lm-mini"><svg viewBox="0 0 13 13" fill="none"><path d="M1.5 11L6.5 2L11.5 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 7.5H9.5" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></span>Cacerola</span> · for Contigo · 2026
       </div>
     </aside>
 
@@ -852,20 +809,20 @@
       <div class="map-wrap">
         <div class="pick-indicator" id="pick-indicator">
           <span class="dot"></span>
-          <span>Click en el mapa para fijar ubicación</span>
+          <span>Click on the map to set location</span>
         </div>
         <div id="map"></div>
         <div class="map-legend">
-        <div class="legend-kicker"><i></i>Verticales</div>
+        <div class="legend-kicker"><i></i>Verticals</div>
         <div class="legend-row"><span class="legend-swatch" style="background: var(--v-contigo);"></span>Contigo · catering</div>
         <div class="legend-row"><span class="legend-swatch" style="background: var(--v-ocaso);"></span>Ocaso · smoker + bar</div>
-        <div class="legend-row"><span class="legend-swatch" style="background: var(--v-table);"></span>Table Manners · vajilla</div>
+        <div class="legend-row"><span class="legend-swatch" style="background: var(--v-table);"></span>Table Manners · tableware</div>
         <div class="legend-row"><span class="legend-swatch" style="background: var(--v-venue);"></span>One Eleven East · venue</div>
         <div class="legend-sep"></div>
-        <div class="legend-row"><span class="legend-swatch" style="background: var(--status-cold);"></span>Cuenta · fría</div>
-        <div class="legend-row"><span class="legend-swatch" style="background: var(--w); border: 2px solid var(--o); box-shadow: none;"></span>Invitada</div>
-        <div class="legend-row"><span class="legend-swatch" style="background: var(--o);"></span>Asistió</div>
-        <div class="legend-row"><span class="legend-swatch" style="background: var(--ink); box-shadow: 0 0 0 2px var(--o);"></span>Cliente activo</div>
+        <div class="legend-row"><span class="legend-swatch" style="background: var(--status-cold);"></span>Cold account</div>
+        <div class="legend-row"><span class="legend-swatch" style="background: var(--w); border: 2px solid var(--o); box-shadow: none;"></span>Invited</div>
+        <div class="legend-row"><span class="legend-swatch" style="background: var(--o);"></span>Attended</div>
+        <div class="legend-row"><span class="legend-swatch" style="background: var(--ink); box-shadow: 0 0 0 2px var(--o);"></span>Active client</div>
         </div>
       </div>
     </main>
@@ -875,15 +832,15 @@
   <div class="modal-backdrop" id="modal-backdrop">
     <div class="modal" id="modal">
       <div class="modal-head">
-        <div class="panel-kicker"><i></i><span id="modal-kicker">Nueva cuenta</span></div>
-        <h3 id="modal-title">Agregar <em>cuenta</em></h3>
+        <div class="panel-kicker"><i></i><span id="modal-kicker">New account</span></div>
+        <h3 id="modal-title">Add <em>account</em></h3>
       </div>
       <div class="modal-body" id="modal-body">
         <!-- rendered by JS -->
       </div>
       <div class="modal-foot">
-        <button class="action-btn" onclick="closeModal()">Cancelar</button>
-        <button class="action-btn primary" id="modal-save">Guardar</button>
+        <button class="action-btn" onclick="closeModal()">Cancel</button>
+        <button class="action-btn primary" id="modal-save">Save</button>
       </div>
     </div>
   </div>
@@ -900,11 +857,11 @@
   const VERTICAL_META = {
     'contigo-hq':        { name: 'Contigo',        short: 'Catering',    color: '#F7600A' },
     'ocaso-base':        { name: 'Ocaso',          short: 'Smoker + Bar',color: '#8B3A12' },
-    'table-manners':     { name: 'Table Manners',  short: 'Vajilla',     color: '#C9A961' },
+    'table-manners':     { name: 'Table Manners',  short: 'Tableware',   color: '#C9A961' },
     'one-eleven-east':   { name: 'One Eleven East',short: 'Venue',       color: '#3A3632' }
   };
 
-  /* Probabilidades de cierre ponderadas por status */
+  /* Weighted close probabilities by status */
   const STATUS_WEIGHT = {
     cold: 0, lost: 0, invited: 0.15, attended: 0.40, converted: 0.80, client: 1.0
   };
@@ -913,15 +870,15 @@
     meta: {
       cycle: "Q2 2026",
       cycleWindow: "May – Jul",
-      lastUpdated: new Date().toLocaleDateString('es-CL'),
+      lastUpdated: new Date().toLocaleDateString('en-US'),
       nsmGoals: { scheduled: 8, seats: 40, converted: 6, pipeline: 150000 }
     },
 
     brands: [
-      { id: "contigo-hq", name: "Contigo Catering", role: "HQ · kitchen · premium", address: "3709 Promontory Point Dr · B201 · Austin, TX 78744", coords: [30.1862, -97.7480], type: "contigo", logoUrl: null, notes: "Marca principal. Piso $12K. Historia: Spotify, Bumble, Mercedes, F1 (2024 - perdida), weddings. 10+ años.", siteUrl: "https://contigocatering.com" },
-      { id: "ocaso-base", name: "Ocaso Catering", role: "Outdoor · smoker · bar", address: "Op. compartida con Contigo HQ", coords: [30.1872, -97.7470], type: "ocaso", notes: "Diferencial: smoker trailer + bar services. Reframe: NO es 'Contigo barato' → es la vertical outdoor + festivales + SXSW/ACL activations.", siteUrl: "https://ocasotexas.com" },
-      { id: "table-manners", name: "Table Manners", role: "Rental · tabletop", address: "Showroom + warehouse Austin", coords: [30.1882, -97.7490], type: "table", notes: "Cubre Central Texas + Teton Valley + Rocky Mountain. Bundled con Contigo eleva ticket 15–30%.", siteUrl: "https://tablemannerstx.com" },
-      { id: "one-eleven-east", name: "One Eleven East", role: "Venue · theater", address: "111 East St · Hutto, TX 78634", coords: [30.5427, -97.5469], type: "venue-own", notes: "Hutto, TX. Rol estratégico: TEATRO del ecosistema, sede del Tasting Engine trimestral.", siteUrl: "https://oneeleveneast.com" }
+      { id: "contigo-hq", name: "Contigo Catering", role: "HQ · kitchen · premium", coords: [30.2580, -97.7300], type: "contigo", logoUrl: null, notes: "Main brand. Floor $12K. History: Spotify, Bumble, Mercedes, F1 (2024 - lost), weddings. 10+ years.", siteUrl: "https://contigocatering.com" },
+      { id: "ocaso-base", name: "Ocaso Catering", role: "Outdoor · smoker · bar", coords: [30.2520, -97.7200], type: "ocaso", notes: "Differentiator: smoker trailer + bar services. Reframe: NOT 'budget Contigo' → it's the outdoor + festivals + SXSW/ACL activations vertical.", siteUrl: "https://ocasotexas.com" },
+      { id: "table-manners", name: "Table Manners", role: "Rental · tabletop", coords: [30.2480, -97.7350], type: "table", notes: "Covers Central Texas + Teton Valley + Rocky Mountain. Bundled with Contigo elevates ticket 15–30%.", siteUrl: "https://tablemannerstx.com" },
+      { id: "one-eleven-east", name: "One Eleven East", role: "Venue · theater", coords: [30.5427, -97.5469], type: "venue-own", notes: "Hutto, TX. Strategic role: ecosystem THEATER, home of the quarterly Tasting Engine.", siteUrl: "https://oneeleveneast.com" }
     ],
 
     corridors: [
@@ -945,7 +902,7 @@
     accounts: [
       { id: "tesla", name: "Tesla Gigafactory Texas", sector: "tech", coords: [30.2203, -97.6175], tier: 1, status: "cold", corridor: "east-austin", employees: "18k–22k",
         estimatedRevenue: 1200000, verticals: {"contigo-hq": 0.55, "ocaso-base": 0.35, "table-manners": 0.10},
-        notes: "RFP via Facilities. Fleet dedicada. Op 24/7. Potencial USD 2–6M ARR si captura 15–25% staff." },
+        notes: "RFP via Facilities. Dedicated fleet. 24/7 operations. Potential USD 2–6M ARR capturing 15–25% of staff." },
       { id: "apple-parmer", name: "Apple Parmer Campus", sector: "tech", coords: [30.4478, -97.7314], tier: 1, status: "cold", corridor: "parmer", employees: "10k",
         estimatedRevenue: 600000, verticals: {"contigo-hq": 0.75, "table-manners": 0.25},
         notes: "Campus USD 1B. Executive dining + overflow. Chef in-house." },
@@ -954,10 +911,10 @@
         notes: "NET 45–60. Supplier diversity scoring." },
       { id: "google-austin", name: "Google Austin", sector: "tech", coords: [30.2672, -97.7436], tier: 1, status: "cold", corridor: "downtown", employees: "~3k",
         estimatedRevenue: 180000, verticals: {"contigo-hq": 0.70, "table-manners": 0.30},
-        notes: "Overflow >200 pax. Acceso por People Ops." },
+        notes: "Overflow >200 pax. Access via People Ops." },
       { id: "meta-austin", name: "Meta Austin", sector: "tech", coords: [30.2699, -97.7393], tier: 1, status: "cold", corridor: "downtown", employees: "~2k",
         estimatedRevenue: 120000, verticals: {"contigo-hq": 0.85, "table-manners": 0.15},
-        notes: "Post-reducciones. Eventos selectos." },
+        notes: "Post-layoffs. Select events." },
       { id: "oracle-austin", name: "Oracle Lakeshore", sector: "tech", coords: [30.2461, -97.7232], tier: 1, status: "cold", corridor: "east-austin", employees: "~10k",
         estimatedRevenue: 350000, verticals: {"contigo-hq": 0.70, "table-manners": 0.20, "one-eleven-east": 0.10},
         notes: "HQ Oracle. Board events + executive dining." },
@@ -966,13 +923,13 @@
         notes: "307K sq ft downtown. Employee experience high priority." },
       { id: "bumble", name: "Bumble HQ", sector: "tech", coords: [30.3076, -97.7468], tier: 1, status: "lost", corridor: "downtown", employees: "~700",
         estimatedRevenue: 80000, verticals: {"contigo-hq": 0.65, "ocaso-base": 0.20, "table-manners": 0.15},
-        notes: "Cateró vía event planner en F1 2024. Relación dormida. Recuperar vía planner original." },
+        notes: "Catered via event planner at F1 2024. Dormant relationship. Recover through original planner." },
       { id: "spotify", name: "Spotify Austin", sector: "tech", coords: [30.2680, -97.7470], tier: 1, status: "client", corridor: "downtown", employees: "~400",
         estimatedRevenue: 60000, verticals: {"contigo-hq": 0.85, "table-manners": 0.15},
-        notes: "Cliente histórico. Mantener warm. Expandir a recurrente." },
+        notes: "Legacy client. Keep warm. Expand to recurring." },
       { id: "atlassian", name: "Atlassian", sector: "tech", coords: [30.2680, -97.7510], tier: 1, status: "cold", corridor: "downtown", employees: "~1k",
         estimatedRevenue: 100000, verticals: {"contigo-hq": 0.75, "table-manners": 0.25},
-        notes: "Culture-forward. People Ops activo. Match natural." },
+        notes: "Culture-forward. Active People Ops team. Natural fit." },
       { id: "amd", name: "AMD", sector: "tech", coords: [30.4020, -97.7260], tier: 2, status: "cold", corridor: "domain", employees: "~2k",
         estimatedRevenue: 120000, verticals: {"contigo-hq": 0.85, "table-manners": 0.15} },
       { id: "ibm", name: "IBM Austin", sector: "tech", coords: [30.4028, -97.7228], tier: 2, status: "cold", corridor: "domain", employees: "~6k",
@@ -983,92 +940,65 @@
         estimatedRevenue: 150000, verticals: {"contigo-hq": 0.85, "table-manners": 0.15} },
       { id: "ut-austin", name: "UT Austin", sector: "education", coords: [30.2849, -97.7341], tier: 1, status: "cold", corridor: "downtown", employees: "23.9k + 55k est.",
         estimatedRevenue: 500000, verticals: {"contigo-hq": 0.60, "ocaso-base": 0.25, "table-manners": 0.15},
-        notes: "Budget anual USD 3.8B. Tax-exempt. NET 45. Eventos masivos graduación/homecoming." },
+        notes: "Annual budget USD 3.8B. Tax-exempt. NET 45. Large-scale graduation/homecoming events." },
       { id: "ascension", name: "Ascension Seton", sector: "healthcare", coords: [30.3005, -97.7439], tier: 1, status: "cold", corridor: "downtown", employees: "14k",
         estimatedRevenue: 600000, verticals: {"contigo-hq": 0.90, "table-manners": 0.10},
-        notes: "7 hospitales + 130 sites. HIPAA + Sunshine Act. USD 1–3M ARR potencial." },
+        notes: "7 hospitals + 130 sites. HIPAA + Sunshine Act. USD 1–3M ARR potential." },
       { id: "stdavids", name: "St. David's HealthCare", sector: "healthcare", coords: [30.3100, -97.7410], tier: 1, status: "cold", corridor: "downtown", employees: "12k",
         estimatedRevenue: 500000, verticals: {"contigo-hq": 0.90, "table-manners": 0.10},
-        notes: "Co-líder con Ascension. Ganar una facilita la otra." },
+        notes: "Co-leader with Ascension. Win one and the other follows." },
       { id: "dell-medical", name: "Dell Medical School", sector: "healthcare", coords: [30.2780, -97.7330], tier: 2, status: "cold", corridor: "downtown", employees: "~1k",
         estimatedRevenue: 60000, verticals: {"contigo-hq": 0.85, "table-manners": 0.15} },
       { id: "mercedes", name: "Mercedes-Benz (Austin ops)", sector: "automotive", coords: [30.2700, -97.7400], tier: 2, status: "lost", corridor: "downtown",
         estimatedRevenue: 150000, verticals: {"contigo-hq": 0.65, "ocaso-base": 0.15, "table-manners": 0.10, "one-eleven-east": 0.10},
-        notes: "Volumen bajó en 2025. Recuperar vía planner original + propuesta SXSW/F1 hospitality." },
+        notes: "Volume dropped in 2025. Recover via original planner + SXSW/F1 hospitality proposal." },
       { id: "f1-cota", name: "F1 USGP · COTA", sector: "mega-event", coords: [30.1328, -97.6411], tier: 1, status: "lost", corridor: "east-austin",
         estimatedRevenue: 400000, verticals: {"contigo-hq": 0.40, "ocaso-base": 0.20, "table-manners": 0.15, "one-eleven-east": 0.25},
-        notes: "Perdida 2024. Ventana oct 2026. 70+ suites. Planning 6–9 meses antes → re-pitch: ABR–JUN 2026." }
+        notes: "Lost 2024. Window Oct 2026. 70+ suites. Planning 6–9 months ahead → re-pitch: Apr–Jun 2026." }
     ],
 
     planners: [
-      { id: "pearl-events", name: "Pearl Events Austin", coords: [30.2700, -97.7500], status: "cold", notes: "Full-service. Weddings + corporate. Objetivo bronze tier." },
-      { id: "a-list", name: "A-List Events", coords: [30.2650, -97.7480], status: "cold", notes: "Brand activations. Potencial F1/SXSW." },
+      { id: "pearl-events", name: "Pearl Events Austin", coords: [30.2700, -97.7500], status: "cold", notes: "Full-service. Weddings + corporate. Target: bronze tier." },
+      { id: "a-list", name: "A-List Events", coords: [30.2650, -97.7480], status: "cold", notes: "Brand activations. Potential F1/SXSW." },
       { id: "dpc", name: "DPC Event Services", coords: [30.2720, -97.7460], status: "cold", notes: "Corporate specialist." },
       { id: "strawberry", name: "Strawberry Events", coords: [30.2690, -97.7450], status: "cold" },
       { id: "ilios", name: "ilios Productions", coords: [30.2710, -97.7440], status: "cold", notes: "Production-forward. Film/TV + brand activations." },
-      { id: "mystery-bumble", name: "Planner ref · Bumble + F1 2024", coords: [30.2730, -97.7420], status: "cold", notes: "El planner que trajo Bumble y F1 2024. ALTA PRIORIDAD — relación tibia." }
+      { id: "mystery-bumble", name: "Planner ref · Bumble + F1 2024", coords: [30.2730, -97.7420], status: "cold", notes: "The planner who brought Bumble and F1 2024. HIGH PRIORITY — lukewarm relationship." }
     ],
 
     venues: [
-      { id: "palmer", name: "Palmer Events Center", coords: [30.2613, -97.7510], notes: "131K sq ft. Entrar a lista preferida = acceso directo a planners." },
+      { id: "palmer", name: "Palmer Events Center", coords: [30.2613, -97.7510], notes: "131K sq ft. Landing the preferred vendor list = direct access to planners." },
       { id: "moody", name: "Moody Center", coords: [30.2835, -97.7325], notes: "15k+ cap. 4 clubs premium. Dell Technologies Club." },
-      { id: "blanton", name: "Blanton Museum of Art", coords: [30.2806, -97.7379], notes: "Partnership exclusivo target." },
-      { id: "lbj", name: "LBJ Library", coords: [30.2853, -97.7292], notes: "Institucional. Eventos presidenciales/académicos." },
+      { id: "blanton", name: "Blanton Museum of Art", coords: [30.2806, -97.7379], notes: "Target exclusive partnership." },
+      { id: "lbj", name: "LBJ Library", coords: [30.2853, -97.7292], notes: "Institutional. Presidential/academic events." },
       { id: "driskill", name: "The Driskill Hotel", coords: [30.2679, -97.7421], notes: "Legacy luxury. Weddings high-end + C-suite." },
-      { id: "bullock", name: "Bullock Texas State History Museum", coords: [30.2805, -97.7384], notes: "Institucional/corporate." },
-      { id: "austin-cc", name: "Austin Convention Center (cerrado 2029)", coords: [30.2640, -97.7395], notes: "Cierre redistribuye demanda → Palmer + Moody." }
+      { id: "bullock", name: "Bullock Texas State History Museum", coords: [30.2805, -97.7384], notes: "Institutional/corporate." },
+      { id: "austin-cc", name: "Austin Convention Center (closed 2029)", coords: [30.2640, -97.7395], notes: "Closure redirects demand → Palmer + Moody." }
     ],
 
     events: [
-      { id: "sxsw", name: "SXSW", coords: [30.2680, -97.7430], dates: "Marzo 2027", budget: "USD 25–50M mercado catering", notes: "309K asistentes. Brand houses $50K–500K c/u." },
-      { id: "acl", name: "ACL · Zilker Park", coords: [30.2669, -97.7728], dates: "Octubre 2026", budget: "450k asistentes / 2 fines de semana" },
-      { id: "f1-event", name: "F1 USGP · COTA", coords: [30.1328, -97.6411], dates: "Octubre 2026", budget: "USD 5–15M paddock", notes: "70+ suites. $40K–150K/suite. Re-pitch ABR–JUN 2026." },
-      { id: "austin-tech-week", name: "Austin Tech Week", coords: [30.2672, -97.7431], dates: "Otoño 2026", budget: "medio" }
+      { id: "sxsw", name: "SXSW", coords: [30.2680, -97.7430], dates: "March 2027", budget: "USD 25–50M catering market", notes: "309K attendees. Brand houses $50K–500K each." },
+      { id: "acl", name: "ACL · Zilker Park", coords: [30.2669, -97.7728], dates: "October 2026", budget: "450K attendees / 2 weekends" },
+      { id: "f1-event", name: "F1 USGP · COTA", coords: [30.1328, -97.6411], dates: "October 2026", budget: "USD 5–15M paddock", notes: "70+ suites. $40K–150K/suite. Re-pitch Apr–Jun 2026." },
+      { id: "austin-tech-week", name: "Austin Tech Week", coords: [30.2672, -97.7431], dates: "Fall 2026", budget: "medium" }
     ],
 
     opportunities: [
       { id: "royal-fig-gap", name: "Royal Fig Gap", coords: [30.2600, -97.7500], radius: 2500,
         estimatedValue: "USD 5–10M ARR",
-        notes: "Royal Fig cerró 2024. Farm-to-table premium con pricing transparente. MML/Crave absorben sin heredar la promesa. Ventana 18–36 meses." }
+        notes: "Royal Fig closed in 2024. Farm-to-table premium with transparent pricing. MML/Crave absorbed demand without inheriting the promise. 18–36 month window." }
     ],
 
     coworkings: [
-      { id: "wework-congress", name: "WeWork · Congress", coords: [30.2654, -97.7430], notes: "WeWork: 5–7 locations Austin. Community Managers deciden catering." },
+      { id: "wework-congress", name: "WeWork · Congress", coords: [30.2654, -97.7430], notes: "WeWork: 5–7 locations in Austin. Community Managers decide on catering." },
       { id: "industrious-domain", name: "Industrious · Domain", coords: [30.4040, -97.7270], notes: "Industrious: 5 locations." },
-      { id: "capital-factory", name: "Capital Factory", coords: [30.2640, -97.7440], notes: "Demo days + pitch nights diarios." }
-    ],
-
-    /* Coordenadas aproximadas — refinar con Karen. Click+drag desactivado, pero cualquier pin se puede recolocar editando manualmente o vía Export/Import JSON. */
-    competitors: [
-      /* Tier 1 frontal · pelean por el mismo cliente, mismo ticket, misma semana */
-      { id: "word-of-mouth", name: "Word of Mouth Catering", tier: 1, segment: "premium-corporate-weddings", coords: [30.2616, -97.7656], ig: "@wordofmouth_catering", site: "wordofmouthcatering.com",
-        notes: "Referente histórico premium Austin. Fortune 500 + bodas. El más frontal." },
-      { id: "royal-fig", name: "Royal Fig Catering", tier: 1, segment: "farm-to-table-weddings", coords: [30.2683, -97.7474], ig: "@royalfigcatering", site: "royalfigcatering.com",
-        notes: "Farm-to-table premium. Cerró brazo retail 2024 — sigue catering. Estética rústica-elevada." },
-      { id: "24-diamonds", name: "24 Diamonds Catering", tier: 1, segment: "luxe-weddings-corporate", coords: [30.2620, -97.7140], ig: "@24diamondscatering", site: "24diamondscatering.com",
-        notes: "Luxe minimal. Bodas alto presupuesto + corporate selecto." },
-      { id: "sterling-affairs", name: "Sterling Affairs", tier: 1, segment: "luxury-weddings", coords: [30.2710, -97.7530], ig: "@sterling_affairs", site: "sterlingaffairs.com",
-        notes: "Bodas $80K+. Vínculo fuerte con planners top-tier." },
-      { id: "crave-catering", name: "Crave Catering", tier: 1, segment: "corporate-volume-premium", coords: [30.3650, -97.7420], ig: "@cravecatering", site: "cravecatering.com",
-        notes: "El más corporativo de los premium. Cuentas tipo Dell, Indeed, Tesla. Volumen + premium." },
-      { id: "austin-catering", name: "Austin Catering", tier: 1, segment: "corporate-legacy", coords: [30.2050, -97.7035], ig: "@austin_catering", site: "austincatering.com",
-        notes: "Corporate legacy. Drop-off + plated. SEO-dominante (austincatering.com)." },
-
-      /* Tier 2 adyacente · ganan momentos puntuales o verticales específicos */
-      { id: "whim-hospitality", name: "Whim Hospitality", tier: 2, segment: "venue+catering+rentals", coords: [30.4010, -97.5860], ig: "@whimhospitality", site: "whimhospitality.com",
-        notes: "Triple amenaza: catering + rentals + venues (Barr Mansion, Vista West Ranch). Compite con las 4 marcas tuyas a la vez." },
-      { id: "peached-tortilla", name: "The Peached Tortilla Catering", tier: 2, segment: "asian-southern-fusion", coords: [30.3329, -97.7400], ig: "@thepeachedtortilla", site: "thepeachedtortilla.com",
-        notes: "Fusión asiática-sureña. Eventos corporativos hip + restaurante." },
-      { id: "leroy-and-lewis", name: "LeRoy and Lewis BBQ", tier: 2, segment: "premium-bbq", coords: [30.2103, -97.7850], ig: "@leroyandlewis", site: "leroyandlewis.com",
-        notes: "BBQ premium — gana cuando el cliente pide 'Austin auténtico'. Compite más con Ocaso." },
-      { id: "rosemarys", name: "Rosemary's Catering", tier: 2, segment: "traditional-private-events", coords: [30.3140, -97.8700], ig: "@rosemarys_catering", site: "rosemaryscatering.com",
-        notes: "Servicio tradicional. Eventos privados + bodas Hill Country." }
+      { id: "capital-factory", name: "Capital Factory", coords: [30.2640, -97.7440], notes: "Demo days + pitch nights daily." }
     ],
 
     tastings: [
-      { id: "t-1", date: "TBD mayo 2026", title: "Off-season menu for tech HQs", format: "in-wild", venueDisplay: "TBD cliente", invited: 0, seats: 0, status: "planning", targetAccounts: [] },
-      { id: "t-2", date: "TBD junio 2026", title: "Healthcare compliance menu", format: "in-wild", venueDisplay: "Ascension / St. David's", invited: 0, seats: 0, status: "planning", targetAccounts: [] },
-      { id: "t-3", date: "TBD junio 2026", title: "Planner Summit · The Table at One Eleven East", format: "hutto-retreat", venueDisplay: "One Eleven East · Hutto", invited: 0, seats: 14, status: "planning", targetAccounts: ["pearl-events","a-list","dpc","strawberry","ilios","mystery-bumble"] }
+      { id: "t-1", date: "TBD May 2026", title: "Off-season menu for tech HQs", format: "in-wild", venueDisplay: "TBD client", invited: 0, seats: 0, status: "planning", targetAccounts: [] },
+      { id: "t-2", date: "TBD June 2026", title: "Healthcare compliance menu", format: "in-wild", venueDisplay: "Ascension / St. David's", invited: 0, seats: 0, status: "planning", targetAccounts: [] },
+      { id: "t-3", date: "TBD June 2026", title: "Planner Summit · The Table at One Eleven East", format: "hutto-retreat", venueDisplay: "One Eleven East · Hutto", invited: 0, seats: 14, status: "planning", targetAccounts: ["pearl-events","a-list","dpc","strawberry","ilios","mystery-bumble"] }
     ]
   };
 
@@ -1078,27 +1008,16 @@
   function loadState() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const loaded = JSON.parse(raw);
-        /* Migration: hydrate keys that didn't exist in older stored state */
-        if (!loaded.competitors) loaded.competitors = JSON.parse(JSON.stringify(DEFAULT_DATA.competitors));
-        /* Refresh anchor coords if the user is still on the legacy values */
-        const hq = (loaded.brands || []).find(b => b.id === 'contigo-hq');
-        if (hq && Math.abs(hq.coords[0] - 30.2580) < 0.001 && Math.abs(hq.coords[1] - (-97.7300)) < 0.001) {
-          hq.coords = [30.1862, -97.7480];
-          hq.address = "3709 Promontory Point Dr · B201 · Austin, TX 78744";
-        }
-        return loaded;
-      }
+      if (raw) return JSON.parse(raw);
     } catch (e) { console.warn('Load error', e); }
     return JSON.parse(JSON.stringify(DEFAULT_DATA));
   }
   function saveState() {
-    state.meta.lastUpdated = new Date().toLocaleDateString('es-CL');
+    state.meta.lastUpdated = new Date().toLocaleDateString('en-US');
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }
   function resetToDefaults() {
-    if (!confirm('¿Reset a valores por defecto? Se pierden tus ediciones.')) return;
+    if (!confirm('Reset to defaults? Your edits will be lost.')) return;
     localStorage.removeItem(STORAGE_KEY);
     state = loadState();
     renderAll();
@@ -1122,7 +1041,7 @@
         state = parsed;
         saveState();
         renderAll();
-      } catch (err) { alert('JSON inválido.'); }
+      } catch (err) { alert('Invalid JSON.'); }
     };
     reader.readAsText(file);
     event.target.value = '';
@@ -1137,10 +1056,10 @@
   }
   function statusLabel(s) {
     return ({
-      cold: "Fría · no tocada", invited: "Invitada",
-      attended: "Asistió a degustación", converted: "Convertida",
-      client: "Cliente activo", lost: "Perdida · recuperable",
-      planning: "En planificación", attended_t: "Ejecutada"
+      cold: "Cold · untouched", invited: "Invited",
+      attended: "Attended tasting", converted: "Converted",
+      client: "Active client", lost: "Lost · recoverable",
+      planning: "Planning", attended_t: "Held"
     })[s] || s;
   }
   function slug(str) { return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
@@ -1180,7 +1099,6 @@
     corridors: L.layerGroup(),
     brands: L.layerGroup(),
     accounts: L.layerGroup(),
-    competitors: L.layerGroup(),
     planners: L.layerGroup(),
     venues: L.layerGroup(),
     events: L.layerGroup(),
@@ -1270,18 +1188,17 @@
   /* ── Popup HTML builders ───────────────────────────────────────── */
   function corridorPopup(c) {
     return `
-      <div class="pop-kicker"><i></i>Corredor corporativo</div>
+      <div class="pop-kicker"><i></i>Corporate corridor</div>
       <div class="pop-title">${c.name}</div>
       <dl class="pop-grid"><dt>TAM est.</dt><dd>${c.tam}</dd><dt>Anchors</dt><dd>${c.anchors}</dd></dl>`;
   }
   function brandPopup(b) {
     return `
-      <div class="pop-kicker"><i></i>Ecosistema Contigo</div>
+      <div class="pop-kicker"><i></i>Contigo Ecosystem</div>
       <div class="pop-title">${b.name}</div>
       <dl class="pop-grid">
-        <dt>Rol</dt><dd>${b.role || '—'}</dd>
-        ${b.address ? `<dt>Dirección</dt><dd>${b.address}</dd>` : ''}
-        ${b.siteUrl ? `<dt>Sitio</dt><dd><a href="${b.siteUrl}" target="_blank" rel="noopener" style="color: var(--o); text-decoration: none; border-bottom: 1px solid var(--o);">${b.siteUrl.replace(/https?:\/\//, '')}</a></dd>` : ''}
+        <dt>Role</dt><dd>${b.role || '—'}</dd>
+        ${b.siteUrl ? `<dt>Website</dt><dd><a href="${b.siteUrl}" target="_blank" rel="noopener" style="color: var(--o); text-decoration: none; border-bottom: 1px solid var(--o);">${b.siteUrl.replace(/https?:\/\//, '')}</a></dd>` : ''}
       </dl>
       ${b.notes ? `<div class="pop-notes">${b.notes}</div>` : ''}`;
   }
@@ -1306,23 +1223,23 @@
       <div class="pop-title">${a.name}</div>
       <div class="pop-status ${a.status}">${statusLabel(a.status)}</div>
       <dl class="pop-grid">
-        ${a.employees ? `<dt>Empleados</dt><dd>${a.employees}</dd>` : ''}
-        ${a.corridor ? `<dt>Corredor</dt><dd>${a.corridor.replace('-', ' ')}</dd>` : ''}
+        ${a.employees ? `<dt>Employees</dt><dd>${a.employees}</dd>` : ''}
+        ${a.corridor ? `<dt>Corridor</dt><dd>${a.corridor.replace('-', ' ')}</dd>` : ''}
       </dl>
       ${verticalsHtml ? `<div class="pop-verticals">${verticalsHtml}</div>` : ''}
       <div class="pop-revenue">
         <span class="amt"><em>${fmtMoney(weightedRev)}</em></span>
-        <span class="lbl">ponderado · de ${fmtMoney(rev)} potencial</span>
+        <span class="lbl">weighted · of ${fmtMoney(rev)} potential</span>
       </div>
       ${a.notes ? `<div class="pop-notes">${a.notes}</div>` : ''}
       <div class="pop-actions">
         ${statusButtons}
-        <button class="danger" onclick="deleteAccount('${a.id}')">Eliminar</button>
+        <button class="danger" onclick="deleteAccount('${a.id}')">Delete</button>
       </div>`;
   }
   function plannerPopup(p) {
     return `
-      <div class="pop-kicker"><i></i>Event planner · canal B2B</div>
+      <div class="pop-kicker"><i></i>Event planner · B2B channel</div>
       <div class="pop-title">${p.name}</div>
       <div class="pop-status ${p.status}">${statusLabel(p.status)}</div>
       ${p.notes ? `<div class="pop-notes">${p.notes}</div>` : ''}`;
@@ -1332,31 +1249,20 @@
   }
   function eventPopup(e) {
     return `
-      <div class="pop-kicker"><i></i>Mega-evento · estacional</div>
+      <div class="pop-kicker"><i></i>Mega-event · seasonal</div>
       <div class="pop-title">${e.name}</div>
-      <dl class="pop-grid"><dt>Fecha</dt><dd>${e.dates}</dd><dt>Budget</dt><dd>${e.budget}</dd></dl>
+      <dl class="pop-grid"><dt>Date</dt><dd>${e.dates}</dd><dt>Budget</dt><dd>${e.budget}</dd></dl>
       ${e.notes ? `<div class="pop-notes">${e.notes}</div>` : ''}`;
   }
   function opportunityPopup(o) {
     return `
-      <div class="pop-kicker"><i></i>Oportunidad · market gap</div>
+      <div class="pop-kicker"><i></i>Opportunity · market gap</div>
       <div class="pop-title"><em>${o.name}</em></div>
-      <dl class="pop-grid"><dt>Valor est.</dt><dd>${o.estimatedValue}</dd></dl>
+      <dl class="pop-grid"><dt>Est. value</dt><dd>${o.estimatedValue}</dd></dl>
       ${o.notes ? `<div class="pop-notes">${o.notes}</div>` : ''}`;
   }
   function coworkingPopup(c) {
     return `<div class="pop-kicker"><i></i>Coworking · preferred caterer</div><div class="pop-title">${c.name}</div>${c.notes ? `<div class="pop-notes">${c.notes}</div>` : ''}`;
-  }
-  function competitorPopup(c) {
-    const tierLabel = c.tier === 1 ? 'Frontal · pelean por mismo cliente' : 'Adyacente · momentos puntuales';
-    const igHtml = c.ig ? `<dt>Instagram</dt><dd><a href="https://instagram.com/${c.ig.replace('@','')}" target="_blank" rel="noopener" style="color: var(--o); text-decoration: none; border-bottom: 1px solid var(--o);">${c.ig}</a></dd>` : '';
-    const siteHtml = c.site ? `<dt>Sitio</dt><dd><a href="https://${c.site}" target="_blank" rel="noopener" style="color: var(--o); text-decoration: none; border-bottom: 1px solid var(--o);">${c.site}</a></dd>` : '';
-    return `
-      <div class="pop-kicker"><i></i>Competidor · tier ${c.tier} · ${tierLabel}</div>
-      <div class="pop-title">${c.name}</div>
-      ${c.segment ? `<div class="pop-status cold" style="background: rgba(170,170,170,.12); color: #6A6A6A; border-color: rgba(170,170,170,.3);">${c.segment.replace(/-/g, ' · ')}</div>` : ''}
-      <dl class="pop-grid">${igHtml}${siteHtml}</dl>
-      ${c.notes ? `<div class="pop-notes">${c.notes}</div>` : ''}`;
   }
 
   /* ═════════════════════════════════════════════════════════════════════════
@@ -1387,23 +1293,6 @@
       else if (b.type === 'venue-own') icon = basicPin('pin-venue-own', 18);
       const marker = L.marker(b.coords, { icon, zIndexOffset: b.id === 'contigo-hq' ? 1000 : 500 }).bindPopup(brandPopup(b));
       layerGroups.brands.addLayer(marker);
-
-      /* Always-visible label for the two anchors (HQ + venue) */
-      if (b.id === 'contigo-hq' || b.id === 'one-eleven-east') {
-        const labelText = b.id === 'contigo-hq' ? 'Contigo HQ · cocina' : 'One Eleven East · venue';
-        const offset = b.id === 'contigo-hq' ? [42, 0] : [16, 0];
-        const labelMarker = L.marker(b.coords, {
-          icon: L.divIcon({
-            className: 'anchor-label-wrap',
-            html: `<div class="anchor-label anchor-${b.id}">${labelText}</div>`,
-            iconSize: [180, 22],
-            iconAnchor: [-offset[0], 11]
-          }),
-          interactive: false,
-          zIndexOffset: 1100
-        });
-        layerGroups.brands.addLayer(labelMarker);
-      }
     });
 
     state.accounts.forEach(a => {
@@ -1430,10 +1319,6 @@
     state.coworkings.forEach(c => {
       layerGroups.coworkings.addLayer(L.marker(c.coords, { icon: basicPin('pin-coworking') }).bindPopup(coworkingPopup(c)));
     });
-    (state.competitors || []).forEach(c => {
-      const cls = c.tier === 1 ? 'pin-competitor pin-competitor-t1' : 'pin-competitor pin-competitor-t2';
-      layerGroups.competitors.addLayer(L.marker(c.coords, { icon: basicPin(cls, 16), zIndexOffset: 200 }).bindPopup(competitorPopup(c)));
-    });
 
     /* Apply visibility */
     Object.keys(layerGroups).forEach(k => {
@@ -1455,17 +1340,17 @@
 
     document.getElementById('kpi-banner').innerHTML = `
       <div class="kpi-cell kpi-primary">
-        <div class="kpi-label">Pipeline ponderado Q2</div>
+        <div class="kpi-label">Weighted pipeline Q2</div>
         <div>
           <div class="kpi-value"><em>${fmtMoney(p.weighted)}</em></div>
-          <div class="kpi-sub">${pctGoal}% hacia meta · ${fmtMoney(p.potential)} potencial total</div>
+          <div class="kpi-sub">${pctGoal}% toward goal · ${fmtMoney(p.potential)} total potential</div>
         </div>
       </div>
       <div class="kpi-cell">
         <div class="kpi-label"><span class="dot" style="background: var(--v-contigo);"></span>Contigo</div>
         <div>
           <div class="kpi-value">${v('contigo-hq')}</div>
-          <div class="kpi-sub">Catering premium</div>
+          <div class="kpi-sub">Premium catering</div>
         </div>
       </div>
       <div class="kpi-cell">
@@ -1479,7 +1364,7 @@
         <div class="kpi-label"><span class="dot" style="background: var(--v-table);"></span>Table Manners</div>
         <div>
           <div class="kpi-value">${v('table-manners')}</div>
-          <div class="kpi-sub">Vajilla premium</div>
+          <div class="kpi-sub">Premium tableware</div>
         </div>
       </div>
       <div class="kpi-cell">
@@ -1493,7 +1378,7 @@
         <div class="kpi-label">NSM · Tasting Engine</div>
         <div>
           <div class="kpi-value"><em>${scheduled}</em><span class="small">/${g.scheduled}</span> · ${converted}<span class="small">/${g.converted}</span></div>
-          <div class="kpi-sub">degustaciones · conversiones</div>
+          <div class="kpi-sub">tastings · conversions</div>
         </div>
       </div>`;
 
@@ -1511,10 +1396,10 @@
 
   function renderTastings() {
     const el = document.getElementById('tasting-list');
-    if (!state.tastings.length) { el.innerHTML = '<div class="panel-sub" style="font-style:italic;">Sin degustaciones aún.</div>'; return; }
+    if (!state.tastings.length) { el.innerHTML = '<div class="panel-sub" style="font-style:italic;">No tastings yet.</div>'; return; }
     el.innerHTML = state.tastings.map(t => {
       const statusBtns = ['planning','invited','attended_t','cancelled'].map(s => {
-        const lbl = s === 'planning' ? 'Programada' : s === 'invited' ? 'Invitaciones enviadas' : s === 'attended_t' ? 'Ejecutada' : 'Cancelar';
+        const lbl = s === 'planning' ? 'Scheduled' : s === 'invited' ? 'Invites sent' : s === 'attended_t' ? 'Held' : 'Cancel';
         const cls = s === 'cancelled' ? 'danger' : (t.status === s ? 'active' : '');
         return `<button class="tasting-status-btn ${cls}" onclick="updateTastingStatus('${t.id}', '${s}')">${lbl}</button>`;
       }).join('');
@@ -1522,29 +1407,26 @@
         <div class="tasting-item">
           <div class="tasting-date"><i></i>${t.date} · ${t.format === 'hutto-retreat' ? 'Hutto retreat' : 'In-the-wild'}</div>
           <div class="tasting-title">${t.title}</div>
-          <div class="tasting-meta">${t.venueDisplay || 'TBD'} · ${t.seats || '—'} asientos · <em>${statusLabel(t.status)}</em></div>
-          <div class="tasting-actions">${statusBtns}<button class="tasting-status-btn danger" onclick="deleteTasting('${t.id}')">Eliminar</button></div>
+          <div class="tasting-meta">${t.venueDisplay || 'TBD'} · ${t.seats || '—'} seats · <em>${statusLabel(t.status)}</em></div>
+          <div class="tasting-actions">${statusBtns}<button class="tasting-status-btn danger" onclick="deleteTasting('${t.id}')">Delete</button></div>
         </div>`;
     }).join('');
   }
 
   function renderLayerToggles() {
     const cfg = [
-      { id: 'corridors', label: 'Corredores corporativos', swatch: 'rgba(247, 96, 10, 0.5)' },
-      { id: 'brands', label: 'Ecosistema Contigo', swatch: 'var(--o)' },
-      { id: 'accounts', label: 'Cuentas tier-1', swatch: 'var(--status-cold)' },
-      { id: 'competitors', label: 'Competidores', swatch: '#9A9A9A', border: 'dashed' },
+      { id: 'corridors', label: 'Corporate corridors', swatch: 'rgba(247, 96, 10, 0.5)' },
+      { id: 'brands', label: 'Contigo ecosystem', swatch: 'var(--o)' },
+      { id: 'accounts', label: 'Tier-1 accounts', swatch: 'var(--status-cold)' },
       { id: 'planners', label: 'Event planners', swatch: 'var(--w)', border: 'solid' },
       { id: 'venues', label: 'Venues · preferred vendor', swatch: 'var(--w)', border: 'solid' },
-      { id: 'events', label: 'Mega-eventos', swatch: 'var(--o)' },
-      { id: 'opportunities', label: 'Oportunidades · gaps', swatch: 'rgba(247, 96, 10, 0.3)' },
+      { id: 'events', label: 'Mega-events', swatch: 'var(--o)' },
+      { id: 'opportunities', label: 'Opportunities · gaps', swatch: 'rgba(247, 96, 10, 0.3)' },
       { id: 'coworkings', label: 'Coworkings', swatch: 'var(--w)', border: 'dashed' }
     ];
     const counts = {
       corridors: state.corridors.length, brands: state.brands.length,
-      accounts: state.accounts.length,
-      competitors: (state.competitors || []).length,
-      planners: state.planners.length,
+      accounts: state.accounts.length, planners: state.planners.length,
       venues: state.venues.length, events: state.events.length,
       opportunities: state.opportunities.length, coworkings: state.coworkings.length
     };
@@ -1595,7 +1477,7 @@
     map.closePopup();
   };
   window.deleteAccount = function(id) {
-    if (!confirm('¿Eliminar esta cuenta?')) return;
+    if (!confirm('Delete this account?')) return;
     state.accounts = state.accounts.filter(x => x.id !== id);
     saveState();
     renderAll();
@@ -1605,14 +1487,14 @@
     const t = state.tastings.find(x => x.id === id);
     if (!t) return;
     if (status === 'cancelled') {
-      if (!confirm('¿Cancelar esta degustación?')) return;
+      if (!confirm('Cancel this tasting?')) return;
     }
     t.status = status;
     saveState();
     renderAll();
   };
   window.deleteTasting = function(id) {
-    if (!confirm('¿Eliminar esta degustación?')) return;
+    if (!confirm('Delete this tasting?')) return;
     state.tastings = state.tastings.filter(x => x.id !== id);
     saveState();
     renderAll();
@@ -1663,8 +1545,8 @@
   });
 
   function buildAccountForm() {
-    document.getElementById('modal-kicker').textContent = 'Nueva cuenta tier';
-    document.getElementById('modal-title').innerHTML = 'Agregar <em>cuenta</em>';
+    document.getElementById('modal-kicker').textContent = 'New tier account';
+    document.getElementById('modal-title').innerHTML = 'Add <em>account</em>';
 
     const d = formDraft || {
       name: '', sector: 'tech', tier: 1, status: 'cold', employees: '',
@@ -1674,8 +1556,8 @@
 
     document.getElementById('modal-body').innerHTML = `
       <div class="field">
-        <label>Nombre de la cuenta</label>
-        <input type="text" id="f-name" value="${d.name}" placeholder="ej: Cloudflare Austin" autofocus />
+        <label>Account name</label>
+        <input type="text" id="f-name" value="${d.name}" placeholder="e.g. Cloudflare Austin" autofocus />
       </div>
       <div class="field-row">
         <div class="field">
@@ -1685,51 +1567,51 @@
             <option value="healthcare">Healthcare</option>
             <option value="education">Education</option>
             <option value="automotive">Automotive</option>
-            <option value="mega-event">Mega-evento</option>
-            <option value="other">Otro</option>
+            <option value="mega-event">Mega-event</option>
+            <option value="other">Other</option>
           </select>
         </div>
         <div class="field">
           <label>Tier</label>
           <select id="f-tier">
-            <option value="1">Tier 1 · prioridad alta</option>
-            <option value="2">Tier 2 · prioridad media</option>
+            <option value="1">Tier 1 · high priority</option>
+            <option value="2">Tier 2 · medium priority</option>
             <option value="3">Tier 3 · watch list</option>
           </select>
         </div>
       </div>
       <div class="field-row">
         <div class="field">
-          <label>Corredor</label>
+          <label>Corridor</label>
           <select id="f-corridor">
-            <option value="">— sin asignar —</option>
+            <option value="">— unassigned —</option>
             ${state.corridors.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
           </select>
         </div>
         <div class="field">
           <label>Status</label>
           <select id="f-status">
-            <option value="cold">Fría</option>
-            <option value="invited">Invitada</option>
-            <option value="attended">Asistió</option>
-            <option value="converted">Convertida</option>
-            <option value="client">Cliente activo</option>
-            <option value="lost">Perdida</option>
+            <option value="cold">Cold</option>
+            <option value="invited">Invited</option>
+            <option value="attended">Attended</option>
+            <option value="converted">Converted</option>
+            <option value="client">Active client</option>
+            <option value="lost">Lost</option>
           </select>
         </div>
       </div>
       <div class="field-row">
         <div class="field">
-          <label>Empleados</label>
+          <label>Employees</label>
           <input type="text" id="f-employees" value="${d.employees}" placeholder="~500" />
         </div>
         <div class="field">
-          <label>Revenue estimado (USD/año)</label>
+          <label>Estimated revenue (USD/yr)</label>
           <input type="number" id="f-revenue" value="${d.estimatedRevenue}" min="0" step="10000" />
         </div>
       </div>
       <div class="field">
-        <label>Verticales que activa</label>
+        <label>Active verticals</label>
         <div class="vertical-picker" id="f-verticals">
           ${Object.entries(VERTICAL_META).map(([vid, meta]) => {
             const pct = Math.round((d.verticals[vid] || 0) * 100);
@@ -1743,19 +1625,19 @@
               </label>`;
           }).join('')}
         </div>
-        <div class="field-hint">Los porcentajes se normalizan al guardar si no suman 100.</div>
+        <div class="field-hint">Percentages are normalized on save if they don't add up to 100.</div>
       </div>
       <div class="field">
-        <label>Ubicación (lat, lng)</label>
+        <label>Location (lat, lng)</label>
         <div class="coord-pick-bar">
           <input type="text" id="f-coords" value="${d.coords ? d.coords.join(', ') : ''}" placeholder="30.2672, -97.7431" />
-          <button type="button" class="coord-pick-btn" onclick="pickFromMap('account')">📍 Fijar en mapa</button>
+          <button type="button" class="coord-pick-btn" onclick="pickFromMap('account')">📍 Pin on map</button>
         </div>
-        <div class="field-hint">Click "Fijar en mapa" y después click en el mapa. O pegá lat,lng.</div>
+        <div class="field-hint">Click "Pin on map" then click on the map. Or paste lat,lng.</div>
       </div>
       <div class="field">
-        <label>Notas</label>
-        <textarea id="f-notes" placeholder="Contexto del CRM, relación previa, próximos pasos...">${d.notes}</textarea>
+        <label>Notes</label>
+        <textarea id="f-notes" placeholder="CRM context, prior relationship, next steps...">${d.notes}</textarea>
       </div>`;
 
     /* Restore draft values */
@@ -1785,14 +1667,14 @@
 
   function saveAccount() {
     const name = document.getElementById('f-name').value.trim();
-    if (!name) { alert('Falta el nombre'); return; }
+    if (!name) { alert('Name is required'); return; }
     const coordsStr = document.getElementById('f-coords').value.trim();
     let coords = null;
     if (coordsStr) {
       const parts = coordsStr.split(',').map(x => parseFloat(x.trim()));
       if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) coords = parts;
     }
-    if (!coords) { alert('Fijá una ubicación válida'); return; }
+    if (!coords) { alert('Set a valid location'); return; }
 
     /* Normalize verticals */
     const verticals = {};
@@ -1801,7 +1683,7 @@
       const v = parseFloat(inp.value) || 0;
       if (v > 0) { verticals[inp.dataset.share] = v; total += v; }
     });
-    if (total === 0) { alert('Elegí al menos una vertical activa'); return; }
+    if (total === 0) { alert('Select at least one active vertical'); return; }
     Object.keys(verticals).forEach(k => { verticals[k] = +(verticals[k] / total).toFixed(3); });
 
     const account = {
@@ -1825,45 +1707,45 @@
   }
 
   function buildTastingForm() {
-    document.getElementById('modal-kicker').textContent = 'Nueva degustación';
-    document.getElementById('modal-title').innerHTML = 'Agregar <em>degustación</em>';
+    document.getElementById('modal-kicker').textContent = 'New tasting';
+    document.getElementById('modal-title').innerHTML = 'Add <em>tasting</em>';
     const d = formDraft || { title: '', date: '', format: 'in-wild', venueDisplay: '', seats: 8, status: 'planning' };
     document.getElementById('modal-body').innerHTML = `
       <div class="field">
-        <label>Título / tema</label>
-        <input type="text" id="t-title" value="${d.title}" placeholder="ej: Healthcare compliance menu" autofocus />
+        <label>Title / theme</label>
+        <input type="text" id="t-title" value="${d.title}" placeholder="e.g. Healthcare compliance menu" autofocus />
       </div>
       <div class="field-row">
         <div class="field">
-          <label>Fecha</label>
-          <input type="text" id="t-date" value="${d.date}" placeholder="ej: 22 mayo 2026 · o TBD junio" />
+          <label>Date</label>
+          <input type="text" id="t-date" value="${d.date}" placeholder="e.g. May 22, 2026 · or TBD June" />
         </div>
         <div class="field">
-          <label>Asientos</label>
+          <label>Seats</label>
           <input type="number" id="t-seats" value="${d.seats}" min="0" max="30" />
         </div>
       </div>
       <div class="field-row">
         <div class="field">
-          <label>Formato</label>
+          <label>Format</label>
           <select id="t-format">
-            <option value="in-wild">In-the-wild (oficina del cliente)</option>
+            <option value="in-wild">In-the-wild (client's office)</option>
             <option value="hutto-retreat">Hutto retreat (One Eleven East)</option>
           </select>
         </div>
         <div class="field">
           <label>Status</label>
           <select id="t-status">
-            <option value="planning">Programada</option>
-            <option value="invited">Invitaciones enviadas</option>
-            <option value="attended_t">Ejecutada</option>
-            <option value="cancelled">Cancelada</option>
+            <option value="planning">Scheduled</option>
+            <option value="invited">Invites sent</option>
+            <option value="attended_t">Held</option>
+            <option value="cancelled">Cancelled</option>
           </select>
         </div>
       </div>
       <div class="field">
-        <label>Venue / ubicación display</label>
-        <input type="text" id="t-venue" value="${d.venueDisplay}" placeholder="ej: Oficinas Ascension · Downtown" />
+        <label>Venue / display location</label>
+        <input type="text" id="t-venue" value="${d.venueDisplay}" placeholder="e.g. Ascension Offices · Downtown" />
       </div>`;
     document.getElementById('t-format').value = d.format;
     document.getElementById('t-status').value = d.status;
@@ -1872,7 +1754,7 @@
 
   function saveTasting() {
     const title = document.getElementById('t-title').value.trim();
-    if (!title) { alert('Falta el título'); return; }
+    if (!title) { alert('Title is required'); return; }
     const tasting = {
       id: 't-' + slug(title) + '-' + Date.now().toString(36),
       title,
