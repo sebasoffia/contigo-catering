@@ -145,9 +145,7 @@
        reviewDays: number of days of access from first sign-in.
        null = no expiration (owner). */
     const USERS = {
-      'sebas@cacerola.cl':  { password: 'Contigo-Austin-26', reviewDays: null },
-      'karen@contigo.com':  { password: 'Karen-Contigo-26',  reviewDays: 30 },
-      'brooke@contigo.com': { password: 'Brooke-Contigo-26', reviewDays: 30 }
+      'sebas@cacerola.cl':  { password: 'Contigo-Austin-26', reviewDays: null }
     };
 
     const DAY_MS = 24 * 60 * 60 * 1000;
@@ -162,10 +160,10 @@
 
     /* Already signed in and still within the review window → go straight in. */
     (function () {
-      if (localStorage.getItem('cc_contigo_auth') === 'true') {
-        const exp = localStorage.getItem('cc_contigo_expires');
+      if (localStorage.getItem('cc_contigo2_auth') === 'true') {
+        const exp = localStorage.getItem('cc_contigo2_expires');
         if (exp && Date.now() > parseInt(exp, 10)) {
-          localStorage.removeItem('cc_contigo_auth');
+          localStorage.removeItem('cc_contigo2_auth');
         } else {
           window.location.href = params.get('next') || 'proposal.html';
         }
@@ -180,25 +178,25 @@
       const user = USERS[email];
 
       if (user && password === user.password) {
-        localStorage.setItem('cc_contigo_auth', 'true');
+        localStorage.setItem('cc_contigo2_auth', 'true');
 
         /* Reset the review clock only when a different user signs in.
            The window runs from the FIRST sign-in and persists across
            subsequent sign-ins until it expires. */
-        if (localStorage.getItem('cc_contigo_user') !== email) {
-          localStorage.setItem('cc_contigo_user', email);
-          localStorage.removeItem('cc_contigo_first_login');
-          localStorage.removeItem('cc_contigo_expires');
+        if (localStorage.getItem('cc_contigo2_user') !== email) {
+          localStorage.setItem('cc_contigo2_user', email);
+          localStorage.removeItem('cc_contigo2_first_login');
+          localStorage.removeItem('cc_contigo2_expires');
         }
 
         if (user.reviewDays) {
-          if (!localStorage.getItem('cc_contigo_first_login')) {
+          if (!localStorage.getItem('cc_contigo2_first_login')) {
             const now = Date.now();
-            localStorage.setItem('cc_contigo_first_login', String(now));
-            localStorage.setItem('cc_contigo_expires', String(now + user.reviewDays * DAY_MS));
+            localStorage.setItem('cc_contigo2_first_login', String(now));
+            localStorage.setItem('cc_contigo2_expires', String(now + user.reviewDays * DAY_MS));
           }
         } else {
-          localStorage.removeItem('cc_contigo_expires');
+          localStorage.removeItem('cc_contigo2_expires');
         }
 
         window.location.href = params.get('next') || 'proposal.html';
